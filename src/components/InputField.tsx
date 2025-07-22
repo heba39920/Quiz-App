@@ -20,7 +20,7 @@ const InputField = ({ icon, placeholder, type = "text", value, onChange, name }:
           value={value}
           onChange={onChange}
           name={name}
-          className="w-full px-3 py-2 text-black outline-none"
+          className="w-full px-3 py-2 bg-[#0c0f1a] border-3 border-white text-white outline-none"
         />
       </div>
     </div>

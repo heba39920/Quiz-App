@@ -1,4 +1,10 @@
 import InputField from "@/components/InputField"
+import { FaCircleCheck } from "react-icons/fa6";
+import { BsFillPersonFill, BsFillPersonPlusFill } from "react-icons/bs";
+import { FaKey } from "react-icons/fa6";
+import { IoMdMail } from "react-icons/io";
+
+
 
 
 
@@ -10,11 +16,13 @@ const Login = () => {
   </h2>
 
   <div className="flex gap-4 mb-6">
-    <button className="flex items-center gap-2 px-6 py-3 border-2 border-lime-400 text-lime-400 rounded-md bg-[#1a1e2f]">
-      <span className="text-xl">🧑‍💼</span> Sign in
+    <button className="flex items-center flex-col gap-2 px-[63px] py-[19px] border-2 border-lime-400 text-lime-400 rounded-md bg-[#333333]">
+     <BsFillPersonFill className="text-5xl"/>
+    <p> Sign in</p>
     </button>
-    <button className="flex items-center gap-2 px-6 py-3 bg-[#1a1e2f] text-white rounded-md">
-      <span className="text-xl">➕</span> Sign Up
+    <button className="flex items-center flex-col gap-2 px-[63px] py-[19px] bg-[#333333] text-white rounded-md">
+      <BsFillPersonPlusFill className="text-5xl"/>
+    <p>Sign Up</p>
     </button>
   </div>
 
@@ -23,7 +31,7 @@ const Login = () => {
     <div>
        <label className="text-sm block mb-1">Registered email address</label>
         <InputField
-          icon="📧"
+          icon={<IoMdMail />}
           placeholder="Type your email"
           type="email"
         />
@@ -31,12 +39,12 @@ const Login = () => {
     
 
     <div>
-      <label className="block mb-1 text-sm">Password</label>
+  
       <>
         
         <label className="text-sm block mb-1">Password</label>
         <InputField
-          icon="📧"
+          icon={<FaKey />}
           placeholder="Type your password"
           type="password"
         />
@@ -48,12 +56,13 @@ const Login = () => {
         type="submit"
         className="bg-white text-black font-semibold py-2 px-6 rounded-md flex items-center gap-2"
       >
-        Sign In ✅
+        Sign In <FaCircleCheck className="size-7"/>
       </button>
-
+<div>
+  <span className="text-sm"> Forgot password? </span>
       <a href="#" className="text-sm text-lime-400 underline">
-        Forgot password? click here
-      </a>
+         click here
+      </a></div>
     </div>
   </form>
 </>
