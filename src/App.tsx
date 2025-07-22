@@ -1,7 +1,7 @@
 import { ToastContainer } from 'react-toastify';
 import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { ChangePassword, Dashboard, ForgetPassword, Login, NotFound, Register, ResetPassword } from './pages';
+import { AuthLayout, ChangePassword, Dashboard, ForgetPassword, Login, NotFound, Register, ResetPassword } from './pages';
 
 
 function App() {
@@ -11,8 +11,8 @@ function App() {
     [
     
       {
-        // path: "/",
-        // element: <AuthLayout />,
+        path: "/",
+        element: <AuthLayout />,
         errorElement: <NotFound />,
         children: [
           { index: true, element: <Login /> },

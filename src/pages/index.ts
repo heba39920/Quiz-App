@@ -1,4 +1,6 @@
 /*************Authentication*******************/
+
+export { default as AuthLayout } from "./Authentication/AuthLayout/AuthLayout";
 export { default as Login } from "./Authentication/Login/Login";
 export { default as Register } from "./Authentication/Register/Register";
 export { default as ResetPassword } from "./Authentication/ResetPassword/ResetPassword";
