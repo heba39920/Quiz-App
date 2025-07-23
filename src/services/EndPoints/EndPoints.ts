@@ -1,13 +1,15 @@
 import axios from "axios";
-import CookieServices from "../CookiesServices/CookiesServices";
-const AuthURL = "https://upskilling-egypt.com:3005/api/auth";
+import Cookies from "js-cookie"; // ✅ استيراد مباشر من js-cookie
+
+const baseURL = "https://upskilling-egypt.com:3005";
+
 export const axiosInstance = axios.create({
   baseURL,
 });
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = CookieServices.get("token");
+    const token = Cookies.get("token"); 
     if (token) {
       config.headers.Authorization = token;
     }
@@ -21,13 +23,13 @@ axiosInstance.interceptors.request.use(
 /*************Authentication EndPoint Start*******************/
 
 export const USERS_URLS = {
-  LOGIN: `${AuthURL}/login`,
-  FORGET_PASSWORD: `${AuthURL}/forgot-password`,
-  RESET_PASSWORD: `${AuthURL}/reset-password`,
-  REGISTER: `${AuthURL}`,
-  CHANGE_PASSWORD: `${AuthURL}/change-password`,
-  facebook_auth: `${AuthURL}/auth/facebook`,
-  google_auth: `${AuthURL}/auth/google`,
+  LOGIN: `${baseURL}/api/auth/login`,
+  FORGET_PASSWORD: `${baseURL}/api/auth/forgot-password`,
+  RESET_PASSWORD: `${baseURL}/api/auth/reset-password`,
+  REGISTER: `${baseURL}`,
+  CHANGE_PASSWORD: `${baseURL}/api/auth/change-password`,
+  facebook_auth: `${baseURL}/api/auth/auth/facebook`,
+  google_auth: `${baseURL}/api/auth/auth/google`,
 };
 
 /*************Authentication EndPoint End*******************/
