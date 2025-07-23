@@ -6,7 +6,8 @@ import type {
   ForgetPasswordPayload,
   ResetPasswordPayload,
 } from "@/interface/AuthInterface";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
+
 
 export const useForgotPassword = (): UseMutationResult<
   any,

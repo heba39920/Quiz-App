@@ -17,7 +17,7 @@ const AuthLayout = () => {
       </div>
 
       {/* Right: Image */}
-      <div className="col-span-6 flex items-center justify-center p-10">
+      <div className="col-span-5 flex items-center justify-center p-10">
         <div className="bg-[#ffeadd] rounded-3xl p-6 w-[90%] max-w-[570px] h-auto">
           <img
             src={authImage}
