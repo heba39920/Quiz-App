@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 // src/utils/validation/validation.ts
 
 import type { RegisterOptions } from "react-hook-form";
@@ -46,4 +43,3 @@ export const confirmPasswordValidation = (
       value === password || "Passwords do not match",
   },
 });
->>>>>>> SH-Forget-and-Reset-Password
