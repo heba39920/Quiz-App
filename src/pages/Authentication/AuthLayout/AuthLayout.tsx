@@ -1,9 +1,5 @@
-
-
 import { logoWhite, authImage } from "@/assets/images";
 import { Outlet } from "react-router-dom";
-
-
 
 const AuthLayout = () => {
   return (
@@ -14,13 +10,20 @@ const AuthLayout = () => {
           <img className="max-w-36" src={logoWhite} alt="logo white" />
         </div>
 
-       <Outlet /> 
+        {/* Form */}
+        <div className="mt-30">
+          <Outlet />
+        </div>
       </div>
 
-      {/* Right Side: Image - 4 columns */}
-      <div className="rounded-[20px] col-span-5  flex items-center justify-center p-10">
-        <div className="w-full max-w-md">
-          <img src={authImage} alt="Learning Illustration" />
+      {/* Right: Image */}
+      <div className="col-span-6 flex items-center justify-center p-10">
+        <div className="bg-[#ffeadd] rounded-3xl p-6 w-[90%] max-w-[570px] h-auto">
+          <img
+            src={authImage}
+            alt="Learning Illustration"
+            className="object-contain w-full h-auto"
+          />
         </div>
       </div>
     </div>
