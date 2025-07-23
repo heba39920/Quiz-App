@@ -1,6 +1,5 @@
 import axios from "axios";
-import Cookies from "js-cookie"; // ✅ استيراد مباشر من js-cookie
-
+import Cookies from "js-cookie";
 const baseURL = "https://upskilling-egypt.com:3005";
 
 export const axiosInstance = axios.create({
@@ -9,7 +8,7 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = Cookies.get("token"); 
+    const token = Cookies.get("token");
     if (token) {
       config.headers.Authorization = token;
     }
