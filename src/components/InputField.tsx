@@ -11,7 +11,7 @@ interface InputFieldProps {
 
 const InputField = ({ icon, placeholder, type = "text", value, onChange, name }: InputFieldProps) => {
   return (
-    <div className="mb-4">
+    <div className="my-4">
       <div className="flex items-center bg-white rounded-md overflow-hidden">
         <span className="px-3 text-black text-xl">{icon}</span>
         <input
