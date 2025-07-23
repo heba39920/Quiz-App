@@ -7,3 +7,7 @@ export interface ResetPasswordPayload {
   otp: string;
   password: string;
   confirmPassword?: string; }
+/************change password************** */
+export interface ChangePasswordData {
+  password: string;
+  password_new: string; }

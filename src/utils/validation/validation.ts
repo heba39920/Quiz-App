@@ -43,3 +43,7 @@ export const confirmPasswordValidation = (
       value === password || "Passwords do not match",
   },
 });
+
+export const oldPasswordRequired ={
+  required: "Old Password is required"
+}

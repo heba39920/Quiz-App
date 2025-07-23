@@ -1,8 +1,9 @@
 // src/utils/hooks/Auth/useForgotPassword.ts
 
-import { useMutation, type UseMutationResult } from "@tanstack/react-query";
-import { forgotPassword, resetPassword } from "@/services/API/Auth";
+import { useMutation, useQuery, type UseMutationResult } from "@tanstack/react-query";
+import { changePassword, forgotPassword, logout, resetPassword } from "@/services/API/Auth";
 import type {
+ 
   ForgetPasswordPayload,
   ResetPasswordPayload,
 } from "@/interface/AuthInterface";
@@ -42,3 +43,23 @@ export const useResetPassword = (): UseMutationResult<
     },
   });
 };
+
+export const useChangePassword = () => {
+  return useMutation({
+    mutationFn: changePassword,
+    onSuccess: () => {
+      toast.success("Password has been changed successfully!");
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || "Something went wrong with changing your password!");
+    },
+  });
+};
+
+
+export const useLogout=()=>{
+  return useQuery({
+    queryFn: logout,
+    queryKey :['logout'],
+  })
+}
