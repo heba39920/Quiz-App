@@ -1,15 +1,21 @@
-import { ToastContainer } from 'react-toastify';
-import './App.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { AuthLayout, ChangePassword, Dashboard, ForgetPassword, Login, NotFound, Register, ResetPassword } from './pages';
-
+import { ToastContainer } from "react-toastify";
+import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  AuthLayout,
+  ChangePassword,
+  Dashboard,
+  ForgetPassword,
+  Login,
+  NotFound,
+  Register,
+  ResetPassword,
+} from "./pages";
+import { Toaster } from "react-hot-toast";
 
 function App() {
-
-
-    const routes = createBrowserRouter(
+  const routes = createBrowserRouter(
     [
-    
       {
         path: "/",
         element: <AuthLayout />,
@@ -18,7 +24,7 @@ function App() {
           { index: true, element: <Login /> },
           { path: "login", element: <Login /> },
           { path: "register", element: <Register /> },
-          { path: "forget-password", element: <ForgetPassword/> },
+          { path: "forget-password", element: <ForgetPassword /> },
           { path: "reset-password", element: <ResetPassword /> },
           { path: "change-password", element: <ChangePassword /> },
         ],
@@ -40,10 +46,10 @@ function App() {
 
   return (
     <>
-      <ToastContainer position="top-center"  />
+      <Toaster position="top-center" reverseOrder={false} />
       <RouterProvider router={routes} />
     </>
   );
 }
 
-export default App
+export default App;
