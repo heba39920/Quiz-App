@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 const baseURL = "https://upskilling-egypt.com:3005";
-
+const AuthUrl ="/api/auth/";
 export const axiosInstance = axios.create({
   baseURL,
 });
@@ -22,13 +22,12 @@ axiosInstance.interceptors.request.use(
 /*************Authentication EndPoint Start*******************/
 
 export const USERS_URLS = {
-  LOGIN: `${baseURL}/api/auth/login`,
-  FORGET_PASSWORD: `${baseURL}/api/auth/forgot-password`,
-  RESET_PASSWORD: `${baseURL}/api/auth/reset-password`,
-  REGISTER: `${baseURL}/api/auth/register`,
-  CHANGE_PASSWORD: `${baseURL}/api/auth/change-password`,
-  facebook_auth: `${baseURL}/api/auth/auth/facebook`,
-  google_auth: `${baseURL}/api/auth/auth/google`,
+  LOGIN: `${AuthUrl}/login`,
+  FORGET_PASSWORD: `${AuthUrl}/forgot-password`,
+  RESET_PASSWORD: `${AuthUrl}/reset-password`,
+  REGISTER: `${AuthUrl}/register`,
+  CHANGE_PASSWORD: `${AuthUrl}/change-password`,
+  LOGOUT :`${AuthUrl}/logout`
 };
 
 /*************Authentication EndPoint End*******************/

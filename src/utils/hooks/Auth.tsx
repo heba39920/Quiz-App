@@ -1,8 +1,9 @@
 // src/utils/hooks/Auth/useForgotPassword.ts
 
-import { useMutation, type UseMutationResult } from "@tanstack/react-query";
-import { forgotPassword, register, resetPassword } from "@/services/API/Auth";
+import { useMutation, useQuery, type UseMutationResult } from "@tanstack/react-query";
+import { changePassword, forgotPassword, logout, register, resetPassword } from "@/services/API/Auth";
 import type {
+ 
   ForgetPasswordPayload,
   RegisterPayload,
   ResetPasswordPayload,
@@ -44,7 +45,25 @@ export const useResetPassword = (): UseMutationResult<
   });
 };
 
+export const useChangePassword = () => {
+  return useMutation({
+    mutationFn: changePassword,
+    onSuccess: () => {
+      toast.success("Password has been changed successfully!");
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || "Something went wrong with changing your password!");
+    },
+  });
+};
 
+
+export const useLogout=()=>{
+  return useQuery({
+    queryFn: logout,
+    queryKey :['logout'],
+  })
+}
 export const useRegister  = ():UseMutationResult<
   any,          // نوع البيانات الراجعة من السيرفر عند النجاح (TData)
   Error,        // نوع الخطأ (TError)

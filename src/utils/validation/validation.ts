@@ -32,6 +32,9 @@ export const resetPasswordSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+export const oldPasswordRequired ={
+  required: "Old Password is required"
+}
 
 /* Register Schema */
 export const registerSchema = z.object({
