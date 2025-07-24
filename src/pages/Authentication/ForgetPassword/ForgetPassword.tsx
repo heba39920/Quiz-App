@@ -1,93 +1,81 @@
+// src/pages/Authentication/ForgetPassword/ForgetPassword.tsx
+
 import InputField from "@/components/InputField";
-import { FaCircleCheck } from "react-icons/fa6";
 import { IoMdMail } from "react-icons/io";
 import { ImSpinner2 } from "react-icons/im";
-import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import type { ForgetPasswordPayload } from "@/interface/AuthInterface";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { forgetPasswordSchema } from "@/utils/validation/validation";
 import { useForgotPassword } from "@/utils/hooks/Auth";
-import { emailValidation } from "@/utils/validation/validation";
-import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import type { z } from "zod";
+
+// Infer the schema type
+type ForgetPasswordPayload = z.infer<typeof forgetPasswordSchema>;
 
 const ForgetPassword = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ForgetPasswordPayload>();
+  } = useForm<ForgetPasswordPayload>({
+    resolver: zodResolver(forgetPasswordSchema),
+  });
 
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
   const forgotPasswordMutation = useForgotPassword();
 
   const onSubmit = (data: ForgetPasswordPayload) => {
-    setIsLoading(true);
-
     forgotPasswordMutation.mutate(data, {
-      onSettled: () => {
-        setIsLoading(false);
+      onSuccess: () => {
+        navigate("/reset-password", { state: { email: data.email } });
+      },
+      onError: () => {
+        toast.error("Failed to send OTP");
       },
     });
-    setTimeout(() => {
-      navigate("/reset-password", { state: { email: data.email } });
-    }, 2000);
   };
-
-
 
   return (
     <>
-      <h2 className="text-xl text-lime-300 font-semibold mb-6">
-        Forget password
+      <h2 className="text-xl text-lime-300 font-semibold mb-6 lg:text-start r">
+        Forget Password
       </h2>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 flex flex-col min-h-[300px] justify-between"
+        className="space-y-6 flex flex-col min-h-[200px] justify-between  "
       >
-        {/* Email input */}
+        {/* Email Input */}
         <div>
-          <label className="text-sm block mb-1">Email address</label>
+          <label className="text-sm block mb-1">Email Address</label>
           <InputField
             icon={<IoMdMail />}
-            placeholder="Type your email"
+            placeholder="Enter your email"
             type="email"
-            {...register("email", emailValidation)}
+            {...register("email")}
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
           )}
         </div>
 
-        {/* Submit button */}
-        <div className="mt-12">
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="bg-white text-black font-semibold py-2 px-6 rounded-md flex items-center gap-2 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
-          >
-            {isLoading ? (
-              <>
-                Sending... <ImSpinner2 className="animate-spin size-5" />
-              </>
-            ) : (
-              <>
-                Send email <FaCircleCheck className="size-6" />
-              </>
-            )}
-          </button>
-        </div>
-
-        {/* Link at the bottom */}
-        <div className="mt-36 flex justify-end">
-          <span className="text-sm">Forgot password? </span>
-          <Link
-            to="forget-password"
-            className="text-sm text-lime-400 underline"
-          >
-            click here
-          </Link>
-        </div>
+        {/* Submit Button */}
+        <button
+          type="submit"
+          disabled={forgotPasswordMutation.isPending}
+          className="bg-white w-50 text-black font-semibold py-2 px-2 rounded-md flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+        >
+          {forgotPasswordMutation.isPending ? (
+            <>
+              Sending... <ImSpinner2 className="animate-spin size-5" />
+            </>
+          ) : (
+            "Send Email"
+          )}
+        </button>
       </form>
     </>
   );
