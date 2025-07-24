@@ -25,7 +25,7 @@ export const USERS_URLS = {
   LOGIN: `${baseURL}/api/auth/login`,
   FORGET_PASSWORD: `${baseURL}/api/auth/forgot-password`,
   RESET_PASSWORD: `${baseURL}/api/auth/reset-password`,
-  REGISTER: `${baseURL}`,
+  REGISTER: `${baseURL}/api/auth/register`,
   CHANGE_PASSWORD: `${baseURL}/api/auth/change-password`,
   facebook_auth: `${baseURL}/api/auth/auth/facebook`,
   google_auth: `${baseURL}/api/auth/auth/google`,
