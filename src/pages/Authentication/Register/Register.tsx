@@ -1,14 +1,41 @@
 import InputField from "@/components/InputField";
+import type { RegisterPayload } from "@/interface/AuthInterface";
+import { useRegister } from "@/utils/hooks/Auth";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { BsFillPersonFill, BsFillPersonPlusFill, BsPersonBadge } from "react-icons/bs"
 import { FaLock, FaUser } from "react-icons/fa6";
-import { IoMdCodeWorking, IoMdGitNetwork, IoMdMail } from "react-icons/io";
+import { ImSpinner2 } from "react-icons/im";
+import { IoMdMail } from "react-icons/io";
 import { useNavigate } from "react-router-dom"
 
 
 const Register = () => {
 
+  const {
+    register , 
+    handleSubmit,
+    formState: { errors },
+    watch ,
+    setValue,
+  } = useForm <RegisterPayload>();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+  const registerMutation = useRegister();
+
+ const onSubmit = (data: RegisterPayload) => {
+    setIsLoading(true);
+    registerMutation.mutate(data, {
+      onSuccess: () => {
+        navigate("/login");
+      },
+      onSettled: () => {
+        setIsLoading(false);
+      },
+    });
+  };
 
 
   return (
@@ -30,7 +57,7 @@ const Register = () => {
         </button>
       </div>
 
-      <form className="space-y-4">
+      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
             
             <div className="flex gap-4">
               <div className="flex-1">
@@ -38,8 +65,11 @@ const Register = () => {
                 <InputField
                   icon={<FaUser />}
                   placeholder="Enter your first name"
-                  // {...register("first_name", { required: true })}
+                  {...register("first_name", { required: "First name is required" })}
                 />
+                 {errors.first_name && (
+              <p className="text-red-500 text-sm mt-1">{errors.first_name.message}</p>
+            )}
               </div>
 
               
@@ -48,7 +78,7 @@ const Register = () => {
                 <InputField
                   icon={<FaUser />}
                   placeholder="Enter your last name"
-                  // {...register("last_name", { required: true })}
+                  {...register("last_name", { required: "Last name is required" })}
                 />
               </div>
             </div>
@@ -59,6 +89,7 @@ const Register = () => {
                 icon={<IoMdMail/>}
                 placeholder="Type your email"
                 type="email"
+                {...register ("email" , {required:"Email is required"})}
               />
             </div>
 
@@ -70,7 +101,7 @@ const Register = () => {
                 <BsPersonBadge />
               </span>
               <select
-                // {...register("role", { required: true })}
+                 {...register("role", { required: "Role is required" })}
                 className="w-full px-3 py-2 bg-[#0c0f1a] border-3 border-white text-white outline-none"
               >
                 <option value="">Select Role</option>
@@ -87,11 +118,25 @@ const Register = () => {
               icon={<FaLock />}
               type="password"
               placeholder="Enter your password"
-              // {...register("password", { required: true })}
+               {...register("password", { required: "Password is required" })}
             />
           </div>
 
-
+   <div className="mt-6">
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="bg-white text-black font-semibold py-2 px-6 rounded-md flex items-center gap-2 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {isLoading ? (
+              <>
+                Registering... <ImSpinner2 className="animate-spin size-5" />
+              </>
+            ) : (
+              "Register"
+            )}
+          </button>
+        </div>
       </form>
 
 

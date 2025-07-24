@@ -1,9 +1,10 @@
 // src/utils/hooks/Auth/useForgotPassword.ts
 
 import { useMutation, type UseMutationResult } from "@tanstack/react-query";
-import { forgotPassword, resetPassword } from "@/services/API/Auth";
+import { forgotPassword, register, resetPassword } from "@/services/API/Auth";
 import type {
   ForgetPasswordPayload,
+  RegisterPayload,
   ResetPasswordPayload,
 } from "@/interface/AuthInterface";
 import { toast } from "react-toastify";
@@ -42,3 +43,24 @@ export const useResetPassword = (): UseMutationResult<
     },
   });
 };
+
+
+export const useRegister  = ():UseMutationResult<
+  any,          // نوع البيانات الراجعة من السيرفر عند النجاح (TData)
+  Error,        // نوع الخطأ (TError)
+  RegisterPayload , // البيانات اللي هنرسلها في الطلب (TVariables)
+  unknown       // سياق (Context) لو هتستخدمي onMutate
+> =>{
+
+return useMutation ({
+  mutationFn : register , // الدالة اللي بتعمل POST للـ API
+  onSuccess : ()=>{
+    toast.success("Registration successful! You can now log in.");
+  },
+
+  onError : (error: any)=>{
+    toast.error(error?.response?.data?.message || "Something went wrong");
+  },
+
+})
+}
