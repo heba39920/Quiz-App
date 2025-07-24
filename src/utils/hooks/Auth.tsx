@@ -1,7 +1,7 @@
 // src/utils/hooks/Auth/useForgotPassword.ts
 
 import { useMutation, useQuery, type UseMutationResult } from "@tanstack/react-query";
-import { changePassword, forgotPassword, logout, resetPassword } from "@/services/API/Auth";
+import { changePassword, forgotPassword, logout, register, resetPassword } from "@/services/API/Auth";
 import type {
  
   ForgetPasswordPayload,
@@ -45,7 +45,6 @@ export const useResetPassword = (): UseMutationResult<
   });
 };
 
-<<<<<<< HEAD
 export const useChangePassword = () => {
   return useMutation({
     mutationFn: changePassword,
@@ -64,8 +63,7 @@ export const useLogout=()=>{
     queryFn: logout,
     queryKey :['logout'],
   })
-=======
-
+}
 export const useRegister  = ():UseMutationResult<
   any,          // نوع البيانات الراجعة من السيرفر عند النجاح (TData)
   Error,        // نوع الخطأ (TError)
@@ -84,5 +82,4 @@ return useMutation ({
   },
 
 })
->>>>>>> 687b63881f4c41f66305f629ba4d17f11648eb65
 }

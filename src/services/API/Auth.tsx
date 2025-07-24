@@ -1,10 +1,5 @@
 import { axiosInstance, USERS_URLS } from "@/services/EndPoints/EndPoints";
-<<<<<<< HEAD
-import type { ChangePasswordData, ForgetPasswordPayload } from "@/interface/AuthInterface";
-=======
-import type { ForgetPasswordPayload, RegisterPayload } from "@/interface/AuthInterface";
->>>>>>> 687b63881f4c41f66305f629ba4d17f11648eb65
-import type { ResetPasswordPayload } from "@/interface/AuthInterface";
+import type { ChangePasswordData, ForgetPasswordPayload,RegisterPayload , ResetPasswordPayload} from "@/interface/AuthInterface";
 
 
 export const forgotPassword = async (data: ForgetPasswordPayload) => {
@@ -21,7 +16,6 @@ export const resetPassword = async (data: ResetPasswordPayload) => {
   });
   return response.data;
 };
-<<<<<<< HEAD
 export const changePassword = async (data:ChangePasswordData) => {
   const response = await axiosInstance.post(USERS_URLS.CHANGE_PASSWORD, data);
   return response.data;
@@ -31,7 +25,6 @@ export const logout = async () => {
   const response = await axiosInstance.get(USERS_URLS.LOGOUT);
   return response.data;
 };
-=======
 
 
 export const register = async (data: RegisterPayload) => {
@@ -45,4 +38,3 @@ export const register = async (data: RegisterPayload) => {
 
   return response.data;
 };
->>>>>>> 687b63881f4c41f66305f629ba4d17f11648eb65
