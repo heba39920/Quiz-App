@@ -16,8 +16,6 @@ const Register = () => {
     register , 
     handleSubmit,
     formState: { errors },
-    watch ,
-    setValue,
   } = useForm <RegisterPayload>();
 
   const [isLoading, setIsLoading] = useState(false);
