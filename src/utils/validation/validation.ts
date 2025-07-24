@@ -2,6 +2,7 @@
 
 import type { RegisterOptions } from "react-hook-form";
 import type { ResetPasswordPayload } from "@/interface/AuthInterface";
+import { z } from "zod";
 
 // ✅ Email validation (optional use)
 export const emailValidation = {
@@ -44,6 +45,17 @@ export const confirmPasswordValidation = (
   },
 });
 
+<<<<<<< HEAD
 export const oldPasswordRequired ={
   required: "Old Password is required"
 }
+=======
+
+export const registerSchema = z.object({
+  first_name: z.string().min(2, "First name must be at least 2 characters"),
+  last_name: z.string().min(2, "Last name must be at least 2 characters"),
+  email: z.string().email("Invalid email address"),
+  role: z.string().nonempty("Role is required"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
+>>>>>>> 687b63881f4c41f66305f629ba4d17f11648eb65

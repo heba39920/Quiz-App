@@ -5,6 +5,7 @@ import { changePassword, forgotPassword, logout, resetPassword } from "@/service
 import type {
  
   ForgetPasswordPayload,
+  RegisterPayload,
   ResetPasswordPayload,
 } from "@/interface/AuthInterface";
 import { toast } from "react-toastify";
@@ -44,6 +45,7 @@ export const useResetPassword = (): UseMutationResult<
   });
 };
 
+<<<<<<< HEAD
 export const useChangePassword = () => {
   return useMutation({
     mutationFn: changePassword,
@@ -62,4 +64,25 @@ export const useLogout=()=>{
     queryFn: logout,
     queryKey :['logout'],
   })
+=======
+
+export const useRegister  = ():UseMutationResult<
+  any,          // نوع البيانات الراجعة من السيرفر عند النجاح (TData)
+  Error,        // نوع الخطأ (TError)
+  RegisterPayload , // البيانات اللي هنرسلها في الطلب (TVariables)
+  unknown       // سياق (Context) لو هتستخدمي onMutate
+> =>{
+
+return useMutation ({
+  mutationFn : register , // الدالة اللي بتعمل POST للـ API
+  onSuccess : ()=>{
+    toast.success("Registration successful! You can now log in.");
+  },
+
+  onError : (error: any)=>{
+    toast.error(error?.response?.data?.message || "Something went wrong");
+  },
+
+})
+>>>>>>> 687b63881f4c41f66305f629ba4d17f11648eb65
 }
