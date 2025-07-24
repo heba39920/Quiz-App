@@ -14,7 +14,6 @@ import { toast } from "react-toastify";
 const Register = () => {
   const navigate = useNavigate();
 
-  // ✅ React Hook Form + Zod
   const {
     register,
     handleSubmit,
@@ -23,10 +22,8 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  // ✅ Mutation Hook
   const registerMutation = useRegister();
 
-  // ✅ Submit handler
   const onSubmit = (data: RegisterPayload) => {
     registerMutation.mutate(data, {
       onSuccess: () => {
@@ -37,37 +34,37 @@ const Register = () => {
   };
 
   return (
-    <>
-      <h2 className="text-xl text-lime-300 font-semibold mb-6">
+    <div className="-md mx-auto w-full px-4">
+      <h2 className="text-xl text-lime-300 font-semibold mb-6 text-center">
         Create your account and start using QuizWiz!
       </h2>
 
       {/* Tabs */}
-      <div className="flex gap-4 mb-6">
+      <div className="flex gap-4 mb-6 justify-center">
         <button
           type="button"
-          className="flex items-center flex-col gap-2 px-[63px] py-[19px] bg-[#333333]"
+          className="flex flex-col items-center gap-2 px-6 py-4 bg-[#333333] w-full rounded-md"
           onClick={() => navigate("/login")}
         >
-          <BsFillPersonFill className="text-5xl" />
-          <p>Sign in</p>
+          <BsFillPersonFill className="text-4xl" />
+          <p className="text-sm">Sign in</p>
         </button>
         <button
           type="button"
-          className="flex items-center flex-col gap-2 px-[63px] py-[19px] bg-[#333333] border-2 border-lime-400 text-lime-400 rounded-md"
+          className="flex flex-col items-center gap-2 px-6 py-4 bg-[#333333] border-2 border-lime-400 text-lime-400 rounded-md w-full"
         >
-          <BsFillPersonPlusFill className="text-5xl" />
-          <p>Sign Up</p>
+          <BsFillPersonPlusFill className="text-4xl" />
+          <p className="text-sm">Sign Up</p>
         </button>
       </div>
 
       {/* Form */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 flex flex-col min-h-[200px] justify-between"
+        className="space-y-6 flex flex-col"
       >
         {/* First & Last Name */}
-        <div className="flex gap-4">
+        <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1">
             <label className="text-sm block mb-1">First Name</label>
             <InputField
@@ -114,15 +111,14 @@ const Register = () => {
             <span className="px-3 text-black text-xl">
               <BsPersonBadge />
             </span>
-          <select
-  {...register("role")}
-  className="w-full px-3 py-2 bg-[#0c0f1a] border-3 border-white text-white outline-none"
->
-  <option value="">Select Role</option>
-  <option value="Instructor">Instructor</option>
-  <option value="Student">Student</option>
-</select>
-
+            <select
+              {...register("role")}
+              className="w-full px-3 py-2 bg-[#0c0f1a] border-3 border-white text-white outline-none"
+            >
+              <option value="">Select Role</option>
+              <option value="Instructor">Instructor</option>
+              <option value="Student">Student</option>
+            </select>
           </div>
           {errors.role && (
             <p className="text-red-500 text-sm mt-1">{errors.role.message}</p>
@@ -144,10 +140,10 @@ const Register = () => {
         </div>
 
         {/* Submit Button */}
-       <button
+        <button
           type="submit"
           disabled={registerMutation.isPending}
-          className="bg-white text-black font-semibold py-2 px-6 w-50 rounded-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+          className="bg-white text-black font-semibold py-2 w-50 rounded-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {registerMutation.isPending ? (
             <>
@@ -157,9 +153,8 @@ const Register = () => {
             "Register"
           )}
         </button>
-
       </form>
-    </>
+    </div>
   );
 };
 
