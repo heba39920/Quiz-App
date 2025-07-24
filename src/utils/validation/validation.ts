@@ -45,11 +45,9 @@ export const confirmPasswordValidation = (
   },
 });
 
-<<<<<<< HEAD
 export const oldPasswordRequired ={
   required: "Old Password is required"
 }
-=======
 
 export const registerSchema = z.object({
   first_name: z.string().min(2, "First name must be at least 2 characters"),
@@ -58,4 +56,3 @@ export const registerSchema = z.object({
   role: z.string().nonempty("Role is required"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
->>>>>>> 687b63881f4c41f66305f629ba4d17f11648eb65
