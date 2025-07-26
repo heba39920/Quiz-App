@@ -78,3 +78,13 @@ export const changePasswordSchema = z.object({
     .regex(/[0-9]/, "Must include a number")
     .regex(/[^A-Za-z0-9]/, "Must include a special character"),
 });
+
+export const studentSchema = z.object({
+    name: z
+        .string()
+        .min(1, { message: "Name is required" }),
+       
+    phone: z.string()
+    .min(9, { message: "Phone is required" })
+
+});

@@ -55,3 +55,7 @@ export const GROUP_URLS = {
   DELETE_GROUP: (id: string) => `${GroupUrl}/${id}`,
   VIEW_GROUP: (id: string) => `${GroupUrl}/${id}`,
 };
+
+export const STUDENT_URLS = {
+  ADD_STUDENT: `${GroupUrl}/student`,
+}
