@@ -1,14 +1,15 @@
 // src/utils/hooks/Auth/useForgotPassword.ts
 
 import { useMutation, useQuery, type UseMutationResult } from "@tanstack/react-query";
-import { changePassword, forgotPassword, logout, register, resetPassword } from "@/services/API/Auth";
+import { changePassword, forgotPassword, logout, register, resetPassword , login} from "@/services/API/Auth";
 import type {
- 
-  ForgetPasswordPayload,
+
+  ForgetPasswordPayload, LoginPayload,
   RegisterPayload,
   ResetPasswordPayload,
 } from "@/interface/AuthInterface";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 
 export const useForgotPassword = (): UseMutationResult<
@@ -83,3 +84,26 @@ return useMutation ({
 
 })
 }
+
+
+
+/***login*/
+
+
+
+
+export const useLogin = (): UseMutationResult<any, Error, LoginPayload, unknown> => {
+  return useMutation({
+    mutationFn: login,
+
+    onSuccess: (response) => {
+      console.log('response',response);
+      Cookies.set("token", response?.data.token);
+      toast.success(response?.data?.message || "Logged in successfully!");
+    },
+
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    },
+  });
+};

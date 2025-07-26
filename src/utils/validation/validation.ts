@@ -1,5 +1,19 @@
 import { z } from "zod";
 
+
+
+/* Login */
+
+export const loginSchema = z.object({
+    email: z
+        .string()
+        .min(1, { message: "Email is required" })
+        .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, { message: "Invalid email format" }),
+    password: z.string()
+    .min(1, { message: "Password is required" })
+
+});
+
 /* Forget Password Schema */
 export const forgetPasswordSchema = z.object({
   email: z

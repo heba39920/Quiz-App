@@ -20,3 +20,10 @@ export interface RegisterPayload {
   password:string;
   role:string;
 }  
+
+
+/**************Login interface******/
+export interface LoginPayload {
+  email:string;
+  password:string;
+}

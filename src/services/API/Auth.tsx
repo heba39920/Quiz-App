@@ -1,5 +1,11 @@
 import { axiosInstance, USERS_URLS } from "@/services/EndPoints/EndPoints";
-import type { ChangePasswordData, ForgetPasswordPayload,RegisterPayload , ResetPasswordPayload} from "@/interface/AuthInterface";
+import type {
+  ChangePasswordData,
+  ForgetPasswordPayload,
+  LoginPayload,
+  RegisterPayload,
+  ResetPasswordPayload
+} from "@/interface/AuthInterface";
 
 
 export const forgotPassword = async (data: ForgetPasswordPayload) => {
@@ -38,3 +44,12 @@ export const register = async (data: RegisterPayload) => {
 
   return response.data;
 };
+
+export const login = async (data: LoginPayload) => {
+  const response = await axiosInstance.post(USERS_URLS.LOGIN, {
+    email: data.email,
+    password: data.password,
+
+  })
+  return response.data;
+}
