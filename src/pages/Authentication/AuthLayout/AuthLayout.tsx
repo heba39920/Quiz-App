@@ -9,13 +9,11 @@ const AuthLayout = () => {
         <div className="mb-10">
           <img className="max-w-36" src={logoWhite} alt="logo white" />
         </div>
-
         {/* Form */}
         <div className="mt-30">
           <Outlet />
         </div>
       </div>
-
       {/* Right: Image */}
       <div className="col-span-5 flex items-center justify-center p-10">
         <div className="bg-[#ffeadd] rounded-3xl p-6 w-[90%] max-w-[570px] h-auto">
