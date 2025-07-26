@@ -1,0 +1,12 @@
+:root {
+  --main-text-color: rgba(0, 0, 0, 1);
+  --main-border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.main-text {
+  color: var(--main-text-color);
+}
+
+.main-border {
+  border: var(--main-border);
+}
