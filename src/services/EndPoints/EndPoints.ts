@@ -1,17 +1,33 @@
 import axios from "axios";
-import Cookies from "js-cookie";
-const baseURL = "https://upskilling-egypt.com:3005";
-const AuthUrl ="/api/auth/";
+const baseURL = "https://upskilling-egypt.com:3005/api/";
+const AuthUrl = "auth/";
+const GroupUrl = "group";
 export const axiosInstance = axios.create({
   baseURL,
 });
 
+// axiosInstance.interceptors.request.use(
+//   (config) => {
+//     const token = Cookies.get("token");
+//     if (token) {
+//       config.headers.Authorization = token;
+//     }
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
+
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = Cookies.get("token");
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODgwZGUyYTQ0ZGFiN2I4Y2IwMjRiNzciLCJlbWFpbCI6InNoYW1hem91cm9iQGdtYWlsLmNvbSIsInJvbGUiOiJJbnN0cnVjdG9yIiwiaWF0IjoxNzUzNTM4OTIxLCJleHAiOjE3NTcxMzg5MjF9.CIfKwZqhKMkxSOZBENEl-3OcLlAQ1P41pgrPiuev9Gk";
+
     if (token) {
-      config.headers.Authorization = token;
+      config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
   (error) => {
@@ -27,7 +43,15 @@ export const USERS_URLS = {
   RESET_PASSWORD: `${AuthUrl}/reset-password`,
   REGISTER: `${AuthUrl}/register`,
   CHANGE_PASSWORD: `${AuthUrl}/change-password`,
-  LOGOUT :`${AuthUrl}/logout`
+  LOGOUT: `${AuthUrl}/logout`,
 };
 
 /*************Authentication EndPoint End*******************/
+
+/*************Group EndPoint Start*******************/
+
+export const GROUP_URLS = {
+  GET_GROUP_LIST: `${GroupUrl}`,
+  DELETE_GROUP: (id: string) => `${GroupUrl}/${id}`,
+  VIEW_GROUP: (id: string) => `${GroupUrl}/${id}`,
+};
