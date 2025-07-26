@@ -1,5 +1,5 @@
 import InputField from "@/components/InputField";
-import {FaCircleCheck, FaKey, FaLock} from "react-icons/fa6";
+import {FaCircleCheck, FaLock} from "react-icons/fa6";
 import { BsFillPersonFill, BsFillPersonPlusFill } from "react-icons/bs";
 import { IoMdMail } from "react-icons/io";
 import {Link, useNavigate} from "react-router-dom";
@@ -20,7 +20,7 @@ const Login = () => {
   } = useForm<LoginPayload>({resolver: zodResolver(loginSchema),});
   const loginMutation = useLogin();
 const onSubmit = (data: LoginPayload)=>{
-  console.log('fffffffffff',data);
+
   loginMutation.mutate(data)
   navigate("/dashboard")
 }

@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 
 
+
 export const useForgotPassword = (): UseMutationResult<
   any,
   unknown,
@@ -66,14 +67,14 @@ export const useLogout=()=>{
   })
 }
 export const useRegister  = ():UseMutationResult<
-  any,          // نوع البيانات الراجعة من السيرفر عند النجاح (TData)
-  Error,        // نوع الخطأ (TError)
-  RegisterPayload , // البيانات اللي هنرسلها في الطلب (TVariables)
-  unknown       // سياق (Context) لو هتستخدمي onMutate
+  any,         
+  Error,       
+  RegisterPayload , 
+  unknown      
 > =>{
 
 return useMutation ({
-  mutationFn : register , // الدالة اللي بتعمل POST للـ API
+  mutationFn : register , 
   onSuccess : ()=>{
     toast.success("Registration successful! You can now log in.");
   },
@@ -84,13 +85,6 @@ return useMutation ({
 
 })
 }
-
-
-
-/***login*/
-
-
-
 
 export const useLogin = (): UseMutationResult<any, Error, LoginPayload, unknown> => {
   return useMutation({
