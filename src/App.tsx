@@ -11,7 +11,8 @@ import {
   Register,
   ResetPassword,
 } from "./pages";
-
+import MasterLayout from "./components/MasterLayout/MasterLayout";
+import GroupList from "./pages/Group/GroupList";
 
 function App() {
   const routes = createBrowserRouter(
@@ -30,13 +31,14 @@ function App() {
         ],
       },
       {
-        path: "/dashboard",
-        // element: <MasterLayout />,
-        errorElement: <NotFound />,
+        path: "dashboard",
+        element: <MasterLayout />,
         children: [
           { index: true, element: <Dashboard /> },
           { path: "dashboard", element: <Dashboard /> },
+          { path: "group", element: <GroupList /> },
         ],
+        errorElement: <NotFound />,
       },
     ],
     {
@@ -46,7 +48,7 @@ function App() {
 
   return (
     <>
-      <ToastContainer position="top-center"  />
+      <ToastContainer position="top-center" />
       <RouterProvider router={routes} />
     </>
   );

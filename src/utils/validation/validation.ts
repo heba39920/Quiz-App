@@ -1,58 +1,66 @@
-// src/utils/validation/validation.ts
-
-import type { RegisterOptions } from "react-hook-form";
-import type { ResetPasswordPayload } from "@/interface/AuthInterface";
 import { z } from "zod";
 
-// ✅ Email validation (optional use)
-export const emailValidation = {
-  required: "Email is required",
-  pattern: {
-    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-    message: "Invalid email format",
-  },
-};
-
-// ✅ OTP validation
-export const otpValidation = {
-  required: "OTP is required",
-  pattern: {
-    value: /^\d{6}$/,
-    message: "OTP must be 6 digits",
-  },
-};
-
-// ✅ Password validation
-export const passwordValidation = {
-  required: "Password is required",
-  minLength: {
-    value: 8,
-    message: "At least 8 characters required",
-  },
-  pattern: {
-    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/,
-    message: "Must include uppercase, lowercase, number & special character",
-  },
-};
-
-// ✅ Confirm password validation (using closure to access password value)
-export const confirmPasswordValidation = (
-  password: string
-): RegisterOptions<ResetPasswordPayload, "confirmPassword"> => ({
-  validate: {
-    matchesPassword: (value: string) =>
-      value === password || "Passwords do not match",
-  },
+/* Forget Password Schema */
+export const forgetPasswordSchema = z.object({
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format"),
 });
 
-export const oldPasswordRequired ={
-  required: "Old Password is required"
-}
+/* Reset Password Schema */
+export const resetPasswordSchema = z
+  .object({
+    email: z
+      .string()
+      .min(1, "Email is required")
+      .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format"),
+    otp: z
+      .string()
+      .min(6, "OTP must be 6 digits")
+      .max(6, "OTP must be 6 digits"),
+    password: z
+      .string()
+      .min(8, "At least 8 characters required")
+      .regex(/[A-Z]/, "Must include an uppercase letter")
+      .regex(/[a-z]/, "Must include a lowercase letter")
+      .regex(/[0-9]/, "Must include a number")
+      .regex(/[^A-Za-z0-9]/, "Must include a special character"),
+    confirmPassword: z.string().nonempty("Please confirm your password"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+export const oldPasswordRequired = {
+  required: "Old Password is required",
+};
 
+/* Register Schema */
 export const registerSchema = z.object({
   first_name: z.string().min(2, "First name must be at least 2 characters"),
   last_name: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format"),
   role: z.string().nonempty("Role is required"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z
+    .string()
+    .min(8, "At least 8 characters required")
+    .regex(/[A-Z]/, "Must include an uppercase letter")
+    .regex(/[a-z]/, "Must include a lowercase letter")
+    .regex(/[0-9]/, "Must include a number")
+    .regex(/[^A-Za-z0-9]/, "Must include a special character"),
+});
+/* Change Password Schema */
+export const changePasswordSchema = z.object({
+  password: z.string().min(1, "Old password is required"),
+  password_new: z
+    .string()
+    .min(8, "At least 8 characters required")
+    .regex(/[A-Z]/, "Must include an uppercase letter")
+    .regex(/[a-z]/, "Must include a lowercase letter")
+    .regex(/[0-9]/, "Must include a number")
+    .regex(/[^A-Za-z0-9]/, "Must include a special character"),
 });

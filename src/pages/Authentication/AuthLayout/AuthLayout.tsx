@@ -3,20 +3,23 @@ import { Outlet } from "react-router-dom";
 
 const AuthLayout = () => {
   return (
-    <div className="min-h-screen bg-[#0c0f1a] text-white grid grid-cols-12 items-center">
-      {/* Left Side: Form - 8 columns */}
-      <div className="col-span-7 flex flex-col  px-10 py-10">
+    <div className="min-h-screen bg-[#0c0f1a] text-white flex flex-col lg:grid lg:grid-cols-12 items-center">
+      {/* Left Side: Form */}
+      <div className="w-full lg:col-span-6 flex flex-col px-6 py-10 lg:px-10">
+        {/* Logo */}
         <div className="mb-10">
-          <img className="max-w-36" src={logoWhite} alt="logo white" />
+          <img className="max-w-32 lg:max-w-36" src={logoWhite} alt="logo white" />
         </div>
-        {/* Form */}
-        <div className="mt-30">
+
+        {/* Form Content */}
+        <div className="mt-10">
           <Outlet />
         </div>
       </div>
-      {/* Right: Image */}
-      <div className="col-span-5 flex items-center justify-center p-10">
-        <div className="bg-[#ffeadd] rounded-3xl p-6 w-[90%] max-w-[570px] h-auto">
+
+      {/* Right Side: Image (hidden below lg) */}
+      <div className="hidden lg:flex lg:col-span-6 items-center justify-center p-6 lg:p-10">
+        <div className="bg-[#ffeadd] rounded-3xl p-4 w-full max-w-[570px] h-auto">
           <img
             src={authImage}
             alt="Learning Illustration"
