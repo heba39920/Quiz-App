@@ -32,9 +32,9 @@ export const resetPasswordSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
-export const oldPasswordRequired ={
-  required: "Old Password is required"
-}
+export const oldPasswordRequired = {
+  required: "Old Password is required",
+};
 
 /* Register Schema */
 export const registerSchema = z.object({
@@ -46,6 +46,17 @@ export const registerSchema = z.object({
     .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format"),
   role: z.string().nonempty("Role is required"),
   password: z
+    .string()
+    .min(8, "At least 8 characters required")
+    .regex(/[A-Z]/, "Must include an uppercase letter")
+    .regex(/[a-z]/, "Must include a lowercase letter")
+    .regex(/[0-9]/, "Must include a number")
+    .regex(/[^A-Za-z0-9]/, "Must include a special character"),
+});
+/* Change Password Schema */
+export const changePasswordSchema = z.object({
+  password: z.string().min(1, "Old password is required"),
+  password_new: z
     .string()
     .min(8, "At least 8 characters required")
     .regex(/[A-Z]/, "Must include an uppercase letter")
