@@ -21,7 +21,11 @@
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.60.0",
     "react-icons": "^5.5.0",
+<<<<<<< HEAD
     "react-loader-spinner": "^6.1.6",
+=======
+    "react-pro-sidebar": "^1.1.0",
+>>>>>>> b870a2b1bbab8c7603443c5fc47da27bfae15998
     "react-router-dom": "^7.7.0",
     "react-toastify": "^11.0.5",
     "redux": "^5.0.1",
