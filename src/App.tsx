@@ -13,6 +13,7 @@ import {
 } from "./pages";
 import MasterLayout from "./components/MasterLayout/MasterLayout";
 import GroupList from "./pages/Group/GroupList";
+import StudentsList from "./pages/StudentsList/StudentsList";
 
 function App() {
   const routes = createBrowserRouter(
@@ -36,7 +37,9 @@ function App() {
         children: [
           { index: true, element: <Dashboard /> },
           { path: "dashboard", element: <Dashboard /> },
-          { path: "group", element: <GroupList /> },
+          { path: "groups", element: <GroupList /> },
+          { path: "students", element: <StudentsList /> },
+
         ],
         errorElement: <NotFound />,
       },
