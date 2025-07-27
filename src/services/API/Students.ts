@@ -1,20 +1,31 @@
-import { useMutation, type UseMutationResult } from "@tanstack/react-query";
+
+
+import type { StudentResponse, StudentsListResponse } from "@/interface/StudentInterface";
 import { axiosInstance, STUDENT_URLS } from "../EndPoints/EndPoints";
-import { toast } from "react-toastify";
-import type { StudentPayload } from "@/interface/StudentInterface";
+export const getAllStudentsWithoutGroup = async ():Promise<StudentsListResponse> => {
 
-
-export const useAddStudent = (): UseMutationResult<any, Error, StudentPayload> => {
-  return useMutation({
-    mutationFn: async (data) => {
-      const response = await axiosInstance.post(STUDENT_URLS.ADD_STUDENT, data);
+      const response = await axiosInstance.get(STUDENT_URLS.GET_ALL_STUDENTS_WITHOUT_GROUP);
       return response.data;
-    },
-    onSuccess: () => {
-      toast.success("Student added successfully!");
-    },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Something went wrong");
-    },
-  });
+};
+
+export const getAllStudents= async ():Promise<StudentsListResponse> => {
+
+      const response = await axiosInstance.get(STUDENT_URLS.GET_ALL_STUDENT);
+      return response.data;
+};
+export const deleteStudent= async (id:string) => {
+
+      const response = await axiosInstance.delete(STUDENT_URLS.DELETE_STUDENT(id));
+      return response.data;
+};
+export const deleteStudentFromGroup= async (studentId:string, groupId:string) => {
+
+      const response = await axiosInstance.delete(STUDENT_URLS.DELETE_STUDENT_FROM_GROUP(studentId, groupId));
+      return response.data;
+};
+
+export const getStudentById= async (id:string): Promise<StudentResponse>  => {
+
+      const response = await axiosInstance.get(STUDENT_URLS.GET_STUDENT_BY_ID(id));
+      return response.data;
 };

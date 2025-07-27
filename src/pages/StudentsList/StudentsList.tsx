@@ -1,7 +1,9 @@
+import { useGetAllStudents } from "@/utils/hooks/Students"
 import { BsArrowRight } from "react-icons/bs"
 
 
 const StudentsList = () => {
+  const {data: Students } = useGetAllStudents
   return (
     <div className="m-[21px] border-1 border-[#00000033] p-[20px]">
         <h2>Students list</h2>

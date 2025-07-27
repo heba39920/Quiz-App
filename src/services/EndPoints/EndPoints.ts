@@ -2,6 +2,7 @@ import axios from "axios";
 const baseURL = "https://upskilling-egypt.com:3005/api/";
 const AuthUrl = "auth/";
 const GroupUrl = "group";
+const StudentUrl = "/student";
 export const axiosInstance = axios.create({
   baseURL,
 });
@@ -55,7 +56,15 @@ export const GROUP_URLS = {
   DELETE_GROUP: (id: string) => `${GroupUrl}/${id}`,
   VIEW_GROUP: (id: string) => `${GroupUrl}/${id}`,
 };
+/*************Group EndPoint End*******************/
+
+/*************Student EndPoint Start*******************/
 
 export const STUDENT_URLS = {
-  ADD_STUDENT: `${GroupUrl}/student`,
+  GET_ALL_STUDENT: StudentUrl,
+  GET_ALL_STUDENTS_WITHOUT_GROUP: `${StudentUrl}/without-group`,
+  DELETE_STUDENT: (id: string) => `${StudentUrl}/${id}`,
+  DELETE_STUDENT_FROM_GROUP: (StudentId: string,GroupId:string) => `${StudentUrl}/${StudentId}/${GroupId}`,
+  GET_STUDENT_BY_ID: (id:string)=>`${StudentUrl}/${id}`,
 }
+/*************Student EndPoint End*******************/
