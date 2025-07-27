@@ -1,0 +1,11 @@
+ .icon-active{
+  background-color: #0D1321 !important;
+  color: #FFEDDF;
+}
+ .active-menu-item{
+  border-right: 5px solid #0D1321 !important; 
+
+}
+ .menu-item:hover {
+  background-color: transparent !important;
+}
