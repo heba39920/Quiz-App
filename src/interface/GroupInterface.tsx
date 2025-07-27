@@ -41,3 +41,14 @@ export interface GroupView {
   instructor: string;
   students: Student[];
 }
+
+
+export interface GroupAdd {
+    name: string;
+    students: string[];
+}
+
+export interface StudentUpdate {
+  id: string;
+  name: string;
+}

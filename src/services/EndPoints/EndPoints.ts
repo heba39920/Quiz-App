@@ -54,6 +54,8 @@ export const GROUP_URLS = {
   GET_GROUP_LIST: `${GroupUrl}`,
   DELETE_GROUP: (id: string) => `${GroupUrl}/${id}`,
   VIEW_GROUP: (id: string) => `${GroupUrl}/${id}`,
+  ADD_GROUP : `${GroupUrl}/group`,
+  UPDATE_GROUP : (id: string) => `${GroupUrl}/group/${id}`,
 };
 
 export const STUDENT_URLS = {
