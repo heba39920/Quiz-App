@@ -4,7 +4,7 @@ import { FaCheck } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import clsx from "clsx";
 
-interface ReusableModalProps {
+interface ReusableModalProps { 
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
@@ -26,7 +26,7 @@ const ReusableModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4">
       <div
         className={clsx(
           "bg-white rounded-lg shadow-xl w-full max-w-lg",
