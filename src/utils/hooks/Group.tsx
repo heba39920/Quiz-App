@@ -49,7 +49,7 @@ export const useAddGroup=()=>{
     mutationFn  : (data:GroupAdd)=> addGroup(data),
      onSuccess: () => {
       toast.success("Group added successfully!");
-      queryClient.invalidateQueries({ queryKey: ["groups"] });
+      queryClient.invalidateQueries({ queryKey: ["GroupList"] });
     },
     onError: (error: any) => {
       toast.error(error?.response?.data?.message || "Failed to add group");
@@ -65,7 +65,7 @@ export const useUpdateGroup =()=>{
      mutationFn: ({ id, data }: { id: string; data: GroupAdd }) => UpdateGroup(id, data),
      onSuccess: () => {
       toast.success("Group updated successfully!");
-      queryClient.invalidateQueries({ queryKey: ["groups"] });
+      queryClient.invalidateQueries({ queryKey: ["GroupList"] });
     },
     onError: (error: any) => {
       toast.error(error?.response?.data?.message || "Failed to update group");
