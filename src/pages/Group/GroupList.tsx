@@ -4,12 +4,12 @@ import { useForm, Controller } from "react-hook-form";
 import { FiEdit2, FiTrash2, FiEye } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import Select from "react-select";
-import ReusableModal from "@/components/ReusableModal";
+import ReusableModal from "@/components/AddEditModal/AddEditModal";
 import ConfirmDeleteModal from "@/components/ConfirmDeleteModal/ConfirmDeleteModal";
 import SharedViewModal from "@/components/SharedViewModal/SharedViewModal";
 import Loader from "@/components/Loader/Loader";
 import { useAddGroup, useDeleteGroup, useGroup, useGroupDetails, useUpdateGroup } from "@/utils/hooks/Group";
-import { useStudents } from "@/utils/hooks/Students";
+import { useStudents } from "@/services/API/Students";
 import type { Group } from "@/interface/GroupInterface";
 import toast from "react-hot-toast";
 
@@ -24,7 +24,7 @@ const GroupList = () => {
   const { mutate: deleteGroup, isPending: isDeleting } = useDeleteGroup();
   const { mutate: addGroup } = useAddGroup();
   const { mutate: updateGroup } = useUpdateGroup();
-  const { data: students, isLoading: isStudentsLoading } = useStudents();
+  // const { data: students, isLoading: isStudentsLoading } = useStudents();
 
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const [viewGroupId, setViewGroupId] = useState<string | null>(null);
@@ -48,11 +48,11 @@ const GroupList = () => {
   });
 
   // Convert students list to Select options
-  const studentOptions =
-    students?.map((s: any) => ({
-      value: s._id,
-      label: `${s.first_name} ${s.last_name}`,
-    })) || [];
+  // const studentOptions =
+  //   students?.map((s: any) => ({
+  //     value: s._id,
+  //     label: `${s.first_name} ${s.last_name}`,
+  //   })) || [];
 
   const handleOpenModal = (group?: Group) => {
     setIsEditing(Boolean(group));
@@ -210,7 +210,7 @@ const GroupList = () => {
           </div>
 
           {/* Students MultiSelect */}
-          <div>
+          {/* <div>
             <label className="block text-sm font-semibold mb-1">Students</label>
             {isStudentsLoading ? (
               <p className="text-gray-500 text-sm">Loading students...</p>
@@ -230,7 +230,7 @@ const GroupList = () => {
                 )}
               />
             )}
-          </div>
+          </div> */}
         </div>
       </ReusableModal>
 
