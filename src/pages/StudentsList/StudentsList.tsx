@@ -84,56 +84,64 @@ const displayedGroups = showAllGroups ? groups : groups?.slice(0, maxVisibleGrou
   return (
     <div className="m-[21px] border-1 border-[#00000033] p-[20px]">
       <h1 className="font-bold text-2xl">Students list</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <ul className="flex gap-5 mt-4 mb-5">
- 
-  {isGroupsLoading ? (
-    <div className="flex justify-center items-center col-span-2">
-      <Loader />
-    </div>
-  ) : (
-    <> <li
-    className={`border-1 rounded-4xl border-[#00000033] px-[35px] py-[6px] cursor-pointer ${
-      searchGroup === "all" ? "bg-[#FFEDDF]" : ""
-    }`}
-    onClick={() => handleGroupClick("all")}
-  >
-    All Students
-  </li>
+<div className="grid grid-cols-1 content-center md:grid-cols-2 gap-4">
+  {/* First Grid Item: Group list */}
+  <div>
+    <ul className="flex  items-center gap-5 mt-4 mb-5">
+      {isGroupsLoading ? (
+        <div className="flex justify-center items-center col-span-2">
+          <Loader />
+        </div>
+      ) : (
+        <>
+          {/* "All Students" button */}
+          <li
+            className={`border-1 rounded-4xl border-[#00000033] px-[35px] py-[6px] cursor-pointer ${
+              searchGroup === "all" ? "bg-[#FFEDDF]" : ""
+            }`}
+            onClick={() => handleGroupClick("all")}
+          >
+            All Students
+          </li>
 
-    <>
-      {displayedGroups?.map((group) => (
-        
-        <li
-          key={group._id}
-          className={`border-1 rounded-4xl border-[#00000033] px-[35px] py-[6px] cursor-pointer ${
-            searchGroup === group?.name ? "bg-[#FFEDDF]" : ""
-          }`}
-          onClick={() => handleGroupClick(group?.name)}
-        >
-          Group: {group?.name}
-        </li>
-      ))}
+          {/* Dynamic groups */}
+          {displayedGroups?.map((group) => (
+            <li
+              key={group._id}
+              className={`border-1 rounded-4xl border-[#00000033] px-[35px] py-[6px] cursor-pointer ${
+                searchGroup === group?.name ? "bg-[#FFEDDF]" : ""
+              }`}
+              onClick={() => handleGroupClick(group?.name)}
+            >
+              Group: {group?.name}
+            </li>
+          ))}
 
-      {groups && groups.length > maxVisibleGroups && (
-        <li
-          className="cursor-pointer text-blue-500"
-          onClick={() => setShowAllGroups(!showAllGroups)}
-        >
-          {showAllGroups ? 'Show Less' : 'See All'}
-        </li>
+          {/* Show/Hide all groups button */}
+          {groups && groups.length > maxVisibleGroups && (
+            <li
+              className="cursor-pointer text-blue-500"
+              onClick={() => setShowAllGroups(!showAllGroups)}
+            >
+              {showAllGroups ? 'Show Less' : 'See All'}
+            </li>
+          )}
+        </>
       )}
-    </><input
-        type="text"
-        placeholder="Search by name..."
-        value={searchName}
-        onChange={handleNameSearch}
-        className="border border-gray-300 rounded-2xl px-2 py-2 mb-3"
-      /></>
-  )}
-</ul>
-      
-      </div>
+    </ul>
+  </div>
+
+  {/* Second Grid Item: Search input */}
+  <div >
+    <input
+      type="text"
+      placeholder="Search by name..."
+      value={searchName}
+      onChange={handleNameSearch}
+      className="border border-gray-300 rounded-2xl px-2 py-2 w-[100%]"
+    />
+  </div>
+</div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {isLoading ? (
           <div className="flex justify-center items-center col-span-2">
