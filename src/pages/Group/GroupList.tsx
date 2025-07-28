@@ -8,10 +8,23 @@ import ReusableModal from "@/components/AddEditModal/AddEditModal";
 import ConfirmDeleteModal from "@/components/ConfirmDeleteModal/ConfirmDeleteModal";
 import SharedViewModal from "@/components/SharedViewModal/SharedViewModal";
 import Loader from "@/components/Loader/Loader";
-import { useAddGroup, useDeleteGroup, useGroup, useGroupDetails, useUpdateGroup } from "@/utils/hooks/Group";
+import {
+  useAddGroup,
+  useDeleteGroup,
+  useGroup,
+  useGroupDetails,
+  useUpdateGroup,
+} from "@/utils/hooks/Group";
 import type { Group } from "@/interface/GroupInterface";
 import toast from "react-hot-toast";
 import { useGetAllStudentsWithoutGroup } from "@/utils/hooks/Students";
+import useSound from "use-sound";
+
+// Sounds
+import deleteSound from "@/assets/Sound/fast-swipe-48158.mp3";
+import viewSound from "@/assets/Sound/new-notification-09-352705.mp3";
+import addSound from "@/assets/Sound/new-notification-09-352705.mp3";
+import updateSound from "@/assets/Sound/new-notification-09-352705.mp3";
 
 // Form Data Interface
 interface GroupFormValues {
@@ -24,7 +37,8 @@ const GroupList = () => {
   const { mutate: deleteGroup, isPending: isDeleting } = useDeleteGroup();
   const { mutate: addGroup } = useAddGroup();
   const { mutate: updateGroup } = useUpdateGroup();
-  const { data: students, isLoading: isStudentsLoading } =useGetAllStudentsWithoutGroup();
+  const { data: students, isLoading: isStudentsLoading } =
+    useGetAllStudentsWithoutGroup();
 
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const [viewGroupId, setViewGroupId] = useState<string | null>(null);
@@ -32,20 +46,33 @@ const GroupList = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [groupIdToEdit, setGroupIdToEdit] = useState<string | null>(null);
 
+  // Sounds
+  const [playDelete] = useSound(deleteSound);
+  const [playView] = useSound(viewSound);
+  const [playAdd] = useSound(addSound);
+  const [playUpdate] = useSound(updateSound);
+
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = groups ? Math.ceil(groups.length / itemsPerPage) : 1;
 
   const paginatedGroups = useMemo(() => {
-    return groups?.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    return groups?.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+    );
   }, [groups, currentPage]);
 
-  const { data: viewGroup, isLoading: isViewLoading } = useGroupDetails(viewGroupId || "", !!viewGroupId);
+  const { data: viewGroup, isLoading: isViewLoading } = useGroupDetails(
+    viewGroupId || "",
+    !!viewGroupId
+  );
 
   // react-hook-form setup
-  const { register, handleSubmit, control, reset, setValue } = useForm<GroupFormValues>({
-    defaultValues: { name: "", students: [] },
-  });
+  const { register, handleSubmit, control, reset, setValue } =
+    useForm<GroupFormValues>({
+      defaultValues: { name: "", students: [] },
+    });
 
   // Convert students list to Select options
   const studentOptions =
@@ -68,9 +95,11 @@ const GroupList = () => {
           label: `${s.first_name} ${s.last_name}`,
         }))
       );
+      playUpdate(); // 🔊 Play update sound when opening modal in edit mode
     } else {
       reset();
       setGroupIdToEdit(null);
+      playAdd(); // 🔊 Play add sound when opening modal for add
     }
   };
 
@@ -99,7 +128,8 @@ const GroupList = () => {
     handleCloseModal();
   };
 
-  if (isError) return <p className="text-center text-red-500">Failed to load groups.</p>;
+  if (isError)
+    return <p className="text-center text-red-500">Failed to load groups.</p>;
 
   return (
     <section aria-labelledby="groups-heading" className="p-4 max-w-7xl mx-auto">
@@ -109,7 +139,13 @@ const GroupList = () => {
           onClick={() => handleOpenModal()}
           className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 hover:bg-orange-100 text-black text-sm font-medium rounded-full transition"
         >
-          <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+          <svg
+            className="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+          >
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
           </svg>
           Add Group
@@ -144,13 +180,28 @@ const GroupList = () => {
                     </p>
                   </div>
                   <div className="flex gap-2">
-                    <button onClick={() => setViewGroupId(group._id)} className="hover:text-orange-400">
+                    <button
+                      onClick={() => {
+                        setViewGroupId(group._id);
+                        playView(); // 🔊 Play view sound
+                      }}
+                      className="hover:text-orange-400"
+                    >
                       <FiEye className="w-4 h-4" />
                     </button>
-                    <button onClick={() => handleOpenModal(group)} className="hover:text-orange-400">
+                    <button
+                      onClick={() => handleOpenModal(group)}
+                      className="hover:text-orange-400"
+                    >
                       <FiEdit2 className="w-4 h-4" />
                     </button>
-                    <button onClick={() => setSelectedGroupId(group._id)} className="hover:text-orange-400">
+                    <button
+                      onClick={() => {
+                        setSelectedGroupId(group._id);
+                        playDelete(); // 🔊 Play delete sound
+                      }}
+                      className="hover:text-orange-400"
+                    >
                       <FiTrash2 className="w-4 h-4" />
                     </button>
                   </div>
@@ -179,7 +230,9 @@ const GroupList = () => {
       {/* Delete Modal */}
       <ConfirmDeleteModal
         isOpen={!!selectedGroupId}
-        title={`Delete Group "${groups?.find((g) => g._id === selectedGroupId)?.name}"`}
+        title={`Delete Group "${
+          groups?.find((g) => g._id === selectedGroupId)?.name
+        }"`}
         isLoading={isDeleting}
         onCancel={() => setSelectedGroupId(null)}
         onConfirm={() => {
@@ -235,7 +288,11 @@ const GroupList = () => {
       </ReusableModal>
 
       {/* View Modal */}
-      <SharedViewModal isOpen={!!viewGroupId} onClose={() => setViewGroupId(null)} title={`Group Details`}>
+      <SharedViewModal
+        isOpen={!!viewGroupId}
+        onClose={() => setViewGroupId(null)}
+        title={`Group Details`}
+      >
         {isViewLoading ? (
           <Loader />
         ) : viewGroup ? (
@@ -244,7 +301,9 @@ const GroupList = () => {
               Status:{" "}
               <span
                 className={`${
-                  viewGroup.status === "active" ? "text-green-600" : "text-red-600"
+                  viewGroup.status === "active"
+                    ? "text-green-600"
+                    : "text-red-600"
                 } font-bold`}
               >
                 {viewGroup.status}
