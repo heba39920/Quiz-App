@@ -21,7 +21,7 @@ export const useDeleteStudent = () => {
     mutationFn: (id: string) => deleteStudent(id),
     onSuccess: (data) => {
       toast.success(data.message || "student has been deleted successfully");
-      queryClient.invalidateQueries({ queryKey: ["GroupList"] });
+      queryClient.invalidateQueries({ queryKey: ["students"] });
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message);
@@ -31,10 +31,10 @@ export const useDeleteStudent = () => {
 export const useDeleteStudentFromGroup = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (studentId: string, groupId:string) => deleteStudentFromGroup(studentId, groupId),
+    mutationFn: ({ studentId, groupId }: { studentId: string; groupId: string }) => deleteStudentFromGroup(studentId, groupId),
     onSuccess: (data) => {
       toast.success(data.message || "student has been deleted from this group successfully");
-      queryClient.invalidateQueries({ queryKey: ["students", "studentsWithoutGroup"] });
+      queryClient.invalidateQueries({ queryKey: ["students"] });
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message);
@@ -42,7 +42,7 @@ export const useDeleteStudentFromGroup = () => {
   });
 };
 
-export const useGroupDetails = (id: string, enabled = true) => {
+export const useStudentDetails = (id: string, enabled = true) => {
   return useQuery({
     queryKey: ["student", id],
     queryFn: () => getStudentById(id),

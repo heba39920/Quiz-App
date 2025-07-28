@@ -9,12 +9,14 @@ interface ConfirmDeleteModalProps {
   onCancel: () => void;
   onConfirm: () => void;
   isLoading?: boolean;
+  
 }
 
 const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
   isOpen,
   title = "Delete Group",
-  message = "Are you sure you want to delete this group?",
+  
+  message = `Are you sure you want to delete this Group?`,
   onCancel,
   onConfirm,
   isLoading = false,
