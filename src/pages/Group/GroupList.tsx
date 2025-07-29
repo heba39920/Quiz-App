@@ -81,6 +81,7 @@ const GroupList = () => {
       label: `${s.first_name} ${s.last_name}`,
     })) || [];
 
+  // ✅ فتح المودال (إضافة أو تعديل)
   const handleOpenModal = (group?: Group) => {
     setIsEditing(Boolean(group));
     setIsModalOpen(true);
@@ -88,26 +89,37 @@ const GroupList = () => {
     if (group) {
       setGroupIdToEdit(group._id);
       setValue("name", group.name);
+
+      // ✅ لو الطلاب في الجروب راجعين كـ Objects أو IDs فقط
       setValue(
         "students",
-        group.students.map((s: any) => ({
-          value: s._id,
-          label: `${s.first_name} ${s.last_name}`,
-        }))
+        group.students.map((s: any) => {
+          if (typeof s === "string") {
+            const matched = studentOptions.find((opt) => opt.value === s);
+            return matched || { value: s, label: s };
+          }
+          return {
+            value: s._id,
+            label: `${s.first_name} ${s.last_name}`,
+          };
+        })
       );
-      playUpdate(); // 🔊 Play update sound when opening modal in edit mode
+
+      playUpdate(); 
     } else {
       reset();
       setGroupIdToEdit(null);
-      playAdd(); // 🔊 Play add sound when opening modal for add
+      playAdd(); 
     }
   };
 
+  // ✅ غلق المودال
   const handleCloseModal = () => {
     setIsModalOpen(false);
     reset();
   };
 
+  // ✅ تأكيد الإضافة أو التحديث
   const handleConfirmAddOrUpdate = (data: GroupFormValues) => {
     if (!data.name || data.students.length === 0) {
       toast.error("Please fill all fields");
@@ -116,7 +128,7 @@ const GroupList = () => {
 
     const payload = {
       name: data.name,
-      students: data.students.map((s) => s.value),
+      students: data.students.map((s) => s.value), // IDs only
     };
 
     if (isEditing && groupIdToEdit) {
@@ -183,7 +195,7 @@ const GroupList = () => {
                     <button
                       onClick={() => {
                         setViewGroupId(group._id);
-                        playView(); // 🔊 Play view sound
+                        playView();
                       }}
                       className="hover:text-orange-400"
                     >
@@ -198,7 +210,7 @@ const GroupList = () => {
                     <button
                       onClick={() => {
                         setSelectedGroupId(group._id);
-                        playDelete(); // 🔊 Play delete sound
+                        playDelete();
                       }}
                       className="hover:text-orange-400"
                     >
