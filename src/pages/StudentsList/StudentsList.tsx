@@ -20,10 +20,11 @@ import { PiMedalFill } from "react-icons/pi";
 import { GrGroup } from "react-icons/gr";
 import { useGroup } from "@/utils/hooks/Group";
 import { toast } from "react-toastify";
+
 const StudentsList = () => {
   const [groupId, setGroupId] = useState<string | null>(null);
   const [removeId, setRemoveId] = useState<string | null>(null);
-const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
   const { data: StudentsData, isLoading } = useGetAllStudents();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
@@ -37,18 +38,20 @@ const [isModalOpen, setModalOpen] = useState(false);
   const { data: studentDetails, isLoading: isDetailsLoading } =
     useStudentDetails(selectedId);
 
-
   const { data: groups, isLoading: isGroupsLoading } = useGroup();
   const [searchGroup, setSearchGroup] = useState<string | null>("all");
   const [searchName, setSearchName] = useState<string>("");
+  
   const handleGroupClick = (groupName: string) => {
     setSearchGroup(groupName);
     setCurrentPage(1);
   };
+  
   const handleNameSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchName(e.target.value);
     setCurrentPage(1);
   };
+  
   const filteredStudents = useMemo(() => {
     if (!StudentsData) return [];
     let filtered = StudentsData;
@@ -70,78 +73,85 @@ const [isModalOpen, setModalOpen] = useState(false);
     }
     return filtered;
   }, [StudentsData, searchGroup, searchName]);
+  
   const totalPages = useMemo(() => {
     return Math.ceil(filteredStudents.length / itemsPerPage);
   }, [filteredStudents]);
+  
   const displayedStudents = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredStudents.slice(startIndex, startIndex + itemsPerPage);
   }, [filteredStudents, currentPage]);
+  
   const [showAllGroups, setShowAllGroups] = useState(false);
-const maxVisibleGroups = 3;
-const displayedGroups = showAllGroups ? groups : groups?.slice(0, maxVisibleGroups);
+  const maxVisibleGroups = 3;
+  const displayedGroups = showAllGroups ? groups : groups?.slice(0, maxVisibleGroups);
 
   return (
     <div className="m-[21px] border-1 border-[#00000033] p-[20px]">
       <h1 className="font-bold text-2xl">Students list</h1>
-<div className="grid grid-cols-1 content-center md:grid-cols-2 gap-4">
-  {/* First Grid Item: Group list */}
-  <div>
-    <ul className="flex  items-center gap-5 mt-4 mb-5">
-      {isGroupsLoading ? (
-        <div className="flex justify-center items-center col-span-2">
-          <Loader />
+      
+      {/* Changed to flex-col when showAllGroups is true */}
+      <div className={`flex ${showAllGroups ? 'flex-col' : 'flex-col md:flex-row'} gap-4`}>
+        {/* Group list */}
+        <div className="flex-1">
+          <ul className="flex flex-wrap items-center gap-2 mt-4 mb-5">
+            {isGroupsLoading ? (
+              <div className="flex justify-center items-center col-span-2">
+                <Loader />
+              </div>
+            ) : (
+              <>
+                {/* "All Students" button */}
+                <li
+                  className={`border-1 rounded-4xl border-[#00000033] px-[20px] md:px-[35px] py-[6px] cursor-pointer ${
+                    searchGroup === "all" ? "bg-[#FFEDDF]" : ""
+                  }`}
+                  onClick={() => handleGroupClick("all")}
+                >
+                  All Students
+                </li>
+
+                {/* Dynamic groups */}
+                {displayedGroups?.map((group) => (
+                  <li
+                    key={group._id}
+                    className={`border-1 rounded-4xl border-[#00000033] px-[20px] md:px-[35px] py-[6px] cursor-pointer ${
+                      searchGroup === group?.name ? "bg-[#FFEDDF]" : ""
+                    }`}
+                    onClick={() => handleGroupClick(group?.name)}
+                  >
+                    Group: {group?.name}
+                  </li>
+                ))}
+
+                {/* Show/Hide all groups button */}
+                {groups && groups.length > maxVisibleGroups && (
+                  <li
+                    className="cursor-pointer font-semibold border border-[#00000033] text-black-500 rounded-3xl px-[10px] md:px-[15px] py-[6px]"
+                    onClick={() => setShowAllGroups(!showAllGroups)}
+                  >
+                    {showAllGroups ? 'Show Less' : 'Show More...'}
+                  </li>
+                )}
+              </>
+            )}
+          </ul>
         </div>
-      ) : (
-        <>
-          {/* "All Students" button */}
-          <li
-            className={`border-1 rounded-4xl border-[#00000033] px-[35px] py-[6px] cursor-pointer ${
-              searchGroup === "all" ? "bg-[#FFEDDF]" : ""
-            }`}
-            onClick={() => handleGroupClick("all")}
-          >
-            All Students
-          </li>
 
-          {/* Dynamic groups */}
-          {displayedGroups?.map((group) => (
-            <li
-              key={group._id}
-              className={`border-1 rounded-4xl border-[#00000033] px-[35px] py-[6px] cursor-pointer ${
-                searchGroup === group?.name ? "bg-[#FFEDDF]" : ""
-              }`}
-              onClick={() => handleGroupClick(group?.name)}
-            >
-              Group: {group?.name}
-            </li>
-          ))}
-
-          {/* Show/Hide all groups button */}
-          {groups && groups.length > maxVisibleGroups && (
-            <li
-              className="cursor-pointer text-blue-500"
-              onClick={() => setShowAllGroups(!showAllGroups)}
-            >
-              {showAllGroups ? 'Show Less' : 'See All'}
-            </li>
-          )}
-        </>
-      )}
-    </ul>
-  </div>
-
-  {/* Second Grid Item: Search input */}
-  <div >
-    <input
-      type="text"
-      placeholder="Search by name..."
-      value={searchName}
-      onChange={handleNameSearch}
-      className="border border-gray-300 rounded-2xl px-2 py-2 w-[100%]"
-    />
-  </div>
-</div>
+        {/* Search input - will stack below groups when showAllGroups is true */}
+        <div className={`${showAllGroups ? 'w-full' : 'flex-1'}`}>
+          <input
+            type="text"
+            placeholder="Search by name..."
+            value={searchName}
+            onChange={handleNameSearch}
+            className="border border-gray-300 rounded-2xl my-3 px-4 py-2 w-[50%]"
+          />
+        </div>
+      </div>
+      
+      {/* Rest of your component remains the same */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {isLoading ? (
           <div className="flex justify-center items-center col-span-2">
@@ -149,9 +159,8 @@ const displayedGroups = showAllGroups ? groups : groups?.slice(0, maxVisibleGrou
           </div>
         ) : (
           displayedStudents?.map((student: Student) => (
-            <AnimatePresence mode="popLayout"  key={student._id}>
+            <AnimatePresence mode="popLayout" key={student._id}>
               <motion.div
-              
                 role="listitem"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -187,7 +196,6 @@ const displayedGroups = showAllGroups ? groups : groups?.slice(0, maxVisibleGrou
                     </div>
                   </div>
                   <DropdownMenu
-                  
                     onView={() => {
                       setSelectedId(student?._id);
                       console.log(studentDetails);
@@ -197,12 +205,12 @@ const displayedGroups = showAllGroups ? groups : groups?.slice(0, maxVisibleGrou
                       setStudentId(student?._id);
                       playDelete();
                     }}
-                onRemove={() => { 
-  setRemoveId(student?._id);
-  setGroupId(student?.group?._id); 
-  setModalOpen(true);
-  playDelete();
-}}
+                    onRemove={() => { 
+                      setRemoveId(student?._id);
+                      setGroupId(student?.group?._id); 
+                      setModalOpen(true);
+                      playDelete();
+                    }}
                   />
                 </div>
               </motion.div>
@@ -210,6 +218,8 @@ const displayedGroups = showAllGroups ? groups : groups?.slice(0, maxVisibleGrou
           ))
         )}
       </div>
+      
+      {/* Pagination and modals remain the same */}
       <nav
         className="mt-6 flex flex-wrap justify-center items-center gap-2 text-sm"
         aria-label="Pagination"
@@ -265,7 +275,7 @@ const displayedGroups = showAllGroups ? groups : groups?.slice(0, maxVisibleGrou
       <ConfirmDeleteModal
         isOpen={!!StudentId}
         title={`Delete Student`}
-       message="Are you sure you want to delete this Student?"
+        message="Are you sure you want to delete this Student?"
         isLoading={isDeleting}
         onCancel={() => setStudentId("")}
         onConfirm={() => {
@@ -278,29 +288,29 @@ const displayedGroups = showAllGroups ? groups : groups?.slice(0, maxVisibleGrou
       <ConfirmDeleteModal
         isOpen={isModalOpen}
         title='Remove From Group'
-       message = 'Are you sure you want to Remove this Student from this Group?'
+        message = 'Are you sure you want to Remove this Student from this Group?'
         isLoading={isRemoving}
         onCancel={() => {
           setStudentId("");
           setGroupId("");
-            setModalOpen(false);
+          setModalOpen(false);
         }}
-       onConfirm={() => {
-  if (removeId && groupId) {
-    // verify if the group still exists
-    const groupExists = groups && groups.some(group => group._id === groupId);
-    if (!groupExists) {
-      toast.error('The group has already been deleted.');
-    setModalOpen(false);
-      return;
-    }
-    // Proceed with removal
-        removeStudentFromGroup({ studentId: removeId, groupId });
-         setModalOpen(false);
-    setRemoveId("");
-    setGroupId("");
-  }
-}}
+        onConfirm={() => {
+          if (removeId && groupId) {
+            // verify if the group still exists
+            const groupExists = groups && groups.some(group => group._id === groupId);
+            if (!groupExists) {
+              toast.error('The group has already been deleted.');
+              setModalOpen(false);
+              return;
+            }
+            // Proceed with removal
+            removeStudentFromGroup({ studentId: removeId, groupId });
+            setModalOpen(false);
+            setRemoveId("");
+            setGroupId("");
+          }
+        }}
       />
       <SharedViewModal
         isOpen={!!selectedId}
@@ -407,4 +417,5 @@ const displayedGroups = showAllGroups ? groups : groups?.slice(0, maxVisibleGrou
     </div>
   );
 };
+
 export default StudentsList;
