@@ -20,14 +20,19 @@ import { PiMedalFill } from "react-icons/pi";
 import { GrGroup } from "react-icons/gr";
 import { useGroup } from "@/utils/hooks/Group";
 import { toast } from "react-toastify";
+import { BsGrid3X3GapFill, BsGridFill } from "react-icons/bs";
+import { FaListUl } from "react-icons/fa";
+
+type ViewType = 'grid-2-col' | 'grid-3-col' | 'list-view';
 
 const StudentsList = () => {
+    const [activeView, setActiveView] = useState<ViewType>('grid-2-col');
   const [groupId, setGroupId] = useState<string | null>(null);
   const [removeId, setRemoveId] = useState<string | null>(null);
   const [isModalOpen, setModalOpen] = useState(false);
   const { data: StudentsData, isLoading } = useGetAllStudents();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+ const [ itemsPerPage , setItemsPerPage] = useState(8);
   const [playDelete] = useSound(deleteSound);
   const [playView] = useSound(viewSound);
   const { mutate: deleteStudent, isPending: isDeleting } = useDeleteStudent();
@@ -41,7 +46,7 @@ const StudentsList = () => {
   const { data: groups, isLoading: isGroupsLoading } = useGroup();
   const [searchGroup, setSearchGroup] = useState<string | null>("all");
   const [searchName, setSearchName] = useState<string>("");
-  
+   
   const handleGroupClick = (groupName: string) => {
     setSearchGroup(groupName);
     setCurrentPage(1);
@@ -86,7 +91,18 @@ const StudentsList = () => {
   const [showAllGroups, setShowAllGroups] = useState(false);
   const maxVisibleGroups = 3;
   const displayedGroups = showAllGroups ? groups : groups?.slice(0, maxVisibleGroups);
-
+  const gridClasses = useMemo(() => {
+    switch (activeView) {
+      case 'grid-2-col':
+        return 'grid grid-cols-1 md:grid-cols-2';
+      case 'grid-3-col':
+        return 'grid grid-cols-1 md:grid-cols-3';
+      case 'list-view':
+        return 'grid grid-cols-1'; // List view usually means a single column
+      default:
+        return 'grid grid-cols-1 md:grid-cols-2';
+    }
+  }, [activeView]);
   return (
     <div className="m-[21px] border-1 border-[#00000033] p-[20px]">
       <h1 className="font-bold text-2xl">Students list</h1>
@@ -150,72 +166,103 @@ const StudentsList = () => {
           />
         </div>
       </div>
-      
+      <div className=" justify-end gap-2 mb-4 md:flex xs:hidden">
+        <button
+          className={`p-2 rounded-md ${activeView === 'grid-2-col' ? 'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200`}
+          onClick={() => setActiveView('grid-2-col')}
+          title="2 Column Grid View"
+        >
+          <BsGridFill size={20} />
+        </button>
+        <button
+          className={`p-2 rounded-md ${activeView === 'grid-3-col' ? 'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200`}
+          onClick={() => setActiveView('grid-3-col')}
+          title="3 Column Grid View"
+        >
+          <BsGrid3X3GapFill size={20} />
+        </button>
+        <button
+          className={`p-2 rounded-md ${activeView === 'list-view' ? 'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200`}
+          onClick={() => setActiveView('list-view')}
+          title="List View"
+        >
+          <FaListUl size={20} />
+        </button>
+      </div>
+
       {/* Rest of your component remains the same */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className={`${gridClasses} gap-4`}>
         {isLoading ? (
           <div className="flex justify-center items-center col-span-2">
             <Loader />
           </div>
         ) : (
-          displayedStudents?.map((student: Student) => (
-            <AnimatePresence mode="popLayout" key={student._id}>
-              <motion.div
-                role="listitem"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-                layout
-                aria-label={`${student.first_name}`}
-              >
-                <div className="flex w-[100%] items-center justify-between border-1 border-[#00000033] mb-2.5">
-                  <div className="flex items-center">
-                    <div className="flex h-full items-center">
-                      {" "}
-                      <img
-                        className=" w-[90px] h-[90px] object-cover me-5"
-                        src={`https://i.pravatar.cc/400?u=${student._id}`}
-                        alt={`${student.first_name} ${student.last_name}`}
-                      />
-                    </div>
-                    <div className="details">
-                      <p className=" font-semibold capitalize">
-                        {student?.first_name} {student?.last_name}
-                      </p>
-                      <p className=" font-medium text-[#0000008d]">
-                        Group: {student?.group?.name}
-                      </p>
-                      <p className="flex items-center text-emerald-600 capitalize">
-                        {student?.status}
-                        <HiMiniCheckBadge
-                          size={25}
-                          className="ms-1 text-emerald-600"
+    displayedStudents?.map((student: Student) => {
+            // Check if the student has a group AND if that group exists in the fetched groups list
+            const studentHasExistingGroup =
+              !!student?.group?._id &&
+              groups?.some((group) => group._id === student.group._id);
+
+            return (
+              <AnimatePresence mode="popLayout" key={student._id}>
+                <motion.div
+                  role="listitem"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                  transition={{ duration: 0.3 }}
+                  layout
+                  aria-label={`${student.first_name}`}
+                >
+                  <div className="flex w-[100%] items-center justify-between border-1 rounded-2xl border-[#00000033] mb-2.5">
+                    <div className="flex items-center">
+                      <div className="flex h-full items-center">
+                        <img
+                          className=" w-[90px] h-[90px] object-cover me-5 rounded-tl-2xl rounded-bl-2xl"
+                          src={`https://i.pravatar.cc/400?u=${student._id}`}
+                          alt={`${student.first_name} ${student.last_name}`}
                         />
-                      </p>
+                      </div>
+                      <div className="details">
+                        <p className=" font-semibold capitalize">
+                          {student?.first_name} {student?.last_name}
+                        </p>
+                        <p className=" font-medium text-[#0000008d]">
+                          Group: {student?.group?.name}
+                        </p>
+                        <p className="flex items-center text-emerald-600 capitalize">
+                          {student?.status}
+                          <HiMiniCheckBadge
+                            size={25}
+                            className="ms-1 text-emerald-600"
+                          />
+                        </p>
+                      </div>
                     </div>
+                    <DropdownMenu
+                      onView={() => {
+                        setSelectedId(student?._id);
+                        console.log(studentDetails);
+                        playView();
+                      }}
+                      onDelete={() => {
+                        setStudentId(student?._id);
+                        playDelete();
+                      }}
+                      onRemove={() => {
+                        setRemoveId(student?._id);
+                        setGroupId(student?.group?._id);
+                        setModalOpen(true);
+                        playDelete();
+                      }}
+              
+                      hasGroup={studentHasExistingGroup}
+                    />
                   </div>
-                  <DropdownMenu
-                    onView={() => {
-                      setSelectedId(student?._id);
-                      console.log(studentDetails);
-                      playView();
-                    }}
-                    onDelete={() => {
-                      setStudentId(student?._id);
-                      playDelete();
-                    }}
-                    onRemove={() => { 
-                      setRemoveId(student?._id);
-                      setGroupId(student?.group?._id); 
-                      setModalOpen(true);
-                      playDelete();
-                    }}
-                  />
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          ))
+                </motion.div>
+              </AnimatePresence>
+            );
+          })
         )}
       </div>
       

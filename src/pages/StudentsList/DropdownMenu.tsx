@@ -8,9 +8,10 @@ interface DropdownMenuProps {
   onView?: () => void;
   onDelete?: () => void;
   onRemove?: () => void;
+  hasGroup ? : boolean;
 }
 
-const DropdownMenu: React.FC<DropdownMenuProps> = ({  onView, onDelete, onRemove }) => {
+const DropdownMenu: React.FC<DropdownMenuProps> = ({  onView, onDelete, onRemove, hasGroup }) => {
   const [isOpen, setIsOpen] = useState(false);          // Manage open/close here
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -56,6 +57,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({  onView, onDelete, onRemove
                   if (onView) onView();
                 }}
                 text="View"
+                className="text-slate-700"
               />
               <Option
                 setOpen={() => setIsOpen(false)}
@@ -64,15 +66,20 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({  onView, onDelete, onRemove
                   if (onDelete) onDelete();
                 }}
                 text="Delete Student"
+               className="text-red-700"
               />
-              <Option
+               {hasGroup && (
+        <Option
                 setOpen={() => setIsOpen(false)}
                 Icon={FiTrash}
                 onClick={() => {
                   if (onRemove) onRemove();
                 }}
                 text="Remove From Group"
+                 className="text-red-700"
               />
+    )}
+            
             </motion.ul>
           )}
         </AnimatePresence>
@@ -107,9 +114,10 @@ interface OptionProps {
   Icon: React.ComponentType;
   setOpen: () => void;
   onClick?: () => void;
+  className?: string;
 }
 
-const Option: React.FC<OptionProps> = ({ text, Icon, setOpen, onClick }) => {
+const Option: React.FC<OptionProps> = ({ text, Icon, setOpen, onClick, className }) => {
   return (
     <motion.li
       variants={itemVariants}
@@ -117,7 +125,7 @@ const Option: React.FC<OptionProps> = ({ text, Icon, setOpen, onClick }) => {
         setOpen();
         if (onClick) onClick();
       }}
-      className="flex items-center gap-2 w-full p-2 text-xs font-medium whitespace-nowrap rounded-md hover:bg-indigo-100 text-slate-700 hover:text-indigo-500 transition-colors cursor-pointer"
+      className={`flex items-center gap-2 w-full p-2 text-xs font-medium whitespace-nowrap rounded-md hover:bg-indigo-100  hover:text-indigo-500 transition-colors cursor-pointer ${className}`}
     >
       <motion.span variants={actionIconVariants}>
         <Icon />
