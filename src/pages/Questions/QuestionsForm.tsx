@@ -1,0 +1,289 @@
+import ReusableModal from "@/components/AddEditModal/AddEditModal";
+import type { QuestionsInterface } from "@/interface/QuestionsInterface";
+import { questionSchema } from "@/utils/validation/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+// import { useEffect } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
+
+
+interface QuestionsFormProps {
+    OnSubmit?: SubmitHandler<QuestionsInterface>;
+    isModalOpen?: boolean;
+    handleCloseModal?: () => void;
+    onConfirm?: () =>SubmitHandler<QuestionsInterface>;
+    isPending: boolean;
+    modalType: "add" | "edit";
+    isEditing?: boolean;
+}
+const QuestionsForm:React.FC<QuestionsFormProps> = ({OnSubmit, isModalOpen,handleCloseModal, onConfirm,isPending, modalType, isEditing}) => {
+const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInterface>({
+ mode: "onChange",
+ resolver: zodResolver(questionSchema),
+    defaultValues: {
+    title: "",
+    description: "",
+    options: {
+        A: "",
+        B: "",
+        C: "",
+        D: ""
+    },
+    answer: "",
+    difficulty: "",
+    type: ""
+    },
+});
+// useEffect(()=>{
+// if(modalType === "edit" && isEditing) {
+//   fetchQuestionData(questionId).then(data => reset(data));
+// },[])
+  return (
+      <ReusableModal title="Set up a new question" isOpen={isModalOpen} onConfirm={onConfirm} onClose={handleCloseModal} className="w-[100%] md:w-[70%]  mx-auto h-[80%] overflow-y-auto">     
+    <form
+      className="space-y-4 px-0 md:px-8"
+      onSubmit={OnSubmit ? handleSubmit(OnSubmit) : undefined}
+      aria-labelledby="form-title"
+      autoComplete="off"
+    >
+      <h5
+        id="form-title"
+        className="mb-4 font-semibold text-lg"
+        tabIndex={-1}
+      >
+        Details
+      </h5>
+      {/* Title Input Group */}
+      <div className="flex items-center space-x-2 relative">
+        <label
+          className="w-[100px] font-medium text-gray-700 absolute bg-[#FFEDDF] inset-y-0 p-2 rounded-lg"
+          htmlFor="title"
+        >
+          Title
+        </label>
+        <input
+          type="text"
+          id="title"  
+          aria-required="true"
+          aria-label="Question Title"
+         
+        {...register("title", { required: true })}
+          className="flex-1 p-2 ps-[105px] border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+        />
+      </div>
+        <p className="text-red-500 text-xs">{errors?.title && (errors?.title?.message as string)}</p>
+
+            {/* Description Input Group */}
+      <div className="flex items-center space-x-2 relative">
+        <label
+          className="w-[100px] font-medium text-gray-700 absolute bg-[#FFEDDF] inset-y-0 px-2 py-5 rounded-lg"
+          htmlFor="description"
+        >
+         Description
+        </label>
+        <textarea
+          id="description"
+         
+          
+          aria-required="true"
+          aria-label="Question Description"
+         
+        {...register("description", { required: true })}
+          className="flex-1 p-2 ps-[105px] border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+        />
+      </div>
+        <p className="text-red-500 text-xs">{errors?.description && (errors?.description?.message as string)}</p>
+
+              {/* Difficulty Input Group */}
+      <div className="flex items-center space-x-2 relative">
+        <label
+          className="w-[100px] font-medium text-gray-700 absolute bg-[#FFEDDF] inset-y-0 p-2 rounded-lg"
+          htmlFor="difficulty"
+        >
+         Difficulty
+        </label>
+        <select  id="difficulty"
+         
+          
+          aria-required="true"
+          aria-label="Question Difficulty"
+         
+        {...register("difficulty", { required: true })}
+          className="flex-1 p-2 ps-[105px] border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                  <option value="">Choose Difficulty</option>
+              <option value="easy">Easy</option>
+            <option value="hard">Hard</option>
+           
+        
+        </select>
+      </div>
+        <p className="text-red-500 text-xs">{errors?.difficulty && (errors?.difficulty?.message as string)}</p>
+
+      {/* Options A, B, C, D */}
+      <fieldset className="grid grid-cols-1 md:grid-cols-2 gap-4" aria-labelledby="options-group">
+        <legend id="options-group" className="sr-only">
+          Options
+        </legend>
+        {/* Option A */}
+        <div className="flex items-center space-x-2 relative">
+          <label
+            className="w-[49.14px] font-medium text-sm text-gray-700 absolute bg-[#FFEDDF] inset-y-0 p-3 ps-4.5 rounded-lg"
+            htmlFor="optionA"
+          >
+            A
+          </label>
+          <input
+            id="optionA"
+           
+            type="text"
+           
+            aria-required="true"
+            aria-label="Option A"
+        {...register("options.A", { required: true })}
+          
+            className="flex-1 ps-[54px] p-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          />
+            <p className="text-red-500 text-xs">{errors?.options?.A && (errors?.options?.A?.message as string)}</p>
+
+        </div>
+
+        {/* Option B */}
+        <div className="flex items-center space-x-2 relative">
+          <label
+            className="w-[49.14px] font-medium text-sm text-gray-700 absolute bg-[#FFEDDF] inset-y-0 p-3 ps-4.5 rounded-lg"
+            htmlFor="optionB"
+          >
+            B
+          </label>
+          <input
+            id="optionB"
+          
+            type="text"
+          
+            aria-required="true"
+            aria-label="Option B"
+         {...register("options.B", { required: true })}
+          
+            className="flex-1 ps-[54px] p-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          />
+            <p className="text-red-500 text-xs">{errors?.options?.B && (errors?.options?.B?.message as string)}</p>
+
+        </div>
+
+        {/* Option C */}
+        <div className="flex items-center space-x-2 relative">
+          <label
+            className="w-[49.14px] font-medium text-sm text-gray-700 absolute bg-[#FFEDDF] inset-y-0 p-3 ps-4.5 rounded-lg"
+            htmlFor="optionC"
+          >
+            C
+          </label>
+          <input
+            id="optionC"
+           
+            type="text"
+          
+            aria-required="true"
+            aria-label="Option C"
+        
+          {...register("options.C", { required: true })}
+            className="flex-1 ps-[54px] p-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          />
+            <p className="text-red-500 text-xs">{errors?.options?.C && (errors?.options?.C?.message as string)}</p>
+
+        </div>
+
+        {/* Option D */}
+        <div className="flex items-center space-x-2 relative">
+          <label
+            className="w-[49.14px] font-medium text-sm text-gray-700 absolute bg-[#FFEDDF] inset-y-0 p-3 ps-4.5 rounded-lg"
+            htmlFor="optionD"
+          >
+            D
+          </label>
+          <input
+            id="optionD"
+       
+            type="text"
+          
+            aria-required="true"
+            aria-label="Option D"
+         
+          {...register("options.D", { required: true })}
+            className="flex-1 p-2 ps-[54px] border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          />
+            <p className="text-red-500 text-xs">{errors?.options?.D && (errors?.options?.D?.message as string)}</p>
+
+        </div>
+
+      </fieldset>
+
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Right Answer */}
+        <div className="flex items-center space-x-2 relative">
+          <label
+            className="w-[106px] font-medium text-sm text-gray-700 absolute bg-[#FFEDDF] inset-y-0 p-2 rounded-lg"
+            htmlFor="rightAnswer"
+          >
+            Right Answer
+          </label>
+          <input
+            type="text"
+            id="rightAnswer"
+          
+         
+            aria-required="true"
+            aria-label="Right Answer"
+        
+          {...register("answer", { required: true })}
+            className="flex-1 ps-[110px] p-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          />
+        </div>
+            <p className="text-red-500 text-xs block  md:hidden">{errors?.answer && (errors?.answer?.message as string)}</p>
+
+        {/* Category Type Dropdown */}
+        <div className="flex items-center space-x-2 relative">
+          <label
+            className="w-[106px] font-medium text-sm text-gray-700 absolute bg-[#FFEDDF] inset-y-0 p-2 rounded-lg"
+            htmlFor="categoryType"
+          >
+            Category type
+          </label>
+          <select
+            id="categoryType"
+            aria-label="Category Type"
+            
+          {...register("type", { required: true })}
+            className="flex-1 ps-[110px] p-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          >
+            <option value="">Choose Type</option>
+            <option value="FE">FE</option>
+            <option value="BE">BE</option>
+            <option value="DO">DO</option>
+          </select>
+        </div>
+
+ 
+      </div>   
+           <div className="flex justify-between"> 
+            <p className="text-red-500 text-xs hidden md:block">{errors?.answer && (errors?.answer?.message as string)}</p>
+            
+            <p className="text-red-500 text-xs">{errors?.type && (errors?.type?.message as string)}</p>
+            </div>
+
+           <div className="flex justify-end mt-4">
+          <button
+            type="submit"
+            aria-label="Submit"
+            className="px-[10px] py-[5px] main-text bg-[#FFEDDF] transition rounded-2xl cursor-pointer"
+            disabled={isPending || isEditing}
+          >
+          {modalType === "add" ? "Add Question" : "Edit Question"}
+          </button>
+        </div>
+    </form>
+    </ReusableModal>
+  );
+};
+
+export default QuestionsForm;

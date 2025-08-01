@@ -81,12 +81,12 @@ const StudentsList = () => {
   
   const totalPages = useMemo(() => {
     return Math.ceil(filteredStudents.length / itemsPerPage);
-  }, [filteredStudents]);
+  }, [filteredStudents, itemsPerPage]);
   
   const displayedStudents = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredStudents.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredStudents, currentPage]);
+  }, [filteredStudents, currentPage, itemsPerPage]);
   
   const [showAllGroups, setShowAllGroups] = useState(false);
   const maxVisibleGroups = 3;
@@ -108,7 +108,7 @@ const StudentsList = () => {
       <h1 className="font-bold text-2xl">Students list</h1>
       
       {/* Changed to flex-col when showAllGroups is true */}
-      <div className={`flex ${showAllGroups ? 'flex-col' : 'flex-col md:flex-row'} gap-4`}>
+      <div className={`flex flex-row gap-4`}>
         {/* Group list */}
         <div className="flex-1">
           <ul className="flex flex-wrap items-center gap-2 mt-4 mb-5">
@@ -155,41 +155,49 @@ const StudentsList = () => {
           </ul>
         </div>
 
-        {/* Search input - will stack below groups when showAllGroups is true */}
-        <div className={`${showAllGroups ? 'w-full' : 'flex-1'}`}>
+
+      </div> 
+    
+             <div>
           <input
             type="text"
             placeholder="Search by name..."
             value={searchName}
             onChange={handleNameSearch}
-            className="border border-gray-300 rounded-2xl my-3 px-4 py-2 w-[50%]"
+            className="border border-gray-300 rounded-2xl my-3 px-4 py-2 md:w-[50%] w-[100%]"
           />
         </div>
-      </div>
-      <div className=" justify-end gap-2 mb-4 md:flex xs:hidden">
-        <button
-          className={`p-2 rounded-md ${activeView === 'grid-2-col' ? 'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200`}
+      <div className="justify-center md:justify-end  items-center  mb-4 flex">
+<div className="flex gap-2">
+          <button
+          className={`p-2 cursor-pointer rounded-md ${activeView === 'grid-2-col' ? 'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200`}
           onClick={() => setActiveView('grid-2-col')}
           title="2 Column Grid View"
         >
           <BsGridFill size={20} />
         </button>
         <button
-          className={`p-2 rounded-md ${activeView === 'grid-3-col' ? 'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200`}
+          className={`p-2 cursor-pointer rounded-md lg:block md:hidden ${activeView === 'grid-3-col' ? 'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200`}
           onClick={() => setActiveView('grid-3-col')}
           title="3 Column Grid View"
         >
           <BsGrid3X3GapFill size={20} />
         </button>
         <button
-          className={`p-2 rounded-md ${activeView === 'list-view' ? 'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200`}
+          className={`p-2 cursor-pointer rounded-md ${activeView === 'list-view' ? 'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200`}
           onClick={() => setActiveView('list-view')}
           title="List View"
         >
           <FaListUl size={20} />
         </button>
+</div>
+         <div className="w-fit  ms-5">
+      <button className={`py-1.5 px-3 cursor-pointer font-bold  rounded-tl-md rounded-bl-md  border-e-2 border-gray-400  ${itemsPerPage === 8 ?'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200` }  onClick={()=>setItemsPerPage(8)}>8</button>
+      <button className={`py-1.5 px-3 cursor-pointer font-bold border-e-2  border-gray-400  ${itemsPerPage === 12 ?'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200`} onClick={()=>setItemsPerPage(12)}>12</button>
+      <button className={`py-1.5 px-3 cursor-pointer font-bold rounded-tr-md rounded-br-md   ${itemsPerPage === 24 ?'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200`} onClick={()=>setItemsPerPage(24)}>24</button>
+     </div>
       </div>
-
+    
       {/* Rest of your component remains the same */}
       <div className={`${gridClasses} gap-4`}>
         {isLoading ? (

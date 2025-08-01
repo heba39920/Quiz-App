@@ -7,6 +7,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { PiStudent } from "react-icons/pi";
 import { GrGroup } from "react-icons/gr";
 import { CiViewTimeline } from "react-icons/ci";
+import { FaFileCircleQuestion } from "react-icons/fa6";
 
 import { IoNewspaperOutline } from "react-icons/io5";
 
@@ -34,6 +35,11 @@ const SideBar:React.FC<SidebarProps> = ({...props }) => {
       icon: <GrGroup className="w-[30px] h-[30px]" />,
       path: "groups",
     },
+       {
+      label: "Questions",
+      icon: <FaFileCircleQuestion className="w-[30px] h-[30px]" />,
+      path: "questions",
+    },
     {
       label: "Quizzes",
       icon: <CiViewTimeline className="w-[30px] h-[30px]" />,
@@ -56,7 +62,6 @@ const SideBar:React.FC<SidebarProps> = ({...props }) => {
     <Sidebar
       backgroundColor="#fff"
       collapsed={collapsed }
-  
       {...props}
       width="200px"
         breakPoint="md" 

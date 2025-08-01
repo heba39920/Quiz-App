@@ -261,6 +261,7 @@ const GroupList = () => {
         onClose={handleCloseModal}
         onConfirm={handleSubmit(handleConfirmAddOrUpdate)}
         title={isEditing ? "Edit Group" : "Add Group"}
+        className="w-full max-w-lg"
       >
         <div className="space-y-4">
           {/* Group Name */}

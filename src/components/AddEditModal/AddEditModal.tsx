@@ -1,16 +1,14 @@
 // src/components/ReusableModal.tsx
-import { ReactNode } from "react";
-import { FaCheck } from "react-icons/fa6";
-import { IoClose } from "react-icons/io5";
-import clsx from "clsx";
+import {type ReactNode } from "react";
+
+import { FiCheck, FiX } from "react-icons/fi";
 
 interface ReusableModalProps { 
-  isOpen: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-  confirmDisabled?: boolean;
-  title: string;
-  children: ReactNode;
+  isOpen?: boolean;
+  onClose?: () => void;
+  onConfirm?: () => void;
+  title?: string;
+  children?: ReactNode;
   className?: string;
 }
 
@@ -18,7 +16,6 @@ const ReusableModal = ({
   isOpen,
   onClose,
   onConfirm,
-  confirmDisabled = false,
   title,
   children,
   className,
@@ -28,27 +25,36 @@ const ReusableModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4">
       <div
-        className={clsx(
-          "bg-white rounded-lg shadow-xl w-full max-w-lg",
-          className
-        )}
+        className={`
+          bg-white rounded-lg shadow-xl 
+          ${className}
+        `}
       >
-        {/* Header */}
-        <div className="flex justify-between items-center border-b px-4 py-3">
-          <h2 className="text-lg font-semibold">{title}</h2>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={onConfirm}
-              disabled={confirmDisabled}
-              title="Confirm"
-            >
-              <FaCheck className="text-lg text-black" />
-            </button>
-            <button onClick={onClose} title="Close">
-              <IoClose className="text-xl text-black" />
-            </button>
+     {/* Header */}
+          <div className="flex items-center justify-between border-b border-[#00000033] shadow-sm">
+            <h2 className="px-6 py-2 text-lg font-semibold text-gray-800">
+              {title}
+            </h2>
+            <div className="flex divide-x border-s border-[#00000033]">
+              <button
+              type="submit"
+                onClick={onConfirm}
+                aria-label="Confirm"
+                // disabled={isLoading}
+                className="w-12 h-12 flex items-center justify-center main-text hover:bg-[#FFEDDF] transition"
+              >
+                <FiCheck size={20} />
+              </button>
+              <button
+                onClick={onClose}
+                aria-label="Cancel"
+              
+                className="w-12 h-12 flex items-center justify-center main-text hover:bg-[#FFEDDF] transition"
+              >
+                <FiX size={20} />
+              </button>
+            </div>
           </div>
-        </div>
 
         {/* Content */}
         <div className="p-6">{children}</div>

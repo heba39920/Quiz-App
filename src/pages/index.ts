@@ -8,5 +8,13 @@ export { default as ForgetPassword } from "./Authentication/ForgetPassword/Forge
 export { default as ChangePassword } from "./Authentication/ChangePassword/ChangePassword";
 export { default as NotFound } from "./NotFound/NotFound";
 export { default as Dashboard } from "./Dashboard/Dashboard";
+export { default as  QuestionsList } from "./Questions/QuestionsList.tsx";
+export { default as StudentsList } from "./StudentsList/StudentsList";
+export { default as GroupList} from "./Group/GroupList";
+
+
+
+
+
 
 

@@ -71,3 +71,12 @@ export const STUDENT_URLS = {
   GET_STUDENT_BY_ID: (id:string)=>`${StudentUrl}/${id}`,
 }
 /*************Student EndPoint End*******************/
+/*************Questions EndPoint Start*******************/
+export const QUESTIONS_URLS = {
+  GET_ALL_QUESTIONS: "question",
+  ADD_QUESTION: "question",
+  UPDATE_QUESTION: (id: string) => `question/${id}`,
+  DELETE_QUESTION: (id: string) => `question/${id}`,
+  GET_QUESTION_BY_ID: (id:string)=>`question/${id}`,
+};
+

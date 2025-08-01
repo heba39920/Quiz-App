@@ -8,12 +8,14 @@ import {
   ForgetPassword,
   Login,
   NotFound,
+  QuestionsList,
   Register,
   ResetPassword,
+  StudentsList,
+  GroupList
 } from "./pages";
 import MasterLayout from "./components/MasterLayout/MasterLayout";
-import GroupList from "./pages/Group/GroupList";
-import StudentsList from "./pages/StudentsList/StudentsList";
+
 
 function App() {
   const routes = createBrowserRouter(
@@ -39,6 +41,8 @@ function App() {
           { path: "dashboard", element: <Dashboard /> },
           { path: "groups", element: <GroupList /> },
           { path: "students", element: <StudentsList /> },
+          { path: "questions", element: <QuestionsList /> },
+
 
         ],
         errorElement: <NotFound />,
