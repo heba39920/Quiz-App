@@ -1,13 +1,9 @@
 // src/pages/GroupList.tsx
-import { useState, useMemo } from "react";
-import { useForm, Controller } from "react-hook-form";
-import { FiEdit2, FiTrash2, FiEye } from "react-icons/fi";
-import { motion, AnimatePresence } from "framer-motion";
-import Select from "react-select";
 import ReusableModal from "@/components/AddEditModal/AddEditModal";
 import ConfirmDeleteModal from "@/components/ConfirmDeleteModal/ConfirmDeleteModal";
-import SharedViewModal from "@/components/SharedViewModal/SharedViewModal";
 import Loader from "@/components/Loader/Loader";
+import SharedViewModal from "@/components/SharedViewModal/SharedViewModal";
+import type { Group } from "@/interface/GroupInterface";
 import {
   useAddGroup,
   useDeleteGroup,
@@ -15,16 +11,22 @@ import {
   useGroupDetails,
   useUpdateGroup,
 } from "@/utils/hooks/Group";
-import type { Group } from "@/interface/GroupInterface";
-import toast from "react-hot-toast";
 import { useGetAllStudentsWithoutGroup } from "@/utils/hooks/Students";
+import { AnimatePresence, motion } from "framer-motion";
+import { useMemo, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { FiEdit2, FiEye, FiTrash2 } from "react-icons/fi";
+import Select from "react-select";
 import useSound from "use-sound";
 
 // Sounds
 import deleteSound from "@/assets/Sound/fast-swipe-48158.mp3";
-import viewSound from "@/assets/Sound/new-notification-09-352705.mp3";
-import addSound from "@/assets/Sound/new-notification-09-352705.mp3";
-import updateSound from "@/assets/Sound/new-notification-09-352705.mp3";
+import {
+  default as addSound,
+  default as updateSound,
+  default as viewSound,
+} from "@/assets/Sound/new-notification-09-352705.mp3";
 
 // Form Data Interface
 interface GroupFormValues {
@@ -105,11 +107,11 @@ const GroupList = () => {
         })
       );
 
-      playUpdate(); 
+      playUpdate();
     } else {
       reset();
       setGroupIdToEdit(null);
-      playAdd(); 
+      playAdd();
     }
   };
 
@@ -149,7 +151,7 @@ const GroupList = () => {
       <div className="flex justify-end mb-6">
         <button
           onClick={() => handleOpenModal()}
-          className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 hover:bg-orange-100 text-black text-sm font-medium rounded-full transition"
+          className="inline-flex items-center gap-2 px-4 py-2 main-border  hover:bg-orange-100 text-black text-sm font-medium rounded-full transition"
         >
           <svg
             className="h-5 w-5"
@@ -158,15 +160,21 @@ const GroupList = () => {
             strokeWidth={2}
             viewBox="0 0 24 24"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 4v16m8-8H4"
+            />
           </svg>
           Add Group
         </button>
       </div>
 
       {/* Groups List */}
-      <div className="flex flex-col border p-5 bg-white rounded-xl shadow-sm">
-        <h2 className="text-xl font-semibold text-gray-800 mb-5">Groups List</h2>
+      <div className="flex flex-col main-border p-5 bg-white rounded-xl shadow-sm">
+        <h2 className="text-xl font-semibold text-gray-800 mb-5">
+          Groups List
+        </h2>
 
         <AnimatePresence mode="popLayout">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 min-h-[200px]">
@@ -265,7 +273,9 @@ const GroupList = () => {
         <div className="space-y-4">
           {/* Group Name */}
           <div>
-            <label className="block text-sm font-semibold mb-1">Group Name</label>
+            <label className="block text-sm font-semibold mb-1">
+              Group Name
+            </label>
             <input
               {...register("name", { required: true })}
               type="text"

@@ -56,7 +56,7 @@ export const GROUP_URLS = {
   DELETE_GROUP: (id: string) => `${GroupUrl}/${id}`,
   VIEW_GROUP: (id: string) => `${GroupUrl}/${id}`,
   ADD_GROUP : `${GroupUrl}`,
-   UPDATE_GROUP : (id: string) => `${GroupUrl}/${id}`,
+  UPDATE_GROUP : (id: string) => `${GroupUrl}/${id}`,
 };
 /*************Group EndPoint End*******************/
 

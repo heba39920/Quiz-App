@@ -17,7 +17,7 @@ const MasterLayout = () => {
         {/* Main Content Area */}
         <section className="w-full" aria-label="Page Content">
           {/* Navbar Section */}
-          <header className="w-full h-[80px] border border-b-[1px] border-b-[rgba(0,0,0,0.2)]" role="banner">
+          <header className="w-full h-[80px] main-border" role="banner">
             <Navbar />
           </header>
 
