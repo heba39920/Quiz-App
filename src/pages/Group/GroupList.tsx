@@ -97,7 +97,9 @@ const GroupList = () => {
         "students",
         group.students.map((s: any) => {
           if (typeof s === "string") {
-            const matched = studentOptions.find((opt) => opt.value === s);
+            const matched = studentOptions.find(
+              (opt: { value: string; label: string }) => opt.value === s
+            );
             return matched || { value: s, label: s };
           }
           return {

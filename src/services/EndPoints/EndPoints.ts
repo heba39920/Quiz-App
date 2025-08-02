@@ -3,6 +3,7 @@ const baseURL = "https://upskilling-egypt.com:3005/api/";
 const AuthUrl = "auth/";
 const GroupUrl = "group";
 const StudentUrl = "student";
+const QuizUrl = "quiz";
 export const axiosInstance = axios.create({
   baseURL,
 });
@@ -55,8 +56,8 @@ export const GROUP_URLS = {
   GET_GROUP_LIST: `${GroupUrl}`,
   DELETE_GROUP: (id: string) => `${GroupUrl}/${id}`,
   VIEW_GROUP: (id: string) => `${GroupUrl}/${id}`,
-  ADD_GROUP : `${GroupUrl}`,
-  UPDATE_GROUP : (id: string) => `${GroupUrl}/${id}`,
+  ADD_GROUP: `${GroupUrl}`,
+  UPDATE_GROUP: (id: string) => `${GroupUrl}/${id}`,
 };
 /*************Group EndPoint End*******************/
 
@@ -66,8 +67,18 @@ export const STUDENT_URLS = {
   GET_ALL_STUDENT: StudentUrl,
   GET_ALL_STUDENTS_WITHOUT_GROUP: `${StudentUrl}/without-group`,
   DELETE_STUDENT: (id: string) => `${StudentUrl}/${id}`,
-  DELETE_STUDENT_FROM_GROUP: (StudentId: string,GroupId:string) => `${StudentUrl}/${StudentId}/${GroupId}`,
-  
-  GET_STUDENT_BY_ID: (id:string)=>`${StudentUrl}/${id}`,
-}
+  DELETE_STUDENT_FROM_GROUP: (StudentId: string, GroupId: string) =>
+    `${StudentUrl}/${StudentId}/${GroupId}`,
+
+  GET_STUDENT_BY_ID: (id: string) => `${StudentUrl}/${id}`,
+};
 /*************Student EndPoint End*******************/
+
+/*************Quizzes EndPoint Start*******************/
+
+export const QUIZZES_URL = {
+  GET_FIRSTFIVEINCOMING: `${QuizUrl}/incomming`,
+  GET_LASTFIVECOMPLETED: `${QuizUrl}/completed`,
+  CREATE_NEW_QUIZE: `${QuizUrl}`,
+  CET_ALL_QUIZZES: `${QuizUrl}`,
+};
