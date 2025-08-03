@@ -15,6 +15,7 @@ import MasterLayout from "./components/MasterLayout/MasterLayout";
 import GroupList from "./pages/Group/GroupList";
 import StudentsList from "./pages/StudentsList/StudentsList";
 import DashboardQuizzes from "./pages/DashboardQuizzes/DashboardQuizzes";
+import QuizeDeatiles from "./pages/DashboardQuizzes/QuizeDeatiles";
 
 function App() {
   const routes = createBrowserRouter(
@@ -41,6 +42,7 @@ function App() {
           { path: "groups", element: <GroupList /> },
           { path: "students", element: <StudentsList /> },
           { path: "quizzes", element: <DashboardQuizzes /> },
+          { path: "quizzes/:id", element: <QuizeDeatiles /> },
         ],
         errorElement: <NotFound />,
       },

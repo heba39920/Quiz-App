@@ -17,3 +17,8 @@ export const createQuiz = async (
   const response = await axiosInstance.post(QUIZZES_URL.CREATE_NEW_QUIZE, payload);
   return response.data;
 };
+
+export const fetchQuizDetails = async (quizId: string): Promise<Quiz> => {
+  const response = await axiosInstance.get(QUIZZES_URL.GET_QUIZ_DETAILS(quizId));
+  return response.data;
+};
