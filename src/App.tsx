@@ -12,7 +12,6 @@ import {
   Dashboard,
   ForgetPassword,
   Login,
-  NotFound,
   Register,
   ResetPassword,
 } from "./pages";
@@ -22,6 +21,7 @@ import StudentsList from "./pages/StudentsList/StudentsList";
 import DashboardQuizzes from "./pages/DashboardQuizzes/DashboardQuizzes";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import QuizeDeatiles from "./pages/DashboardQuizzes/QuizeDeatiles";
+import NotFound from "./components/NotFound/NotFound";
 
 function App() {
   const dispatch = useAppDispatch();
