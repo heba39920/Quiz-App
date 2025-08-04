@@ -64,24 +64,34 @@ const QuizeDeatiles = () => {
         <p className="text-gray-500 mb-4">Quiz Details Overview</p>
 
         
-        <FormInput label="Duration">
-          <span className="text-gray-700">{quiz.duration} mins</span>
+        <FormInput label="Duration" labelWidth="190px" labelHeight="38px">
+          <span className="ps-5 text-gray-700">{quiz.duration} mins</span>
         </FormInput>
 
-        <FormInput label="Number of Questions">
-          <span className="text-gray-700">{quiz.questions_number}</span>
+        <FormInput label="Number of Questions" labelWidth="190px" labelHeight="38px">
+          <span className=" ps-5 text-gray-700">{quiz.questions_number}</span>
         </FormInput>
 
-        <FormInput label="Score per Question">
-          <span className="text-gray-700">{quiz.score_per_question}</span>
+        <FormInput label="Score per Question" labelWidth="190px" labelHeight="38px">
+          <span className="ps-5 text-gray-700">{quiz.score_per_question}</span>
         </FormInput>
 
-        <FormInput label="Description" labelHeight="auto">
-          <p className="text-gray-700 whitespace-pre-line">{quiz.description}</p>
-        </FormInput>
+        <div className="border border-gray-300 rounded-xl overflow-hidden">
+        <div className="bg-[#FFEDDF]  px-4 py-2 font-medium text-gray-700">
+            Description
+        </div>
 
-        <FormInput label="Question Bank">
-          <span className="text-gray-700">Bank One</span>
+        <div className="px-4 py-2">
+            <p className="text-gray-700 whitespace-pre-line leading-relaxed">
+            {quiz.description}
+            </p>
+        </div>
+        </div>
+
+
+
+        <FormInput label="Question Bank" labelWidth="190px" labelHeight="38px">
+          <span className=" ps-5 text-gray-700">Bank One</span>
         </FormInput>
 
     
