@@ -10,6 +10,7 @@ import {
   useCreateQuiz,
 } from "@/utils/hooks/Quizzes";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const DashboardQuizzes = () => {
   const [showQuizModal, setShowQuizModal] = useState(false);
@@ -20,6 +21,8 @@ const DashboardQuizzes = () => {
     isLoading: loadingCompleted,
     isError: errorCompleted,
   } = useLastFiveCompletedQ();
+
+  const navigate = useNavigate();
 
   const { mutate: createQuiz } = useCreateQuiz();
 
@@ -104,6 +107,7 @@ const DashboardQuizzes = () => {
                 {incomingData?.map((quiz: any) => (
                   <li
                     key={quiz._id}
+                    onClick={() => navigate(`/dashboard/quizzes/${quiz._id}`)}
                     className="flex items-center justify-between gap-4 rounded-lg main-border p-4 shadow-sm bg-white"
                   >
                     <div className="flex items-center gap-4">

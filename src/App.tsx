@@ -21,6 +21,7 @@ import GroupList from "./pages/Group/GroupList";
 import StudentsList from "./pages/StudentsList/StudentsList";
 import DashboardQuizzes from "./pages/DashboardQuizzes/DashboardQuizzes";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import QuizeDeatiles from "./pages/DashboardQuizzes/QuizeDeatiles";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -62,6 +63,7 @@ function App() {
           { path: "groups", element: <GroupList /> },
           { path: "students", element: <StudentsList /> },
           { path: "quizzes", element: <DashboardQuizzes /> },
+          { path: "quizzes/:id", element: <QuizeDeatiles /> },
         ],
         errorElement: <NotFound />,
       },
