@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import SetUpQ from "@/assets/images/new quiz icon.png";
 import QBank from "@/assets/images/Vault icon.png";
 import QuizeImg from "@/assets/images/Quiz img.png";

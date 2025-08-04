@@ -1,3 +1,8 @@
+import { useEffect } from "react";
+import Cookies from "js-cookie";
+import { useAppDispatch } from "@/utils/hooks/Auth";
+import { login } from "@/redux/slices/authSlice";
+
 import { ToastContainer } from "react-toastify";
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -15,8 +20,20 @@ import MasterLayout from "./components/MasterLayout/MasterLayout";
 import GroupList from "./pages/Group/GroupList";
 import StudentsList from "./pages/StudentsList/StudentsList";
 import DashboardQuizzes from "./pages/DashboardQuizzes/DashboardQuizzes";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      dispatch(login({ token, user: null }));
+    } else {
+      console.log("⛔ No token found in cookies");
+    }
+  }, []);
+
   const routes = createBrowserRouter(
     [
       {
@@ -34,7 +51,11 @@ function App() {
       },
       {
         path: "dashboard",
-        element: <MasterLayout />,
+        element: (
+          <ProtectedRoute>
+            <MasterLayout />
+          </ProtectedRoute>
+        ),
         children: [
           { index: true, element: <Dashboard /> },
           { path: "dashboard", element: <Dashboard /> },

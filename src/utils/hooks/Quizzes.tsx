@@ -3,7 +3,6 @@ import type {
   CreateQuizPayload,
   CreateQuizResponse,
   FirstFiveIncoming,
-  Quiz,
 } from "@/interface/QuizzesInterface";
 import {
   createQuiz,

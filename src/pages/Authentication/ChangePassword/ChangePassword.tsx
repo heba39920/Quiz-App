@@ -1,5 +1,4 @@
 import InputField from "@/components/InputField";
-import type { ChangePasswordData } from "@/interface/AuthInterface";
 import { useChangePassword } from "@/utils/hooks/Auth";
 import { changePasswordSchema } from "@/utils/validation/validation";
 import { zodResolver } from "@hookform/resolvers/zod";

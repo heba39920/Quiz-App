@@ -1,6 +1,6 @@
-import type { CompletedQuiz, CreateQuizPayload, CreateQuizResponse, FirstFiveIncoming, Quiz } from "@/interface/QuizzesInterface";
+import type { CompletedQuiz, CreateQuizPayload, CreateQuizResponse, FirstFiveIncoming} from "@/interface/QuizzesInterface";
 import { axiosInstance, QUIZZES_URL } from "../EndPoints/EndPoints"
-import axios from "axios";
+
 
 export const FetchfirstFiveIncomming=async()=>{
   const response = await axiosInstance.get<FirstFiveIncoming[]>(QUIZZES_URL.GET_FIRSTFIVEINCOMING);

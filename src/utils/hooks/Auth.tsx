@@ -1,17 +1,31 @@
-// src/utils/hooks/Auth/useForgotPassword.ts
-
-import { useMutation, useQuery, type UseMutationResult } from "@tanstack/react-query";
-import { changePassword, forgotPassword, logout, register, resetPassword , login} from "@/services/API/Auth";
+import {
+  useMutation,
+  useQuery,
+  type UseMutationResult,
+} from "@tanstack/react-query";
+import {
+  changePassword,
+  forgotPassword,
+  logout,
+  register,
+  resetPassword,
+  login,
+} from "@/services/API/Auth";
 import type {
-
-  ForgetPasswordPayload, LoginPayload,
+  ForgetPasswordPayload,
+  LoginPayload,
   RegisterPayload,
   ResetPasswordPayload,
 } from "@/interface/AuthInterface";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 
-
+import { login as loginRedux } from "@/redux/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import type { TypedUseSelectorHook } from "react-redux";
+import type { RootState, AppDispatch } from "@/redux/store";
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const useForgotPassword = (): UseMutationResult<
   any,
@@ -20,7 +34,7 @@ export const useForgotPassword = (): UseMutationResult<
   unknown
 > => {
   return useMutation({
-    mutationFn: (data: ForgetPasswordPayload) => forgotPassword(data),
+    mutationFn: forgotPassword,
     onSuccess: () => {
       toast.success("Check your email for reset instructions!");
     },
@@ -54,48 +68,55 @@ export const useChangePassword = () => {
       toast.success("Password has been changed successfully!");
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Something went wrong with changing your password!");
+      toast.error(
+        error?.response?.data?.message ||
+          "Something went wrong with changing your password!"
+      );
     },
   });
 };
 
-
-export const useLogout=()=>{
+export const useLogout = () => {
   return useQuery({
     queryFn: logout,
-    queryKey :['logout'],
-  })
-}
-export const useRegister  = ():UseMutationResult<
-  any,         
-  Error,       
-  RegisterPayload , 
-  unknown      
-> =>{
+    queryKey: ["logout"],
+  });
+};
 
-return useMutation ({
-  mutationFn : register , 
-  onSuccess : ()=>{
-    toast.success("Registration successful! You can now log in.");
-  },
+export const useRegister = (): UseMutationResult<
+  any,
+  Error,
+  RegisterPayload,
+  unknown
+> => {
+  return useMutation({
+    mutationFn: register,
+    onSuccess: () => {
+      toast.success("Registration successful! You can now log in.");
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    },
+  });
+};
+export const useLogin = (): UseMutationResult<
+  any,
+  Error,
+  LoginPayload,
+  unknown
+> => {
+  const dispatch = useAppDispatch();
 
-  onError : (error: any)=>{
-    toast.error(error?.response?.data?.message || "Something went wrong");
-  },
-
-})
-}
-
-export const useLogin = (): UseMutationResult<any, Error, LoginPayload, unknown> => {
   return useMutation({
     mutationFn: login,
-
     onSuccess: (response) => {
-      console.log('response',response);
-      Cookies.set("token", response?.data.token);
+      const accessToken = response?.data?.accessToken;
+      const user = response?.data?.profile;
+      Cookies.set("token", accessToken, { expires: 7 });
+      dispatch(loginRedux({ token: accessToken, user }));
+
       toast.success(response?.data?.message || "Logged in successfully!");
     },
-
     onError: (error: any) => {
       toast.error(error?.response?.data?.message || "Something went wrong");
     },

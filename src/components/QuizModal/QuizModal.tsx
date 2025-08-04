@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { FormInput } from "../FormInput/FormInput";
 import { useGroup } from "@/utils/hooks/Group";
-import { Check, X } from "lucide-react";
+import { BsCheck } from "react-icons/bs";
 
 export type QuizModalProps = {
   onClose: () => void;
@@ -10,11 +10,7 @@ export type QuizModalProps = {
 };
 
 const QuizModal = ({ onClose, onSubmit }: QuizModalProps) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const { data: groups, isLoading, isError } = useGroup();
 
@@ -29,8 +25,11 @@ const QuizModal = ({ onClose, onSubmit }: QuizModalProps) => {
             Set up a new quiz
           </h2>
           <div className="flex items-center border-s ">
-           <button type="submit" className="w-12 h-12 text-gray-700 hover:bg-gray-100 flex items-center justify-center border-e border-e-1 ">
-                          <Check className="w-5 h-5 main-text" />
+            <button
+              type="submit"
+              className="w-12 h-12 text-gray-700 hover:bg-gray-100 flex items-center justify-center border-e border-e-1 "
+            >
+              <BsCheck className="w-5 h-5 main-text" />
             </button>
 
             <button
@@ -55,21 +54,33 @@ const QuizModal = ({ onClose, onSubmit }: QuizModalProps) => {
           </FormInput>
 
           <div className="grid grid-cols-3 gap-3">
-            <FormInput label="Duration (min)" labelWidth="150px" labelHeight="40px">
+            <FormInput
+              label="Duration (min)"
+              labelWidth="150px"
+              labelHeight="40px"
+            >
               <input
                 type="number"
                 {...register("duration", { required: true })}
                 className="w-full px-3 py-2 text-sm focus:outline-none"
               />
             </FormInput>
-            <FormInput label="No. of questions" labelWidth="150px" labelHeight="40px">
+            <FormInput
+              label="No. of questions"
+              labelWidth="150px"
+              labelHeight="40px"
+            >
               <input
                 type="number"
                 {...register("questionsCount", { required: true })}
                 className="w-full px-3 py-2 text-sm focus:outline-none"
               />
             </FormInput>
-            <FormInput label="Score/question" labelWidth="150px" labelHeight="40px">
+            <FormInput
+              label="Score/question"
+              labelWidth="150px"
+              labelHeight="40px"
+            >
               <input
                 type="number"
                 {...register("score", { required: true })}
@@ -103,7 +114,11 @@ const QuizModal = ({ onClose, onSubmit }: QuizModalProps) => {
           </div>
 
           <div className="grid grid-cols-3 gap-3">
-            <FormInput label="Difficulty level" labelWidth="150px" labelHeight="40px">
+            <FormInput
+              label="Difficulty level"
+              labelWidth="150px"
+              labelHeight="40px"
+            >
               <select
                 {...register("difficulty", { required: true })}
                 className="w-full px-3 py-2 text-sm focus:outline-none"
@@ -114,7 +129,11 @@ const QuizModal = ({ onClose, onSubmit }: QuizModalProps) => {
               </select>
             </FormInput>
 
-            <FormInput label="Category type" labelWidth="150px" labelHeight="40px">
+            <FormInput
+              label="Category type"
+              labelWidth="150px"
+              labelHeight="40px"
+            >
               <select
                 {...register("category", { required: true })}
                 className="w-full px-3 py-2 text-sm focus:outline-none"
@@ -142,7 +161,9 @@ const QuizModal = ({ onClose, onSubmit }: QuizModalProps) => {
                 <p className="text-xs text-gray-500 mt-1">Loading groups...</p>
               )}
               {isError && (
-                <p className="text-xs text-red-500 mt-1">Failed to load groups.</p>
+                <p className="text-xs text-red-500 mt-1">
+                  Failed to load groups.
+                </p>
               )}
             </FormInput>
           </div>
