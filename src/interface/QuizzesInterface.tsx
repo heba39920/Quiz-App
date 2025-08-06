@@ -7,7 +7,7 @@ export interface Quiz {
   instructor: string;
   questions_number: number;
   questions: Question[];
-  schedule: string;
+  schadule: string;
   duration: number;
   score_per_question: number;
   type: string;

@@ -3,7 +3,6 @@ import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
 import { useState } from "react";
 import QuizModal from "../QuizModal/QuizModal";
-import { createQuiz } from "@/services/API/Quizzes";
 import { toast } from "react-toastify";
 import { useCreateQuiz } from "@/utils/hooks/Quizzes";
 

@@ -90,4 +90,6 @@ export const QUIZZES_URL = {
   GET_LASTFIVECOMPLETED: `${QuizUrl}/completed`,
   CREATE_NEW_QUIZE: `${QuizUrl}`,
   CET_ALL_QUIZZES: `${QuizUrl}`,
+  GET_QUIZ_DETAILS : (id:string) => `${QuizUrl}/${id}`,
+
 };
