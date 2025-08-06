@@ -15,7 +15,7 @@ import {
   GroupList
 } from "./pages";
 import MasterLayout from "./components/MasterLayout/MasterLayout";
-
+import DashboardQuizzes from "./pages/DashboardQuizzes/DashboardQuizzes";
 
 function App() {
   const routes = createBrowserRouter(
@@ -44,6 +44,7 @@ function App() {
           { path: "questions", element: <QuestionsList /> },
 
 
+          { path: "quizzes", element: <DashboardQuizzes /> },
         ],
         errorElement: <NotFound />,
       },

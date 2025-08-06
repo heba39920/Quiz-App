@@ -1,0 +1,55 @@
+/* CalendarStyles.css */
+
+.react-calendar {
+  background-color: rgba(255, 237, 223, 1); /* خلفية بيج فاتح */
+  border-radius: 0.75rem;
+  font-family: inherit;
+  color: rgba(0, 0, 0, 1); /* أسود للنصوص */
+  padding: 1rem;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.react-calendar__navigation {
+  margin-bottom: 1rem;
+}
+
+.react-calendar__navigation button {
+  background: transparent;
+  color: rgba(0, 0, 0, 1);
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.react-calendar__navigation button:hover {
+  color: #555;
+}
+
+.react-calendar__month-view__weekdays {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+
+.react-calendar__tile {
+  padding: 0.75rem 0.25rem;
+  background: transparent;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.react-calendar__tile--active {
+  background-color: rgba(0, 0, 0, 1);
+  color: rgba(255, 237, 223, 1);
+}
+
+.react-calendar__tile--now {
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 0.5rem;
+}
+
+.react-calendar__tile:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}

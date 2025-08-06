@@ -31,7 +31,7 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
     <>
       {/* Navbar */}
       <nav
-        className={`flex items-center justify-between px-6 py-3 shadow-md ${
+        className={`flex items-center justify-between px-6 py-3  ${
           darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"
         }`}
       >
@@ -43,7 +43,7 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
           {/* Dark Mode */}
           <button
             onClick={toggleDarkMode}
-            className="p-2 rounded-md border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+            className="p-2 rounded-md main-border dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
           >
             {darkMode ? <FaSun /> : <FaMoon />}
           </button>

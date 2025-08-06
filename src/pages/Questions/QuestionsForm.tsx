@@ -2,6 +2,7 @@ import ReusableModal from "@/components/AddEditModal/AddEditModal";
 import type { QuestionsInterface } from "@/interface/QuestionsInterface";
 import { questionSchema } from "@/utils/validation/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AnimatePresence, motion } from "framer-motion";
 // import { useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
@@ -53,7 +54,16 @@ const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInte
         Details
       </h5>
       {/* Title Input Group */}
-      <div className="flex items-center space-x-2 relative">
+        <AnimatePresence mode="popLayout">
+            <motion.div
+                  role="listitem"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                  transition={{delay: 0.1, duration: 0.3 }}
+                  layout
+                  
+                 className="flex items-center space-x-2 relative">
         <label
           className="w-[100px] font-medium text-gray-700 absolute bg-[#FFEDDF] inset-y-0 p-2 rounded-lg"
           htmlFor="title"
@@ -69,11 +79,21 @@ const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInte
         {...register("title", { required: true })}
           className="flex-1 p-2 ps-[105px] border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
         />
-      </div>
+      </motion.div>
+      </AnimatePresence>
         <p className="text-red-500 text-xs">{errors?.title && (errors?.title?.message as string)}</p>
 
             {/* Description Input Group */}
-      <div className="flex items-center space-x-2 relative">
+             <AnimatePresence mode="popLayout">
+            <motion.div
+                  role="listitem"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                  transition={{delay:0.2, duration: 0.3 }}
+                  layout
+                  
+                 className="flex items-center space-x-2 relative">
         <label
           className="w-[100px] font-medium text-gray-700 absolute bg-[#FFEDDF] inset-y-0 px-2 py-5 rounded-lg"
           htmlFor="description"
@@ -90,11 +110,23 @@ const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInte
         {...register("description", { required: true })}
           className="flex-1 p-2 ps-[105px] border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
         />
-      </div>
+      </motion.div>
+      </AnimatePresence>
         <p className="text-red-500 text-xs">{errors?.description && (errors?.description?.message as string)}</p>
 
               {/* Difficulty Input Group */}
-      <div className="flex items-center space-x-2 relative">
+                     
+                     
+                     <AnimatePresence mode="popLayout">
+            <motion.div
+                  role="listitem"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                  transition={{delay:0.3, duration: 0.3 }}
+                  layout
+                  
+                 className="flex items-center space-x-2 relative">
         <label
           className="w-[100px] font-medium text-gray-700 absolute bg-[#FFEDDF] inset-y-0 p-2 rounded-lg"
           htmlFor="difficulty"
@@ -115,7 +147,8 @@ const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInte
            
         
         </select>
-      </div>
+      </motion.div>
+      </AnimatePresence>
         <p className="text-red-500 text-xs">{errors?.difficulty && (errors?.difficulty?.message as string)}</p>
 
       {/* Options A, B, C, D */}
@@ -124,7 +157,16 @@ const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInte
           Options
         </legend>
         {/* Option A */}
-        <div className="flex items-center space-x-2 relative">
+           <AnimatePresence mode="popLayout">
+              <motion.div
+                  role="listitem"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                  transition={{delay:0.4, duration: 0.3 }}
+                  layout
+                  
+                 className="flex items-center space-x-2 relative">
           <label
             className="w-[49.14px] font-medium text-sm text-gray-700 absolute bg-[#FFEDDF] inset-y-0 p-3 ps-4.5 rounded-lg"
             htmlFor="optionA"
@@ -144,10 +186,19 @@ const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInte
           />
             <p className="text-red-500 text-xs">{errors?.options?.A && (errors?.options?.A?.message as string)}</p>
 
-        </div>
-
+        </motion.div>
+</AnimatePresence>
         {/* Option B */}
-        <div className="flex items-center space-x-2 relative">
+           <AnimatePresence mode="popLayout">
+              <motion.div
+                  role="listitem"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                  transition={{delay:0.5, duration: 0.3 }}
+                  layout
+                  
+                 className="flex items-center space-x-2 relative">
           <label
             className="w-[49.14px] font-medium text-sm text-gray-700 absolute bg-[#FFEDDF] inset-y-0 p-3 ps-4.5 rounded-lg"
             htmlFor="optionB"
@@ -167,10 +218,19 @@ const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInte
           />
             <p className="text-red-500 text-xs">{errors?.options?.B && (errors?.options?.B?.message as string)}</p>
 
-        </div>
-
+        </motion.div>
+</AnimatePresence>
         {/* Option C */}
-        <div className="flex items-center space-x-2 relative">
+        <AnimatePresence mode="popLayout">
+              <motion.div
+                  role="listitem"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                  transition={{delay:0.6, duration: 0.3 }}
+                  layout
+                  
+                 className="flex items-center space-x-2 relative">
           <label
             className="w-[49.14px] font-medium text-sm text-gray-700 absolute bg-[#FFEDDF] inset-y-0 p-3 ps-4.5 rounded-lg"
             htmlFor="optionC"
@@ -190,10 +250,19 @@ const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInte
           />
             <p className="text-red-500 text-xs">{errors?.options?.C && (errors?.options?.C?.message as string)}</p>
 
-        </div>
-
+        </motion.div>
+</AnimatePresence>
         {/* Option D */}
-        <div className="flex items-center space-x-2 relative">
+        <AnimatePresence mode="popLayout">
+              <motion.div
+                  role="listitem"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                  transition={{delay:0.7, duration: 0.3 }}
+                  layout
+                  
+                 className="flex items-center space-x-2 relative">
           <label
             className="w-[49.14px] font-medium text-sm text-gray-700 absolute bg-[#FFEDDF] inset-y-0 p-3 ps-4.5 rounded-lg"
             htmlFor="optionD"
@@ -213,23 +282,30 @@ const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInte
           />
             <p className="text-red-500 text-xs">{errors?.options?.D && (errors?.options?.D?.message as string)}</p>
 
-        </div>
-
+        </motion.div>
+</AnimatePresence>
       </fieldset>
 
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Right Answer */}
-        <div className="flex items-center space-x-2 relative">
+        <AnimatePresence mode="popLayout">
+              <motion.div
+                  role="listitem"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                  transition={{delay:0.8, duration: 0.3 }}
+                  layout
+                  
+                 className="flex items-center space-x-2 relative">
           <label
             className="w-[106px] font-medium text-sm text-gray-700 absolute bg-[#FFEDDF] inset-y-0 p-2 rounded-lg"
             htmlFor="rightAnswer"
           >
             Right Answer
           </label>
-          <input
-            type="text"
-            id="rightAnswer"
+          <select id="rightAnswer"
           
          
             aria-required="true"
@@ -237,12 +313,27 @@ const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInte
         
           {...register("answer", { required: true })}
             className="flex-1 ps-[110px] p-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-          />
-        </div>
+          >
+             <option value="">Choose Answer</option>
+            <option value="FE">FE</option>
+            <option value="BE">BE</option>
+            <option value="DO">DO</option>
+         </select> 
+        </motion.div>
+        </AnimatePresence>
             <p className="text-red-500 text-xs block  md:hidden">{errors?.answer && (errors?.answer?.message as string)}</p>
 
         {/* Category Type Dropdown */}
-        <div className="flex items-center space-x-2 relative">
+        <AnimatePresence mode="popLayout">
+              <motion.div
+                  role="listitem"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                  transition={{delay:0.9, duration: 0.3 }}
+                  layout
+                  
+                 className="flex items-center space-x-2 relative">
           <label
             className="w-[106px] font-medium text-sm text-gray-700 absolute bg-[#FFEDDF] inset-y-0 p-2 rounded-lg"
             htmlFor="categoryType"
@@ -261,8 +352,8 @@ const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInte
             <option value="BE">BE</option>
             <option value="DO">DO</option>
           </select>
-        </div>
-
+        </motion.div>
+</AnimatePresence>
  
       </div>   
            <div className="flex justify-between"> 
@@ -270,8 +361,17 @@ const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInte
             
             <p className="text-red-500 text-xs">{errors?.type && (errors?.type?.message as string)}</p>
             </div>
-
-           <div className="flex justify-end mt-4">
+<AnimatePresence mode="popLayout">
+           <motion.div role="listitem"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                  transition={{delay:1, duration: 0.3 }}
+                  layout
+                  className="flex justify-end mt-4">
+                    
+              
+                 
           <button
             type="submit"
             aria-label="Submit"
@@ -280,7 +380,8 @@ const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInte
           >
           {modalType === "add" ? "Add Question" : "Edit Question"}
           </button>
-        </div>
+        </motion.div>
+        </AnimatePresence>
     </form>
     </ReusableModal>
   );

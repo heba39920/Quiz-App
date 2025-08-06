@@ -220,7 +220,7 @@ const StudentsList = () => {
                   exit={{ opacity: 0, y: -20, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
                   layout
-                  aria-label={`${student.first_name}`}
+                 aria-label={`${student.first_name}`} 
                 >
                   <div className="flex w-[100%] items-center justify-between border-1 rounded-2xl border-[#00000033] mb-2.5">
                     <div className="flex items-center">
