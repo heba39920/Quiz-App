@@ -91,5 +91,10 @@ export const QUIZZES_URL = {
   CREATE_NEW_QUIZE: `${QuizUrl}`,
   CET_ALL_QUIZZES: `${QuizUrl}`,
   GET_QUIZ_DETAILS : (id:string) => `${QuizUrl}/${id}`,
-
 };
+
+/********* Student Exam ********* */
+
+export const STUDENT_EXAM = {
+   GET_QUIZWITHOUTANSWER: (id:string) => `${QuizUrl}/without-answers/${id}`,
+}

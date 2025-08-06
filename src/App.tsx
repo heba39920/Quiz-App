@@ -23,6 +23,7 @@ import DashboardQuizzes from "./pages/DashboardQuizzes/DashboardQuizzes";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import QuizeDeatiles from "./pages/DashboardQuizzes/QuizeDeatiles";
 import NotFound from "./components/NotFound/NotFound";
+import ExamModel from "./pages/ExamModel/ExamModel";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -68,6 +69,7 @@ function App() {
 
           { path: "quizzes", element: <DashboardQuizzes /> },
           { path: "quizzes/:id", element: <QuizeDeatiles /> },
+          { path: "exammodel", element: <ExamModel /> },
         ],
         errorElement: <NotFound />,
       },
