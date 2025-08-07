@@ -93,8 +93,10 @@ export const QUIZZES_URL = {
   GET_QUIZ_DETAILS : (id:string) => `${QuizUrl}/${id}`,
 };
 
-/********* Student Exam ********* */
+/********* Student Exam (learner) ********* */
 
 export const STUDENT_EXAM = {
    GET_QUIZWITHOUTANSWER: (id:string) => `${QuizUrl}/without-answers/${id}`,
+   JOIN_EXAM : `${QuizUrl}/join`,
+   SUBMIT_QUIZ: (id: string) => `${QuizUrl}/submit/${id}`,
 }

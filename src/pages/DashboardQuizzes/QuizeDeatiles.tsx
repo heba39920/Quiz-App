@@ -48,7 +48,7 @@ const QuizeDeatiles = () => {
       <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 space-y-4">
         {/* Header */}
         <h1 className="text-2xl font-bold text-gray-800">{quiz.title}</h1>
-
+<h1 className="text-2xl font-bold text-gray-800">{quiz._id}</h1>
         {/* Date & Time */}
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
