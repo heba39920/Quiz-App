@@ -27,15 +27,16 @@ const Login = () => {
   const onSubmit = (data: LoginPayload) => {
     loginMutation.mutate(data);
     navigate("/dashboard");
-    console.log(data);
   };
 
   return (
-    <div className="w-full max-w-lg lg:max-w-2xl sm:px-6 md:px-0">
-      <h2 className="text-xl lg:text-2xl second-color font-semibold mb-6 lg:text-start md:text-center">
+    <div className="w-full max-w-lg md:max-w-2xl ">
+      {/* Title */}
+      <h2 className="text-xl second-color font-semibold mb-6">
         Continue your learning journey with QuizWiz!
       </h2>
 
+      {/* Tabs */}
       <div className="flex flex-col sm:flex-row gap-6 mb-11 transition-all duration-300 ease-in-out">
         {/* Sign In */}
         <button
@@ -43,13 +44,13 @@ const Login = () => {
             setActiveTab("signin");
             navigate("/login");
           }}
-          className={`flex flex-col items-center justify-center gap-2  px-[63px] py-[19px] rounded-xl 
-      transform transition-all duration-300 ease-in-out
-      ${
-        activeTab === "signin"
-          ? "second-color second-border border bg-[#333333] scale-105"
-          : "text-white border border-white bg-[#333333] scale-100"
-      }`}
+          className={`flex flex-col items-center justify-center gap-2 px-[63px] py-[19px] rounded-xl 
+          transform transition-all duration-300 ease-in-out
+          ${
+            activeTab === "signin"
+              ? "second-color second-border border bg-[#333333] scale-105"
+              : "text-white border border-white bg-[#333333] scale-100"
+          }`}
         >
           <BsFillPersonFill className="text-4xl lg:text-5xl" />
           <p className="text-sm lg:text-base font-bold">Sign in</p>
@@ -61,13 +62,13 @@ const Login = () => {
             setActiveTab("signup");
             navigate("/register");
           }}
-          className={`flex flex-col items-center justify-center gap-2  px-[63px] py-[19px] rounded-xl 
-      transform transition-all duration-300 ease-in-out
-      ${
-        activeTab === "signup"
-          ? "second-color second-border border bg-[#333333] scale-105"
-          : "text-white border border-white bg-[#333333] scale-100"
-      }`}
+          className={`flex flex-col items-center justify-center gap-2 px-[63px] py-[19px] rounded-xl 
+          transform transition-all duration-300 ease-in-out
+          ${
+            activeTab === "signup"
+              ? "second-color second-border border bg-[#333333] scale-105"
+              : "text-white border border-white bg-[#333333] scale-100"
+          }`}
         >
           <BsFillPersonPlusFill className="text-4xl lg:text-5xl" />
           <p className="text-sm lg:text-base font-bold">Sign Up</p>
@@ -78,13 +79,11 @@ const Login = () => {
       {activeTab === "signin" && (
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="space-y-5 transition-opacity duration-300 ease-in-out opacity-100"
+          className="space-y-6 flex flex-col min-h-[200px] justify-between"
         >
           {/* Email */}
           <div>
-            <label className="text-sm block mb-3">
-              Registered email address
-            </label>
+            <label className="text-sm block mb-3">Registered email address</label>
             <InputField
               {...register("email")}
               icon={<IoMdMail />}
@@ -93,9 +92,7 @@ const Login = () => {
               error={errors.email?.message}
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.email.message}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
             )}
           </div>
 
@@ -110,9 +107,7 @@ const Login = () => {
               error={errors.password?.message}
             />
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.password.message}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
             )}
           </div>
 
