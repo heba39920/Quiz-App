@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { forgetPasswordSchema } from "@/utils/validation/validation";
 import { useForgotPassword } from "@/utils/hooks/Auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import type { z } from "zod";
 
@@ -40,7 +40,7 @@ const ForgetPassword = () => {
 
   return (
     <>
-      <h2 className="text-xl text-lime-300 font-semibold mb-6 lg:text-start r">
+      <h2 className="text-2xl second-color font-semibold mb-6 lg:text-start tracking-wider">
         Forget Password
       </h2>
 
@@ -50,7 +50,7 @@ const ForgetPassword = () => {
       >
         {/* Email Input */}
         <div>
-          <label className="text-sm block mb-1">Email Address</label>
+          <label className="text-sm block mb-3">Email Address</label>
           <InputField
             icon={<IoMdMail />}
             placeholder="Enter your email"
@@ -76,6 +76,12 @@ const ForgetPassword = () => {
             "Send Email"
           )}
         </button>
+        <div className="text-sm flex justify-end">
+          <span>Login? </span>
+          <Link to="/login" className="second-color underline">
+            Click here
+          </Link>
+        </div>
       </form>
     </>
   );

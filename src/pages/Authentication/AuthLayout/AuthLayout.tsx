@@ -8,7 +8,7 @@ const AuthLayout = () => {
       <div className="w-full lg:col-span-6 flex flex-col px-6 py-10 lg:px-10">
         {/* Logo */}
         <div className="mb-10">
-          <img className="max-w-32 lg:max-w-36" src={logoWhite} alt="logo white" />
+          <img className="max-w-32 lg:max-w-48" src={logoWhite} alt="logo white" />
         </div>
 
         {/* Form Content */}

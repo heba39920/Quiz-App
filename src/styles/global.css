@@ -2,15 +2,23 @@
 @import "./Quizzes.css";
 :root {
   --main-text-color: rgba(0, 0, 0, 1);
+  --second-text-color: #c5d86d;
   --main-border: 1px solid rgba(0, 0, 0, 0.2);
+  --second-border: 5px solid #c5d86d;
 }
 
 .main-text {
   color: var(--main-text-color);
 }
-
+.second-color {
+  color: var(--second-text-color);
+}
 .main-border {
   border: var(--main-border);
+}
+
+.second-border {
+  border: var(--second-border);
 }
 
 .rdp-month_grid {
@@ -32,4 +40,14 @@
   padding-left: 3% !important;
   padding-top: 0.5% !important;
   color: rgba(0, 0, 0, 1) !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  transition: background-color 9999s ease-in-out 0s;
+  -webkit-text-fill-color: #fff !important;
+  box-shadow: 0 0 0px 1000px #0c0f1a inset !important;
 }

@@ -42,12 +42,12 @@ const ResetPassword = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 w-full">
-      <h2 className="text-xl text-lime-300 font-semibold mb-6">
+      <h2 className="text-xl second-color font-semibold mb-6">
         Reset Password
       </h2>
 
       <div>
-        <label className="text-sm block mb-1">Email</label>
+        <label className="text-sm block mb-3">Email</label>
         <InputField
           icon={<IoMdMail />}
           type="email"
@@ -60,7 +60,7 @@ const ResetPassword = () => {
       </div>
 
       <div>
-        <label className="text-sm block mb-1">OTP</label>
+        <label className="text-sm block mb-3">OTP</label>
         <InputField
           icon={<IoMdMail />}
           type="text"
@@ -73,7 +73,7 @@ const ResetPassword = () => {
       </div>
 
       <div>
-        <label className="text-sm block mb-1">Password</label>
+        <label className="text-sm block mb-3">Password</label>
         <InputField
           icon={<FaKey />}
           type="password"
@@ -86,7 +86,7 @@ const ResetPassword = () => {
       </div>
 
       <div>
-        <label className="text-sm block mb-1">Confirm Password</label>
+        <label className="text-sm block mb-3">Confirm Password</label>
         <InputField
           icon={<FaKey />}
           type="password"
