@@ -17,7 +17,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { FiEdit2, FiTrash2, FiEye, FiList, FiGrid } from "react-icons/fi";
+import { FiEdit2, FiTrash2, FiEye } from "react-icons/fi";
 import Select from "react-select";
 import useSound from "use-sound";
 import deleteSound from "@/assets/Sound/fast-swipe-48158.mp3";
@@ -167,13 +167,13 @@ const GroupList = () => {
       <div className="mb-3 w-full flex justify-end">
         <button
           onClick={() => handleOpenModal()}
-          className="inline-flex items-center gap-2 px-4 py-2 main-border hover:bg-orange-100 text-black text-sm font-medium rounded-full transition"
+          className="inline-flex items-center gap-2 px-4 py-2 main-border dark:bg-[#0D1321] dark:border dark:border-[#fff] dark:text-[#fff] hover:bg-orange-100 hover:dark:text-[#0D1321]  text-black text-sm font-medium rounded-full transition"
         >
           + Add Group
         </button>
       </div>
 
-      <div className="main-border p-5 bg-white rounded-xl shadow-sm">
+      <div className="main-border p-5 bg-white dark:bg-[#0D1321] dark:border dark:border-[#fff] dark:text-[#fff] rounded-xl shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
           <div className="flex gap-2">
             <input
@@ -188,7 +188,7 @@ const GroupList = () => {
             <button
               onClick={() => setViewMode("list")}
               className={`main-border rounded-lg p-2 ${
-                viewMode === "list" ? "bg-orange-100" : ""
+                viewMode === "list" ? "bg-orange-100 dark:text-[#0D1321]" : ""
               }`}
             >
               <BsGridFill />
@@ -196,7 +196,7 @@ const GroupList = () => {
             <button
               onClick={() => setViewMode("grid2")}
               className={`main-border rounded-lg p-2 ${
-                viewMode === "grid2" ? "bg-orange-100" : ""
+                viewMode === "grid2" ? "bg-orange-100 dark:text-[#0D1321]" : ""
               }`}
             >
               <BsGrid3X3GapFill/>
@@ -204,13 +204,13 @@ const GroupList = () => {
             <button
               onClick={() => setViewMode("grid3")}
               className={`main-border rounded-lg p-2 ${
-                viewMode === "grid3" ? "bg-orange-100" : ""
+                viewMode === "grid3" ? "bg-orange-100 dark:text-[#0D1321]" : ""
               }`}
             >
               <FaListUl/>
             </button>
             <select
-              className=" rounded-lg px-3 py-1 border border-gray-300"
+              className=" rounded-lg px-3 py-1 border border-gray-300 dark:bg-[#0D1321]"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
@@ -219,7 +219,7 @@ const GroupList = () => {
               <option value="inactive">Inactive</option>
             </select>
             <select
-              className="border border-gray-300 rounded-lg px-3 py-1"
+              className="border border-gray-300 rounded-lg px-3 py-1 dark:bg-[#0D1321]"
               value={itemsPerPage}
               onChange={(e) => setItemsPerPage(Number(e.target.value))}
             >
@@ -269,7 +269,7 @@ const GroupList = () => {
                   <div className="flex items-center text-sm mb-2">
                     <span className="text-blue-600 mr-1">👤</span>
                     <span className="font-semibold">Instructor:</span>
-                    <span className="ml-1 text-gray-600">
+                    <span className="ml-1 text-gray-600 dark:text-[#fff]">
                       {group.instructor}
                     </span>
                   </div>
@@ -293,7 +293,7 @@ const GroupList = () => {
                         }}
                       ></div>
                     </div>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-500 mt-1 dark:text-[#fff]">
                       {Math.round(
                         (group.students.length / (group.max_students || 25)) *
                           100
@@ -322,7 +322,7 @@ const GroupList = () => {
                         setViewGroupId(group._id);
                         playView();
                       }}
-                      className="flex items-center gap-1 text-gray-600 hover:underline text-sm"
+                      className="flex items-center gap-1 text-gray-600 hover:underline text-sm dark:text-[#fff]"
                     >
                       <FiEye className="w-4 h-4" /> View
                     </button>
