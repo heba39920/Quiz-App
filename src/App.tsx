@@ -16,13 +16,14 @@ import {
   Register,
   ResetPassword,
   StudentsList,
-  GroupList
+  GroupList,
 } from "./pages";
 import MasterLayout from "./components/MasterLayout/MasterLayout";
 import DashboardQuizzes from "./pages/DashboardQuizzes/DashboardQuizzes";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import QuizeDeatiles from "./pages/DashboardQuizzes/QuizeDeatiles";
 import NotFound from "./components/NotFound/NotFound";
+// import Profile from "./pages/Authentication/Profile/Profile";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -66,6 +67,7 @@ function App() {
           { path: "questions", element: <QuestionsList /> },
           { path: "quizzes", element: <DashboardQuizzes /> },
           { path: "quizzes/:id", element: <QuizeDeatiles /> },
+          // { path: "profile", element: <Profile /> },
         ],
         errorElement: <NotFound />,
       },

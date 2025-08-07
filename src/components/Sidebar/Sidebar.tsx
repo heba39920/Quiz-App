@@ -12,6 +12,8 @@ import { FaFileCircleQuestion } from "react-icons/fa6";
 import { IoNewspaperOutline } from "react-icons/io5";
 
 import { IoIosHelpCircleOutline } from "react-icons/io";
+import { FaChartBar, FaHome, FaQuestionCircle, FaRegListAlt, FaUserGraduate, FaUsers } from "react-icons/fa";
+import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 const SideBar:React.FC<SidebarProps> = ({...props }) => {
   const location = useLocation(); 
   const [collapsed, setIsCollapsed] = useState(false);  
@@ -22,32 +24,32 @@ const SideBar:React.FC<SidebarProps> = ({...props }) => {
   const menuItems = [
     {
       label: "Dashboard",
-      icon: <IoHomeOutline className="w-[30px] h-[30px]" />,
+      icon: <FaHome className="w-6 h-6" />,
       path: "dashboard",
     },
     {
       label: "Students",
-      icon: <PiStudent className="w-[30px] h-[30px]" />,
+      icon: <FaUserGraduate className="w-6 h-6" />,
       path: "students",
     },
     {
       label: "Groups",
-      icon: <GrGroup className="w-[30px] h-[30px]" />,
+      icon: <FaUsers className="w-6 h-6" />,
       path: "groups",
     },
        {
       label: "Questions",
-      icon: <FaFileCircleQuestion className="w-[30px] h-[30px]" />,
+      icon:<FaRegListAlt className="w-6 h-6" />,
       path: "questions",
     },
     {
       label: "Quizzes",
-      icon: <CiViewTimeline className="w-[30px] h-[30px]" />,
+     icon: <HiOutlineClipboardDocumentList className="w-6 h-6" />,
       path: "quizzes",
     },
     {
       label: "Results",
-      icon: <IoNewspaperOutline className="w-[30px] h-[30px]" />,
+      icon: <FaChartBar className="w-6 h-6" />,
       path: "results",
     },
     {
@@ -64,7 +66,8 @@ const SideBar:React.FC<SidebarProps> = ({...props }) => {
       collapsed={collapsed }
       {...props}
       width="200px"
-        breakPoint="md" 
+      breakPoint="md" 
+      className=" h-full"
     >
       <Menu>
         <MenuItem className="border-b border-[#00000033] py-[28px] ">
