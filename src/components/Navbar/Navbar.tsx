@@ -1,3 +1,5 @@
+import { logout } from "@/redux/slices/authSlice";
+import Cookies from "js-cookie";
 import React, { useState } from "react";
 import {
   FaPlusCircle,
@@ -8,32 +10,36 @@ import {
   FaBars,
   FaTimes,
 } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 interface NavbarProps {
   title?: string;
+  handleDarkMode: () => void;
+  darkMode: boolean;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
+const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard",   handleDarkMode, darkMode }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
 
-
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle("dark", !darkMode);
+   const handleLogout = () => {
+    Cookies.remove("token");
+    navigate("/login");
+      dispatch(logout());
   };
 
   return (
     <>
       {/* Navbar */}
       <nav
-        className={`flex items-center justify-between px-6 py-3  ${
-          darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"
-        }`}
+        className="flex items-center justify-between px-6 py-3  
+          dark:bg-gray-900 dark:text-white bg-white text-gray-800 dark:border-gray-700 border-b shadow-md"
       >
         {/* Left - Title */}
         <h1 className="text-lg font-semibold">{title}</h1>
@@ -42,7 +48,7 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
         <div className="hidden md:flex items-center gap-6">
           {/* Dark Mode */}
           <button
-            onClick={toggleDarkMode}
+            onClick={handleDarkMode}
             className="p-2 rounded-md main-border dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
           >
             {darkMode ? <FaSun /> : <FaMoon />}
@@ -101,18 +107,14 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
             {/* User Dropdown */}
             {isUserMenuOpen && (
               <div
-                className={`absolute right-0 mt-2 w-48 rounded-md shadow-xl border dark:border-gray-700 ${
-                  darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"
-                } animate-fadeIn`}
+                className= "absolute right-0 mt-2 w-48 rounded-md shadow-xl border dark:border-gray-700 dark:bg-[#0D1321] dark:text-white bg-white text-gray-800 animate-fadeIn" 
               >
                 <ul className="py-2">
                   <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
                     Profile
                   </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                    Settings
-                  </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+
+                  <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" onClick={handleLogout}>
                     Logout
                   </li>
                 </ul>
@@ -134,18 +136,16 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
       {/* Mobile Dropdown */}
     {isMenuOpen && (
   <div
-    className={`md:hidden fixed top-16 left-0 w-full shadow-lg z-50 border-t animate-slideDown ${
-      darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"
-    }`}
+    className= "md:hidden fixed top-16 left-0 w-full shadow-lg z-50 border-t animate-slideDown  dark:bg-[#0D1321] dark:text-white bg-white text-gray-800"
+    
   >
     <div className="flex flex-col gap-4 px-6 py-4">
       {/* Dark Mode */}
       <button
-        onClick={toggleDarkMode}
+        onClick={handleDarkMode}
         className="flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800"
       >
         {darkMode ? <FaSun /> : <FaMoon />}
-        {darkMode ? "Light Mode" : "Dark Mode"}
       </button>
 
       {/* New Quiz */}
@@ -195,10 +195,7 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
     <button className="text-left px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800">
       Profile
     </button>
-    <button className="text-left px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800">
-      Settings
-    </button>
-    <button className="text-left px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+    <button className="text-left px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800" onClick={handleLogout}>     
       Logout
     </button>
   </div>

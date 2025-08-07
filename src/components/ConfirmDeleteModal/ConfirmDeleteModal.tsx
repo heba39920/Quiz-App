@@ -40,22 +40,22 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[#0D1321]/20 dark:bg-[#0D1321]/60 px-4 "
       role="dialog"
       aria-modal="true"
     >
-      <div className="bg-white w-full max-w-xl rounded-xl shadow-xl main-border overflow-hidden">
+      <div className="bg-white w-full max-w-xl rounded-xl shadow-xl main-border overflow-hidden dark:bg-[#0D1321] dark:border dark:border-[#fff]">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#00000033] shadow-sm">
-          <h2 className="px-6 py-2 text-lg font-semibold text-gray-800">
+        <div className="flex items-center justify-between border-b dark:border-[#fff] border-[#00000033] shadow-sm ">
+          <h2 className="px-6 py-2 text-lg font-semibold text-gray-800 dark:text-[#fff]">
             {title}
           </h2>
-          <div className="flex divide-x border-s border-[#00000033]">
+          <div className="flex divide-x border-s border-[#00000033] dark:border-[#fff]">
             <button
               onClick={onConfirm}
               aria-label="Confirm delete"
               disabled={isLoading}
-              className="w-12 h-12 flex items-center justify-center main-text hover:bg-[#FFEDDF] transition"
+              className="w-12 h-12 flex items-center justify-center main-text hover:bg-[#FFEDDF] transition dark:text-[#fff]"
             >
               <FiCheck size={20} />
             </button>
@@ -63,7 +63,7 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
               onClick={onCancel}
               aria-label="Cancel delete"
               ref={cancelRef}
-              className="w-12 h-12 flex items-center justify-center main-text hover:bg-[#FFEDDF] transition"
+              className="w-12 h-12 flex items-center justify-center main-text hover:bg-[#FFEDDF] transition dark:text-[#fff]"
             >
               <FiX size={20} />
             </button>
@@ -71,7 +71,7 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
         </div>
 
         {/* Body */}
-        <div className="px-6 py-6 text-[16px] text-gray-700 leading-relaxed text-center">
+        <div className="px-6 py-6 text-[16px] text-gray-700 leading-relaxed text-center dark:text-[#fff]">
           <img
             src={deleteImage}
             alt="Delete Illustration"

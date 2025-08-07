@@ -35,6 +35,25 @@ interface GroupFormValues {
 }
 
 const GroupList = () => {
+  const customStyles = {
+  menu: (provided:any) => ({
+    ...provided,
+    backgroundColor: '#0D1321', // dark background
+    color: '#fff', // text color
+    border: '1px solid #fff',
+    // Add any other styles you need
+  }),
+  menuList: (provided:any) => ({
+    ...provided,
+    color: '#fff',
+  }),
+  option: (provided:any, state:any) => ({
+    ...provided,
+    backgroundColor: state.isFocused ? '#1a2138' : '#0D1321',
+    color: '#fff',
+  }),
+  // You can add more style customizations as needed
+};
   const { data: groups, isLoading, isError } = useGroup();
   const { mutate: deleteGroup, isPending: isDeleting } = useDeleteGroup();
   const { mutate: addGroup } = useAddGroup();
@@ -173,8 +192,8 @@ const GroupList = () => {
       </div>
 
       {/* Groups List */}
-      <div className="flex flex-col main-border p-5 bg-white rounded-xl shadow-sm">
-        <h2 className="text-xl font-semibold text-gray-800 mb-5">
+      <div className="flex flex-col main-border p-5 bg-white rounded-xl shadow-sm dark:bg-[#0D1321] dark:border dark:border-[#fff]">
+        <h2 className="text-xl font-semibold text-gray-800 mb-5 dark:text-[#fff]">
           Groups List
         </h2>
 
@@ -193,11 +212,11 @@ const GroupList = () => {
                   exit={{ opacity: 0, y: -20, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
                   layout
-                  className="border border-gray-300 rounded-lg p-4 bg-white shadow-sm flex justify-between items-start"
+                  className="border border-gray-300 rounded-lg p-4 bg-white dark:bg-[#0D1321] dark:border dark:border-[#fff] dark:text-[#fff] shadow-sm flex justify-between items-start"
                 >
                   <div>
                     <p className="font-medium">Group: {group.name}</p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-[#fff]">
                       Students: {group.students.length} / {group.max_students}
                     </p>
                   </div>
@@ -241,7 +260,7 @@ const GroupList = () => {
             key={i}
             onClick={() => setCurrentPage(i + 1)}
             className={`w-8 h-8 rounded-full ${
-              currentPage === i + 1 ? "bg-orange-200" : "border"
+              currentPage === i + 1 ? "bg-orange-200 dark:text-[#0D1321]" : "border dark:text-[#fff] dark:bg-[#0D1321] hover:dark:text-[#0D1321]"
             } flex items-center justify-center`}
           >
             {i + 1}
@@ -276,7 +295,7 @@ const GroupList = () => {
         <div className="space-y-4">
           {/* Group Name */}
           <div>
-            <label className="block text-sm font-semibold mb-1">
+            <label className="block text-sm font-semibold mb-1 dark:text-[#fff]">
               Group Name
             </label>
             <input
@@ -301,9 +320,10 @@ const GroupList = () => {
                     {...field}
                     options={studentOptions}
                     isMulti
-                    className="react-select-container"
+                    className="react-select-container "
                     classNamePrefix="react-select"
                     placeholder="Select students..."
+                    styles={customStyles}
                   />
                 )}
               />
@@ -322,7 +342,7 @@ const GroupList = () => {
           <Loader />
         ) : viewGroup ? (
           <div>
-            <p>
+            <p className="dark:text-[#fff]">
               Status:{" "}
               <span
                 className={`${
@@ -334,12 +354,12 @@ const GroupList = () => {
                 {viewGroup.status}
               </span>
             </p>
-            <p>
+            <p className="dark:text-[#fff]">
               Students: {viewGroup.students.length}/{viewGroup.max_students}
             </p>
             <ul className="list-disc ml-4">
               {viewGroup.students.map((s, i) => (
-                <li key={i}>
+                <li key={i} className="dark:text-[#fff]">
                   {s.first_name} {s.last_name}
                 </li>
               ))}

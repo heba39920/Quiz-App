@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import InputField from "@/components/InputField";
 import { FaCircleCheck, FaLock } from "react-icons/fa6";
 import { BsFillPersonFill, BsFillPersonPlusFill } from "react-icons/bs";
@@ -9,23 +10,38 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/utils/validation/validation.ts";
 import { useLogin } from "@/utils/hooks/Auth.tsx";
 import { ImSpinner2 } from "react-icons/im";
+import Cookies from "js-cookie";
+import { useEffect } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
+
   const {
     register,
-
     handleSubmit,
     formState: { errors },
   } = useForm<LoginPayload>({ resolver: zodResolver(loginSchema) });
-     const loginMutation = useLogin();
-    const onSubmit = (data: LoginPayload) => {
+
+  const loginMutation = useLogin();
+
+  const onSubmit = (data: LoginPayload) => {
     loginMutation.mutate(data);
-    navigate("/dashboard");
-    console.log(data);
+
   };
+
+  // Handle success/error after mutation
+  useEffect(() => {
+    if (loginMutation.isSuccess) {
+  
+      Cookies.set("token", loginMutation?.data?.data.accessToken, { expires: 7 , path: '/' });
+     
+   
+      navigate("/dashboard");
+    }
+  }, [loginMutation.isSuccess, loginMutation.data?.token, navigate, loginMutation.data?.data?.accessToken]);
+
   return (
-    <div className="w-full max-w-lg lg:max-w-2xl  sm:px-6 md:px-0">
+    <div className="w-full max-w-lg lg:max-w-2xl sm:px-6 md:px-0">
       <h2 className="text-xl lg:text-2xl text-lime-300 font-semibold mb-6 lg:text-start md:text-center">
         Continue your learning journey with QuizWiz!
       </h2>
@@ -47,6 +63,18 @@ const Login = () => {
         </button>
       </div>
 
+      {/* Error message */}
+      {loginMutation.isError && (
+        <div className="mb-4 text-red-600 text-center">
+          {
+           
+            (loginMutation.error as any)?.response?.data?.message ||
+            loginMutation.error?.message ||
+            "Invalid credentials"
+          }
+        </div>
+      )}
+
       {/* Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {/* Email */}
@@ -59,9 +87,6 @@ const Login = () => {
             type="email"
             error={errors.email?.message}
           />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email?.message}</p>
-          )}
         </div>
 
         {/* Password */}
@@ -74,11 +99,6 @@ const Login = () => {
             placeholder="Type your password"
             error={errors.password?.message}
           />
-          {errors.password && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.password.message}
-            </p>
-          )}
         </div>
 
         {/* Submit + Forgot Password */}
@@ -95,7 +115,7 @@ const Login = () => {
             ) : (
               <>
                 <FaCircleCheck className="size-6" />
-                <span>Sign in </span>
+                <span>Sign in</span>
               </>
             )}
           </button>
