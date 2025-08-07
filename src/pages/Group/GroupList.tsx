@@ -33,6 +33,25 @@ interface GroupFormValues {
 }
 
 const GroupList = () => {
+  const customStyles = {
+  menu: (provided:any) => ({
+    ...provided,
+    backgroundColor: '#0D1321', // dark background
+    color: '#fff', // text color
+    border: '1px solid #fff',
+    // Add any other styles you need
+  }),
+  menuList: (provided:any) => ({
+    ...provided,
+    color: '#fff',
+  }),
+  option: (provided:any, state:any) => ({
+    ...provided,
+    backgroundColor: state.isFocused ? '#1a2138' : '#0D1321',
+    color: '#fff',
+  }),
+  // You can add more style customizations as needed
+};
   const { data: groups, isLoading, isError } = useGroup();
   const { mutate: deleteGroup, isPending: isDeleting } = useDeleteGroup();
   const { mutate: addGroup } = useAddGroup();
@@ -164,9 +183,7 @@ const GroupList = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="border border-gray-300 rounded-2xl my-3 px-4 py-2 w-100"
             />
-
           </div>
-          
           <div className="flex flex-wrap gap-3 items-center">
             <button
               onClick={() => setViewMode("list")}
@@ -235,7 +252,7 @@ const GroupList = () => {
                   exit={{ opacity: 0, y: -20, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
                   layout
-                  className="bg-white main-border rounded-xl shadow p-4 flex flex-col justify-between"
+                  className="bg-white main-border rounded-xl shadow p-4 flex flex-col justify-between dark:bg-[#0D1321] dark:border dark:border-[#fff] dark:text-[#fff]"
                 >
                   <div className="flex justify-between items-start mb-3">
                     <h3 className="text-lg font-bold">{group.name}</h3>
@@ -323,7 +340,7 @@ const GroupList = () => {
             key={i}
             onClick={() => setCurrentPage(i + 1)}
             className={`w-8 h-8 rounded-full ${
-              currentPage === i + 1 ? "bg-orange-200" : "border"
+              currentPage === i + 1 ? "bg-orange-200 dark:text-[#0D1321]" : "border dark:text-[#fff] dark:bg-[#0D1321] hover:dark:text-[#0D1321]"
             } flex items-center justify-center`}
           >
             {i + 1}
@@ -355,7 +372,7 @@ const GroupList = () => {
       >
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-semibold mb-1">
+            <label className="block text-sm font-semibold mb-1 dark:text-[#fff]">
               Group Name
             </label>
             <input
@@ -378,9 +395,10 @@ const GroupList = () => {
                     {...field}
                     options={studentOptions}
                     isMulti
-                    className="react-select-container"
+                    className="react-select-container "
                     classNamePrefix="react-select"
                     placeholder="Select students..."
+                    styles={customStyles}
                   />
                 )}
               />
@@ -398,7 +416,7 @@ const GroupList = () => {
           <Loader />
         ) : viewGroup ? (
           <div>
-            <p>
+            <p className="dark:text-[#fff]">
               Status:{" "}
               <span
                 className={`${
@@ -410,12 +428,12 @@ const GroupList = () => {
                 {viewGroup.status}
               </span>
             </p>
-            <p>
+            <p className="dark:text-[#fff]">
               Students: {viewGroup.students.length}/{viewGroup.max_students}
             </p>
             <ul className="list-disc ml-4">
               {viewGroup.students.map((s, i) => (
-                <li key={i}>
+                <li key={i} className="dark:text-[#fff]">
                   {s.first_name} {s.last_name}
                 </li>
               ))}

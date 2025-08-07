@@ -6,11 +6,14 @@ import { loginSchema } from "@/utils/validation/validation.ts";
 import { useLogin } from "@/utils/hooks/Auth.tsx";
 import type { LoginPayload } from "@/interface/AuthInterface.tsx";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import InputField from "@/components/InputField";
 import { FaCircleCheck, FaLock } from "react-icons/fa6";
 import { BsFillPersonFill, BsFillPersonPlusFill } from "react-icons/bs";
 import { IoMdMail } from "react-icons/io";
 import { ImSpinner2 } from "react-icons/im";
+import Cookies from "js-cookie";
+import { useEffect } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -26,13 +29,23 @@ const Login = () => {
 
   const onSubmit = (data: LoginPayload) => {
     loginMutation.mutate(data);
-    navigate("/dashboard");
+
   };
 
+  // Handle success/error after mutation
+  useEffect(() => {
+    if (loginMutation.isSuccess) {
+  
+      Cookies.set("token", loginMutation?.data?.data.accessToken, { expires: 7 , path: '/' });
+     
+   
+      navigate("/dashboard");
+    }
+  }, [loginMutation.isSuccess, loginMutation.data?.token, navigate, loginMutation.data?.data?.accessToken]);
+
   return (
-    <div className="w-full max-w-lg md:max-w-2xl ">
-      {/* Title */}
-      <h2 className="text-xl second-color font-semibold mb-6">
+    <div className="w-full max-w-lg lg:max-w-2xl sm:px-6 md:px-0">
+      <h2 className="text-xl lg:text-2xl text-lime-300 font-semibold mb-6 lg:text-start md:text-center">
         Continue your learning journey with QuizWiz!
       </h2>
 

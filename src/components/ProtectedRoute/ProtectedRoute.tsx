@@ -11,11 +11,6 @@ const ProtectedRoute = ({ children }: PropsWithChildren) => {
 
   const isAuthenticated = tokenFromRedux || tokenFromCookie;
 
-  console.log("🧪 ProtectedRoute check:");
-  console.log("🔐 tokenFromRedux:", tokenFromRedux);
-  console.log("🍪 tokenFromCookie:", tokenFromCookie);
-  console.log("✅ isAuthenticated:", isAuthenticated);
-
   if (isAuthenticated) return <>{children}</>;
   else return <Navigate to="/login" />;
 };

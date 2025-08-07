@@ -42,7 +42,7 @@ const CustomCalendar = ({ markedDates = [] }: { markedDates: string[] }) => {
     });
   };
   return (
-    <div className="bg-white p-4 rounded-lg shadow main-border w-full">
+    <div className="bg-white p-4 rounded-lg shadow main-border w-full dark:bg-[#0D1321] dark:text-[#fff] border dark:border-[#fff]">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold main-text">Calendar</h2>
         <button

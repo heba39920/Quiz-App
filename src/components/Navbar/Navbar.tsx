@@ -1,3 +1,5 @@
+import { logout } from "@/redux/slices/authSlice";
+import Cookies from "js-cookie";
 import React, { useState } from "react";
 import SetUpQ from "@/assets/images/new quiz icon.png";
 import {
@@ -11,22 +13,28 @@ import {
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 interface NavbarProps {
   title?: string;
+  handleDarkMode: () => void;
+  darkMode: boolean;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
+const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard",   handleDarkMode, darkMode }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle("dark", !darkMode);
+   const handleLogout = () => {
+    Cookies.remove("token");
+    navigate("/login");
+      dispatch(logout());
   };
 
   const auth = useSelector((state: any) => state.auth);
@@ -35,9 +43,8 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
     <>
       {/* Navbar */}
       <nav
-        className={`flex items-center justify-between px-6 py-4 ${
-          darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"
-        }`}
+        className="flex items-center justify-between px-6 py-3  
+          dark:bg-gray-900 dark:text-white bg-white text-gray-800 dark:border-gray-700 border-b shadow-md"
       >
         {/* Left - Title */}
         <h1 className="text-lg font-semibold">{title}</h1>
@@ -45,14 +52,12 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
         {/* Right Section (Desktop) */}
         <div className="hidden md:flex items-center text-base">
           {/* Dark Mode */}
-          <div className="pr-4">
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-xl dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition main-border"
-            >
-              {darkMode ? <FaSun /> : <FaMoon />}
-            </button>
-          </div>
+          <button
+            onClick={handleDarkMode}
+            className="p-2 rounded-md main-border dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+          >
+            {darkMode ? <FaSun /> : <FaMoon />}
+          </button>
 
           {/* Add Quiz */}
           <div className="border-l border-gray-300 dark:border-gray-600 px-4">
@@ -112,7 +117,9 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
 
             {/* User Dropdown */}
             {isUserMenuOpen && (
-              <div className="absolute right-0 mt-2 w-32 rounded-md shadow-xl border border-gray-200 bg-white text-gray-800 animate-fadeIn z-50">
+              <div
+                className= "absolute right-0 mt-2 w-48 rounded-md shadow-xl border dark:border-gray-700 dark:bg-[#0D1321] dark:text-white bg-white text-gray-800 animate-fadeIn" 
+              >
                 <ul className="py-2">
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
                     <Link to="profile" className="flex justify-content-center align-items-center">
@@ -133,7 +140,7 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
                       Profile
                     </Link>
                   </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2 text-red-600">
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2 text-red-600" onClick={handleLogout}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="w-4 h-4 text-red-600"
@@ -150,6 +157,7 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
                     </svg>
                     Logout
                   </li>
+                 
                 </ul>
               </div>
             )}
@@ -165,20 +173,19 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
       </nav>
 
       {/* Mobile Dropdown */}
-      {isMenuOpen && (
-        <div
-          className={`md:hidden fixed top-16 left-0 w-full shadow-lg z-50 border-t animate-slideDown ${
-            darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"
-          }`}
-        >
-          <div className="flex flex-col gap-4 px-6 py-4">
-            <button
-              onClick={toggleDarkMode}
-              className="flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
-              {darkMode ? <FaSun /> : <FaMoon />}
-              {darkMode ? "Light Mode" : "Dark Mode"}
-            </button>
+    {isMenuOpen && (
+  <div
+    className= "md:hidden fixed top-16 left-0 w-full shadow-lg z-50 border-t animate-slideDown  dark:bg-[#0D1321] dark:text-white bg-white text-gray-800"
+    
+  >
+    <div className="flex flex-col gap-4 px-6 py-4">
+      {/* Dark Mode */}
+      <button
+        onClick={handleDarkMode}
+        className="flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800"
+      >
+        {darkMode ? <FaSun /> : <FaMoon />}
+      </button>
 
             <button className="flex items-center gap-2 border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-800">
               <FaPlusCircle className="text-indigo-500" />
@@ -219,20 +226,38 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
                 />
               </svg>
             </div>
+  {/* Arrow Icon */}
+  <svg
+    className={`w-4 h-4 transform transition-transform duration-300 ${
+      isUserDropdownOpen ? "rotate-180" : ""
+    }`}
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M19 9l-7 7-7-7"
+    />
+  </svg>
+</div>
 
-            {isUserDropdownOpen && (
-              <div className="mt-3 flex flex-col gap-2 animate-slideDown">
-                <button className="text-left px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800">
-                  Change Password
-                </button>
-                <button className="text-left px-4 py-2 rounded text-red-600 hover:bg-gray-100 dark:hover:bg-gray-800">
-                  Logout
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+
+{isUserDropdownOpen && (
+  <div className="mt-3 flex flex-col gap-2 animate-slideDown">
+    <button className="text-left px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+      Profile
+    </button>
+    <button className="text-left px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800" onClick={handleLogout}>     
+      Logout
+    </button>
+  </div>
+)}
+
+    </div>
+  )}
     </>
   );
 };
