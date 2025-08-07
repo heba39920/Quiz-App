@@ -10,6 +10,7 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 interface NavbarProps {
   title?: string;
@@ -27,9 +28,8 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle("dark", !darkMode);
   };
-  const auth = useSelector((state: any) => state.auth);
 
-  console.log(auth);
+  const auth = useSelector((state: any) => state.auth);
 
   return (
     <>
@@ -87,10 +87,11 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
               <div className="flex items-center gap-1">
                 <div className="flex flex-col leading-tight">
                   <span className="font-medium text-sm">
-                    {auth.user.first_name} {auth.user.last_name}
+                    {auth?.user?.first_name ?? "Guest"}{" "}
+                    {auth?.user?.last_name ?? ""}
                   </span>
                   <span className="text-green-500 text-xs">
-                    {auth.user.role}
+                    {auth?.user?.role ?? ""}
                   </span>
                 </div>
                 <svg
@@ -111,24 +112,26 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
 
             {/* User Dropdown */}
             {isUserMenuOpen && (
-              <div className="absolute right-0 mt-2 w-56 rounded-md shadow-xl border border-gray-200 bg-white text-gray-800 animate-fadeIn z-50">
+              <div className="absolute right-0 mt-2 w-32 rounded-md shadow-xl border border-gray-200 bg-white text-gray-800 animate-fadeIn z-50">
                 <ul className="py-2">
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-4 h-4 text-black"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5.121 17.804A9 9 0 1119.88 6.122M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                    </svg>
-                    Profile
+                    <Link to="profile" className="flex justify-content-center align-items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-4 h-4 text-black"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5.121 17.804A9 9 0 1119.88 6.122M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+                      Profile
+                    </Link>
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2 text-red-600">
                     <svg
@@ -192,8 +195,12 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard" }) => {
               onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
             >
               <div className="flex flex-col">
-                <span className="font-medium">{auth.user.email}</span>
-                <span className="text-green-500 text-sm">{auth.user.role}</span>
+                <span className="font-medium">
+                  {auth?.user?.email ?? "guest@example.com"}
+                </span>
+                <span className="text-green-500 text-sm">
+                  {auth?.user?.role ?? ""}
+                </span>
               </div>
 
               <svg
