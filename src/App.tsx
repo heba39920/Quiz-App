@@ -64,8 +64,6 @@ function App() {
           { path: "groups", element: <GroupList /> },
           { path: "students", element: <StudentsList /> },
           { path: "questions", element: <QuestionsList /> },
-
-
           { path: "quizzes", element: <DashboardQuizzes /> },
           { path: "quizzes/:id", element: <QuizeDeatiles /> },
         ],

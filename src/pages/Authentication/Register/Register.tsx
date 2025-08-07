@@ -1,3 +1,4 @@
+import { useState } from "react";
 import InputField from "@/components/InputField";
 import {
   BsFillPersonFill,
@@ -17,8 +18,8 @@ import { toast } from "react-toastify";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<"signin" | "signup">("signup");
 
-  // ✅ React Hook Form + Zod
   const {
     register,
     handleSubmit,
@@ -27,10 +28,8 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  // ✅ Mutation Hook
   const registerMutation = useRegister();
 
-  // ✅ Submit handler
   const onSubmit = (data: RegisterPayload) => {
     registerMutation.mutate(data, {
       onSuccess: () => {
@@ -42,26 +41,46 @@ const Register = () => {
 
   return (
     <>
-      <h2 className="text-xl text-lime-300 font-semibold mb-6">
+      <h2 className="text-xl second-color font-semibold mb-6">
         Create your account and start using QuizWiz!
       </h2>
 
       {/* Tabs */}
-      <div className="flex gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row gap-6 mb-11 transition-all duration-300 ease-in-out">
+        {/* Sign In */}
         <button
-          type="button"
-          className="flex items-center flex-col gap-2 px-[63px] py-[19px] bg-[#333333]"
-          onClick={() => navigate("/login")}
+          onClick={() => {
+            setActiveTab("signin");
+            navigate("/login");
+          }}
+          className={`flex flex-col items-center justify-center gap-2  px-[63px] py-[19px] rounded-xl 
+      transform transition-all duration-300 ease-in-out
+      ${
+        activeTab === "signin"
+          ? "second-color second-border border bg-[#333333] scale-105"
+          : "text-white border border-white bg-[#333333] scale-100"
+      }`}
         >
-          <BsFillPersonFill className="text-5xl" />
-          <p>Sign in</p>
+          <BsFillPersonFill className="text-4xl lg:text-5xl" />
+          <p className="text-sm lg:text-base">Sign in</p>
         </button>
+
+        {/* Sign Up */}
         <button
-          type="button"
-          className="flex items-center flex-col gap-2 px-[63px] py-[19px] bg-[#333333] border-2 border-lime-400 text-lime-400 rounded-md"
+          onClick={() => {
+            setActiveTab("signup");
+            navigate("/register");
+          }}
+          className={`flex flex-col items-center justify-center gap-2  px-[63px] py-[19px] rounded-xl 
+      transform transition-all duration-300 ease-in-out
+      ${
+        activeTab === "signup"
+          ? "second-color second-border border bg-[#333333] scale-105"
+          : "text-white border border-white bg-[#333333] scale-100"
+      }`}
         >
-          <BsFillPersonPlusFill className="text-5xl" />
-          <p>Sign Up</p>
+          <BsFillPersonPlusFill className="text-4xl lg:text-5xl" />
+          <p className="text-sm lg:text-base">Sign Up</p>
         </button>
       </div>
 
@@ -73,7 +92,7 @@ const Register = () => {
         {/* First & Last Name */}
         <div className="flex gap-4">
           <div className="flex-1">
-            <label className="text-sm block mb-1">First Name</label>
+            <label className="text-sm block mb-3">First Name</label>
             <InputField
               icon={<FaUser />}
               placeholder="Enter your first name"
@@ -87,7 +106,7 @@ const Register = () => {
           </div>
 
           <div className="flex-1">
-            <label className="text-sm block mb-1">Last Name</label>
+            <label className="text-sm block mb-3">Last Name</label>
             <InputField
               icon={<FaUser />}
               placeholder="Enter your last name"
@@ -103,7 +122,7 @@ const Register = () => {
 
         {/* Email */}
         <div>
-          <label className="text-sm block">Email Address</label>
+          <label className="text-sm block mb-3">Email Address</label>
           <InputField
             icon={<IoMdMail />}
             placeholder="Type your email"
@@ -117,7 +136,7 @@ const Register = () => {
 
         {/* Role */}
         <div>
-          <label className="text-sm block">Role</label>
+          <label className="text-sm block mb-3">Role</label>
           <div className="flex items-center bg-white rounded-md overflow-hidden">
             <span className="px-3 text-black text-xl">
               <BsPersonBadge />
@@ -138,7 +157,7 @@ const Register = () => {
 
         {/* Password */}
         <div>
-          <label className="text-sm block">Password</label>
+          <label className="text-sm block mb-3">Password</label>
           <InputField
             icon={<FaLock />}
             type="password"
