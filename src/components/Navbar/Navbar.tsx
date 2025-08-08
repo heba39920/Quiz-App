@@ -44,7 +44,7 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard",   handleDarkMode, 
       {/* Navbar */}
       <nav
         className="flex items-center justify-between px-6 py-3  
-          dark:bg-gray-900 dark:text-white bg-white text-gray-800 dark:border-gray-700 border-b shadow-md"
+          dark:bg-gray-900 dark:text-white bg-white text-gray-800 dark:border-gray-700  shadow-md"
       >
         {/* Left - Title */}
         <h1 className="text-lg font-semibold">{title}</h1>
@@ -54,7 +54,7 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard",   handleDarkMode, 
           {/* Dark Mode */}
           <button
             onClick={handleDarkMode}
-            className="p-2 rounded-md main-border dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+            className="p-2 rounded-md main-border dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition me-2"
           >
             {darkMode ? <FaSun /> : <FaMoon />}
           </button>
@@ -122,7 +122,10 @@ const Navbar: React.FC<NavbarProps> = ({ title = "Dashboard",   handleDarkMode, 
               >
                 <ul className="py-2">
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-                    <Link to="profile" className="flex justify-content-center align-items-center">
+                    <Link
+                      to="profile"
+                      className="flex justify-content-center align-items-center"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-4 h-4 text-black"

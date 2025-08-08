@@ -81,7 +81,11 @@ const DashboardQuizzes = () => {
               </span>
             </button>
             <button className="flex-1 dark:bg-[#0D1321] dark:border dark:border-[#fff] dark:text-[#fff] bg-white main-border shadow rounded-lg flex flex-col items-center justify-center p-6 hover:bg-gray-50 hover:dark:bg-[#FFEDDF] hover:dark:text-[#0D1321] transition focus:outline-none">
-              <img src={QBank} alt="Question Bank" className="mb-2 w-10 h-10 dark:bg-[#fff]" />
+              <img
+                src={QBank}
+                alt="Question Bank"
+                className="mb-2 w-10 h-10 dark:bg-[#fff]"
+              />
               <span className="font-medium text-sm text-center">
                 Question Bank
               </span>
@@ -89,7 +93,7 @@ const DashboardQuizzes = () => {
           </div>
 
           <div className="w-full ">
-            <CustomCalendar markedDates={markedDates}/>
+            <CustomCalendar markedDates={markedDates} />
           </div>
         </div>
 
@@ -185,7 +189,10 @@ const DashboardQuizzes = () => {
                   </thead>
                   <tbody>
                     {completedData?.map((quiz: any) => (
-                      <tr key={quiz._id} className="border-t hover:dark:bg-[#FFEDDF] hover:dark:text-[#0D1321] transition-colors ">
+                      <tr
+                        key={quiz._id}
+                        className="border-t hover:dark:bg-[#FFEDDF] hover:dark:text-[#0D1321] transition-colors "
+                      >
                         <td className="p-2">{quiz.title}</td>
                         <td className="p-2">{quiz.group}</td>
                         <td className="p-2">

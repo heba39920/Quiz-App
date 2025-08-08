@@ -40,14 +40,14 @@ const SideBar:React.FC<SidebarProps> = ({darkMode}) => {
       icon: <FaUsers className="w-6 h-6" />,
       path: "groups",
     },
-       {
+    {
       label: "Questions",
-      icon:<FaRegListAlt className="w-6 h-6" />,
+      icon: <FaRegListAlt className="w-6 h-6" />,
       path: "questions",
     },
     {
       label: "Quizzes",
-     icon: <HiOutlineClipboardDocumentList className="w-6 h-6" />,
+      icon: <HiOutlineClipboardDocumentList className="w-6 h-6" />,
       path: "quizzes",
     },
     {
@@ -72,12 +72,12 @@ const SideBar:React.FC<SidebarProps> = ({darkMode}) => {
       backgroundColor="#fff"
       collapsed={collapsed }
       width="200px"
-      breakPoint="md" 
+      breakPoint="md"
       className=" h-full"
     >
         
       <Menu  className="dark:bg-[#0D1321] dark:text-white text-gray-800 bg-white ">
-        <MenuItem className="border-b border-[#00000033] py-[28px] hover:bg-[#FFEDDF] hover:dark:border-0 hover:text-[#0D1321] transition-colors cursor-pointer hover:border-e-5 hover:border-[#0D1321]">
+        <MenuItem className="main-border py-[28px] hover:bg-[#FFEDDF] hover:dark:border-0 hover:text-[#0D1321] transition-colors cursor-pointer hover:border-e-5 hover:border-[#0D1321]">
           <div className="flex items-center">
             <LuMenu
               className={`size-8 ${collapsed ? "" : "me-12"}`}
@@ -103,7 +103,7 @@ const SideBar:React.FC<SidebarProps> = ({darkMode}) => {
             <MenuItem
               component={<NavLink to={item.path} />}
               key={item.label}
-              className={`menu-item  border-b-[#00000033] py-[28px] hover:bg-[#FFEDDF]  hover:text-[#0D1321] hover:border-e-5 hover:border-[#0D1321]  transition-colors  cursor-pointer hover:dark:border-0 text-[18px] font-bold ${isActive ? "active-menu-item" : ""}`}
+              className={`menu-item  main-border py-[28px] hover:bg-[#FFEDDF]  hover:text-[#0D1321] hover:border-e-5 hover:border-[#0D1321]  transition-colors  cursor-pointer hover:dark:border-0 text-[18px] font-bold ${isActive ? "active-menu-item" : ""}`}
               icon={
                 <span
                   className={`rounded-[10px] bg-[#FFEDDF]  dark:text-[#0D1321]  p-2 me-[10px] ${
