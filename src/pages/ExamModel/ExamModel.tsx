@@ -90,7 +90,9 @@ import { useParams } from "react-router-dom";
 
 const ExamModel = () => {
   const { quizId } = useParams<{ quizId: string }>();
+  console.log("Exam ID:", quizId);
   const { data, isLoading, error } = useQuizWithoutAnswer(quizId!);
+  console.log("Quiz data:", data);
   const { mutate: submitQuiz, isPending } = useSubmitQuiz();
 
   const [answers, setAnswers] = useState<{ questionId: string; selectedChoice: string }[]>([]);

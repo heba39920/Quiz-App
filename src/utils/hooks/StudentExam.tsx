@@ -2,15 +2,24 @@ import { fetchQuizWithoutAnswer, joinQuiz, submitQuiz } from "@/services/API/Stu
 import { useMutation, useQuery } from "@tanstack/react-query"
 
 
-export const useQuizWithoutAnswer = (id:string) =>{
+// export const useQuizWithoutAnswer = (id:string) =>{
 
-    return useQuery ({
+//     return useQuery ({
 
-        queryKey: ["quizWithoutAnswer", id],
-        queryFn: () => fetchQuizWithoutAnswer(id),
-        enabled: !!id, // عشان ما يعملش fetch لو id فاضي
-    })
-}
+//         queryKey: ["quizWithoutAnswer", id],
+//         queryFn: () => fetchQuizWithoutAnswer(id),
+//         enabled: !!id, // عشان ما يعملش fetch لو id فاضي
+//     })
+// }
+
+export const useQuizWithoutAnswer = (id: string) => {
+  console.log("Fetching Quiz with ID:", id);
+  return useQuery({
+    queryKey: ["quizWithoutAnswer", id],
+    queryFn: () => fetchQuizWithoutAnswer(id),
+    enabled: !!id,
+  });
+};
 
 export const useJoinQuiz = () => {
   return useMutation({
