@@ -5,7 +5,7 @@ import SideBar from "../Sidebar/Sidebar";
 
 const MasterLayout = () => {
   const [darkMode, setDarkMode] = useState(false);
-  const [sidebarToggled, setSidebarToggled] = useState(false); // للموبايل
+  const [sidebarToggled, setSidebarToggled] = useState(false); // Drawer للموبايل
 
   const toggleDarkMode = () => setDarkMode((p) => !p);
   const toggleSidebarMobile = () => setSidebarToggled((p) => !p);
@@ -21,7 +21,11 @@ const MasterLayout = () => {
         {/* Content */}
         <section className="w-full">
           <header className="w-full h-[80px]">
-            <Navbar handleDarkMode={toggleDarkMode} darkMode={darkMode} onToggleSidebar={toggleSidebarMobile} />
+            <Navbar
+              handleDarkMode={toggleDarkMode}
+              darkMode={darkMode}
+              onToggleSidebar={toggleSidebarMobile}
+            />
           </header>
 
           <Outlet />

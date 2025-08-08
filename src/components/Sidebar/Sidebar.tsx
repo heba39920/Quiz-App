@@ -1,9 +1,16 @@
 import { lightLogo, sideBarLogo } from "@/assets/images";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { LuMenu } from "react-icons/lu";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { FaChartBar, FaHome, FaRegListAlt, FaUserGraduate, FaUsers, FaLock } from "react-icons/fa";
+import {
+  FaChartBar,
+  FaHome,
+  FaRegListAlt,
+  FaUserGraduate,
+  FaUsers,
+  FaLock,
+} from "react-icons/fa";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import { IoIosLogOut } from "react-icons/io";
 import Cookies from "js-cookie";
@@ -12,8 +19,8 @@ import { logout } from "@/redux/slices/authSlice";
 
 interface SidebarProps {
   darkMode: boolean;
-  toggled: boolean;                 // للتحكم بالـdrawer على الموبايل
-  setToggled: (v: boolean) => void; // يجي من الـMasterLayout
+  toggled: boolean;                 // Drawer للموبايل
+  setToggled: (v: boolean) => void; // تحكم فتح/اغلاق الدروار
 }
 
 const SideBar: React.FC<SidebarProps> = ({ darkMode, toggled, setToggled }) => {
@@ -22,16 +29,13 @@ const SideBar: React.FC<SidebarProps> = ({ darkMode, toggled, setToggled }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // collapse للدسكتوب فقط
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(false); // للدسكتوب/تابلت
 
-  const handleMenuClick = () => {
-    if (window.innerWidth < 1024) {
-      // < lg => افتح/اقفل drawer
-      setToggled(!toggled);
+  const handleMenuButton = () => {
+    if (window.innerWidth < 768) {
+      setToggled(!toggled);      // موبايل => Drawer
     } else {
-      // ≥ lg => collapse/expand
-      setCollapsed((p) => !p);
+      setCollapsed((p) => !p);   // تابلت/ديسكتوب => Collapse
     }
   };
 
@@ -39,11 +43,11 @@ const SideBar: React.FC<SidebarProps> = ({ darkMode, toggled, setToggled }) => {
 
   const menuItems = [
     { label: "Dashboard", icon: <FaHome className="w-6 h-6" />, path: "/dashboard" },
-    { label: "Students", icon: <FaUserGraduate className="w-6 h-6" />, path: "/dashboard/students" },
-    { label: "Groups", icon: <FaUsers className="w-6 h-6" />, path: "/dashboard/groups" },
+    { label: "Students",  icon: <FaUserGraduate className="w-6 h-6" />, path: "/dashboard/students" },
+    { label: "Groups",    icon: <FaUsers className="w-6 h-6" />, path: "/dashboard/groups" },
     { label: "Questions", icon: <FaRegListAlt className="w-6 h-6" />, path: "/dashboard/questions" },
-    { label: "Quizzes", icon: <HiOutlineClipboardDocumentList className="w-6 h-6" />, path: "/dashboard/quizzes" },
-    { label: "Results", icon: <FaChartBar className="w-6 h-6" />, path: "/dashboard/results" },
+    { label: "Quizzes",   icon: <HiOutlineClipboardDocumentList className="w-6 h-6" />, path: "/dashboard/quizzes" },
+    { label: "Results",   icon: <FaChartBar className="w-6 h-6" />, path: "/dashboard/results" },
     { label: "Change Password", icon: <FaLock className="w-[30px] h-[30px]" />, path: "/change-password" },
   ];
 
@@ -57,31 +61,36 @@ const SideBar: React.FC<SidebarProps> = ({ darkMode, toggled, setToggled }) => {
     <Sidebar
       backgroundColor={darkMode ? "#0D1321" : "#fff"}
       className="h-full"
-      width="240px"              // عرض الدسكتوب
-      collapsedWidth="72px"      // عرض الحالة المصغّرة
-      collapsed={collapsed}
-      breakPoint="lg"            // < lg يتحول لدروار
-      toggled={toggled}          // تحكم فتح/إغلاق الموبايل
+      width="240px"
+      collapsedWidth="72px"
+      collapsed={collapsed}        // تابلت/ديسكتوب
+      breakPoint="md"              // < md = Drawer فقط (موبايل)
+      toggled={toggled}            // فتح/إغلاق الدروار
       onBackdropClick={handleBackdrop}
     >
-      <Menu className={`${darkMode ? "dark bg-[#0D1321] text-white" : "bg-white text-gray-800"}`}>
+      <Menu className={darkMode ? "dark bg-[#0D1321] text-white" : "bg-white text-gray-800"}>
         {/* Header / Toggle */}
         <MenuItem className="main-border py-5 hover:bg-[#FFEDDF] hover:text-[#0D1321] transition-colors">
           <div className="flex items-center">
-            <LuMenu className={`size-7 ${collapsed ? "" : "me-4"}`} onClick={handleMenuClick} />
+            <LuMenu
+              className={`size-7 ${collapsed ? "" : "me-4"}`}
+              onClick={handleMenuButton}
+              aria-label="Toggle sidebar"
+              role="button"
+            />
             {darkMode ? (
               <img
                 src={lightLogo}
                 alt="logo"
                 className={`h-6 cursor-pointer ${collapsed ? "hidden" : "block"}`}
-                onClick={handleMenuClick}
+                onClick={handleMenuButton}
               />
             ) : (
               <img
                 src={sideBarLogo}
                 alt="logo"
                 className={`${collapsed ? "hidden" : "block"}`}
-                onClick={handleMenuClick}
+                onClick={handleMenuButton}
               />
             )}
           </div>
@@ -89,7 +98,9 @@ const SideBar: React.FC<SidebarProps> = ({ darkMode, toggled, setToggled }) => {
 
         {/* Links */}
         {menuItems.map((item) => {
-          const isActive = location.pathname === item.path;
+          const isActive =
+            location.pathname === item.path ||
+            location.pathname.startsWith(item.path + "/");
           return (
             <MenuItem
               key={item.label}
@@ -102,6 +113,9 @@ const SideBar: React.FC<SidebarProps> = ({ darkMode, toggled, setToggled }) => {
                   {item.icon}
                 </span>
               }
+              onClick={() => {
+                if (window.innerWidth < 768) setToggled(false); // اغلاق Drawer بعد التنقل
+              }}
             >
               {item.label}
             </MenuItem>
