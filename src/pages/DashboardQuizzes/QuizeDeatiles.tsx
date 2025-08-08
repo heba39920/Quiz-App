@@ -45,35 +45,35 @@ const QuizeDeatiles = () => {
 
   return (
     <div className="p-6 max-w-xl mx-auto">
-      <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 space-y-4">
+      <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 space-y-4 dark:bg-[#0D1321] dark:border dark:border-[#fff] ">
         {/* Header */}
-        <h1 className="text-2xl font-bold text-gray-800">{quiz.title}</h1>
-<h1 className="text-2xl font-bold text-gray-800">{quiz._id}</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-[#fff]">{quiz.title}</h1>
+
         {/* Date & Time */}
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
-            <Calendar size={20} className="text-gray-500" />
-            <span className="text-xl font-bold text-gray-600">{date}</span>
+            <Calendar size={20} className="text-gray-500 dark:text-[#fff]" />
+            <span className="text-xl font-bold text-gray-600 dark:text-[#fff]">{date}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Clock size={20} className="text-gray-500" />
-            <span className="text-xl font-bold text-gray-600">{time}</span>
+            <Clock size={20} className="text-gray-500 dark:text-[#fff]" />
+            <span className="text-xl font-bold text-gray-600 dark:text-[#fff]">{time}</span>
           </div>
         </div>
 
-        <p className="text-gray-500 mb-4">Quiz Details Overview</p>
+        <p className="text-gray-500 mb-4 dark:text-[#fff]">Quiz Details Overview</p>
 
         
         <FormInput label="Duration" labelWidth="190px" labelHeight="38px">
-          <span className="ps-5 text-gray-700">{quiz.duration} mins</span>
+          <span className="ps-5 text-gray-700 dark:text-[#fff]">{quiz.duration} mins</span>
         </FormInput>
 
         <FormInput label="Number of Questions" labelWidth="190px" labelHeight="38px">
-          <span className=" ps-5 text-gray-700">{quiz.questions_number}</span>
+          <span className=" ps-5 text-gray-700 dark:text-[#fff]">{quiz.questions_number}</span>
         </FormInput>
 
         <FormInput label="Score per Question" labelWidth="190px" labelHeight="38px">
-          <span className="ps-5 text-gray-700">{quiz.score_per_question}</span>
+          <span className="ps-5 text-gray-700 dark:text-[#fff]">{quiz.score_per_question}</span>
         </FormInput>
 
         <div className="border border-gray-300 rounded-xl overflow-hidden">
@@ -82,8 +82,8 @@ const QuizeDeatiles = () => {
         </div>
 
         <div className="px-4 py-2">
-            <p className="text-gray-700 whitespace-pre-line leading-relaxed">
-            {quiz.description}
+            <p className="text-gray-700 whitespace-pre-line leading-relaxed dark:text-[#fff]">
+            {quiz.description || "No description available."}
             </p>
         </div>
         </div>
@@ -91,7 +91,7 @@ const QuizeDeatiles = () => {
 
 
         <FormInput label="Question Bank" labelWidth="190px" labelHeight="38px">
-          <span className=" ps-5 text-gray-700">Bank One</span>
+          <span className=" ps-5 text-gray-700 dark:text-[#fff]">Bank One</span>
         </FormInput>
 
     
@@ -102,14 +102,14 @@ const QuizeDeatiles = () => {
             disabled
             className="w-5 h-5 accent-[#FFEDDF] cursor-not-allowed"
           />
-          <span className="text-gray-700">Randomize Questions</span>
+          <span className="text-gray-700 dark:text-[#fff]">Randomize Questions</span>
         </div>
 
         {/* Edit Button */}
         <div className="text-right">
           <button
             // onClick={() => navigate(`/dashboard/quizzes/edit/${quiz._id}`)}
-            className="bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition"
+            className="bg-black dark:bg-[#FFEDDF] dark:text-[#0D1321] text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition"
           >
             Edit Quiz
           </button>

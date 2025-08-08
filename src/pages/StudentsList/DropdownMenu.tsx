@@ -33,12 +33,12 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({  onView, onDelete, onRemove
   };
 
   return (
-    <div className="flex items-center justify-center bg-white">
-      <div className="relative" ref={menuRef}>
-        <button onClick={handleToggle}>
-          <div className="me-3 bg-[#0D1321] text-white rounded-full p-1.5">
+    <div className="flex items-center justify-center">
+      <div  ref={menuRef} className="relative">
+        <button onClick={handleToggle}  className="me-3 bg-[#0D1321] dark:bg-white dark:text-[#0D1321] text-white rounded-full p-1.5">
+       
             <BsArrowRight size={20} />
-          </div>
+        
         </button>
         <AnimatePresence>
           {isOpen && (
@@ -48,7 +48,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({  onView, onDelete, onRemove
               exit="closed"
               variants={wrapperVariants}
               style={{ originY: "top", translateX: "-50%" }}
-              className="flex flex-col gap-2 p-2 rounded-lg bg-white shadow-xl z-50 absolute top-[120%] left-[50%] w-48 overflow-hidden"
+              className="flex flex-col dark:bg-[#0D1321] dark:text-[#fff] dark:border dark:border-[#fff]  gap-2 p-2 rounded-lg bg-white shadow-xl z-50 absolute top-[120%] left-[50%] w-48 overflow-hidden"
             >
               <Option
                 setOpen={() => setIsOpen(false)}
@@ -66,7 +66,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({  onView, onDelete, onRemove
                   if (onDelete) onDelete();
                 }}
                 text="Delete Student"
-               className="text-red-700"
+                className="text-red-700 dark:text-red-500"
               />
                {hasGroup && (
         <Option
@@ -76,7 +76,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({  onView, onDelete, onRemove
                   if (onRemove) onRemove();
                 }}
                 text="Remove From Group"
-                 className="text-red-700"
+                 className="text-red-700 dark:text-red-500"
               />
     )}
             
@@ -125,7 +125,7 @@ const Option: React.FC<OptionProps> = ({ text, Icon, setOpen, onClick, className
         setOpen();
         if (onClick) onClick();
       }}
-      className={`flex items-center gap-2 w-full p-2 text-xs font-medium whitespace-nowrap rounded-md hover:bg-indigo-100  hover:text-indigo-500 transition-colors cursor-pointer ${className}`}
+      className={`flex dark:text-[#fff] items-center gap-2 w-full p-2 text-xs font-medium whitespace-nowrap rounded-md hover:bg-[#FFEDDF]  hover:text-[#0D1321] transition-colors cursor-pointer ${className}`}
     >
       <motion.span variants={actionIconVariants}>
         <Icon />

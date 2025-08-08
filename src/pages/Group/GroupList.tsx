@@ -17,7 +17,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { FiEdit2, FiTrash2, FiEye, FiList, FiGrid } from "react-icons/fi";
+import { FiEdit2, FiTrash2, FiEye } from "react-icons/fi";
 import Select from "react-select";
 import useSound from "use-sound";
 import deleteSound from "@/assets/Sound/fast-swipe-48158.mp3";
@@ -33,6 +33,25 @@ interface GroupFormValues {
 }
 
 const GroupList = () => {
+  const customStyles = {
+  menu: (provided:any) => ({
+    ...provided,
+    backgroundColor: '#0D1321', // dark background
+    color: '#fff', // text color
+    border: '1px solid #fff',
+    // Add any other styles you need
+  }),
+  menuList: (provided:any) => ({
+    ...provided,
+    color: '#fff',
+  }),
+  option: (provided:any, state:any) => ({
+    ...provided,
+    backgroundColor: state.isFocused ? '#1a2138' : '#0D1321',
+    color: '#fff',
+  }),
+  // You can add more style customizations as needed
+};
   const { data: groups, isLoading, isError } = useGroup();
   const { mutate: deleteGroup, isPending: isDeleting } = useDeleteGroup();
   const { mutate: addGroup } = useAddGroup();
@@ -148,13 +167,13 @@ const GroupList = () => {
       <div className="mb-3 w-full flex justify-end">
         <button
           onClick={() => handleOpenModal()}
-          className="inline-flex items-center gap-2 px-4 py-2 main-border hover:bg-orange-100 text-black text-sm font-medium rounded-full transition"
+          className="inline-flex items-center gap-2 px-4 py-2 main-border dark:bg-[#0D1321] dark:border dark:border-[#fff] dark:text-[#fff] hover:bg-orange-100 hover:dark:text-[#0D1321]  text-black text-sm font-medium rounded-full transition"
         >
           + Add Group
         </button>
       </div>
 
-      <div className="main-border p-5 bg-white rounded-xl shadow-sm">
+      <div className="main-border p-5 bg-white dark:bg-[#0D1321] dark:border dark:border-[#fff] dark:text-[#fff] rounded-xl shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
           <div className="flex gap-2">
             <input
@@ -164,14 +183,12 @@ const GroupList = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="border border-gray-300 rounded-2xl my-3 px-4 py-2 w-100"
             />
-
           </div>
-          
           <div className="flex flex-wrap gap-3 items-center">
             <button
               onClick={() => setViewMode("list")}
               className={`main-border rounded-lg p-2 ${
-                viewMode === "list" ? "bg-orange-100" : ""
+                viewMode === "list" ? "bg-orange-100 dark:text-[#0D1321]" : ""
               }`}
             >
               <BsGridFill />
@@ -179,7 +196,7 @@ const GroupList = () => {
             <button
               onClick={() => setViewMode("grid2")}
               className={`main-border rounded-lg p-2 ${
-                viewMode === "grid2" ? "bg-orange-100" : ""
+                viewMode === "grid2" ? "bg-orange-100 dark:text-[#0D1321]" : ""
               }`}
             >
               <BsGrid3X3GapFill/>
@@ -187,13 +204,13 @@ const GroupList = () => {
             <button
               onClick={() => setViewMode("grid3")}
               className={`main-border rounded-lg p-2 ${
-                viewMode === "grid3" ? "bg-orange-100" : ""
+                viewMode === "grid3" ? "bg-orange-100 dark:text-[#0D1321]" : ""
               }`}
             >
               <FaListUl/>
             </button>
             <select
-              className=" rounded-lg px-3 py-1 border border-gray-300"
+              className=" rounded-lg px-3 py-1 border border-gray-300 dark:bg-[#0D1321]"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
@@ -202,7 +219,7 @@ const GroupList = () => {
               <option value="inactive">Inactive</option>
             </select>
             <select
-              className="border border-gray-300 rounded-lg px-3 py-1"
+              className="border border-gray-300 rounded-lg px-3 py-1 dark:bg-[#0D1321]"
               value={itemsPerPage}
               onChange={(e) => setItemsPerPage(Number(e.target.value))}
             >
@@ -235,7 +252,7 @@ const GroupList = () => {
                   exit={{ opacity: 0, y: -20, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
                   layout
-                  className="bg-white main-border rounded-xl shadow p-4 flex flex-col justify-between"
+                  className="bg-white main-border rounded-xl shadow p-4 flex flex-col justify-between dark:bg-[#0D1321] dark:border dark:border-[#fff] dark:text-[#fff]"
                 >
                   <div className="flex justify-between items-start mb-3">
                     <h3 className="text-lg font-bold">{group.name}</h3>
@@ -252,7 +269,7 @@ const GroupList = () => {
                   <div className="flex items-center text-sm mb-2">
                     <span className="text-blue-600 mr-1">👤</span>
                     <span className="font-semibold">Instructor:</span>
-                    <span className="ml-1 text-gray-600">
+                    <span className="ml-1 text-gray-600 dark:text-[#fff]">
                       {group.instructor}
                     </span>
                   </div>
@@ -276,7 +293,7 @@ const GroupList = () => {
                         }}
                       ></div>
                     </div>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-500 mt-1 dark:text-[#fff]">
                       {Math.round(
                         (group.students.length / (group.max_students || 25)) *
                           100
@@ -305,7 +322,7 @@ const GroupList = () => {
                         setViewGroupId(group._id);
                         playView();
                       }}
-                      className="flex items-center gap-1 text-gray-600 hover:underline text-sm"
+                      className="flex items-center gap-1 text-gray-600 hover:underline text-sm dark:text-[#fff]"
                     >
                       <FiEye className="w-4 h-4" /> View
                     </button>
@@ -323,7 +340,7 @@ const GroupList = () => {
             key={i}
             onClick={() => setCurrentPage(i + 1)}
             className={`w-8 h-8 rounded-full ${
-              currentPage === i + 1 ? "bg-orange-200" : "border"
+              currentPage === i + 1 ? "bg-orange-200 dark:text-[#0D1321]" : "border dark:text-[#fff] dark:bg-[#0D1321] hover:dark:text-[#0D1321]"
             } flex items-center justify-center`}
           >
             {i + 1}
@@ -355,7 +372,7 @@ const GroupList = () => {
       >
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-semibold mb-1">
+            <label className="block text-sm font-semibold mb-1 dark:text-[#fff]">
               Group Name
             </label>
             <input
@@ -378,9 +395,10 @@ const GroupList = () => {
                     {...field}
                     options={studentOptions}
                     isMulti
-                    className="react-select-container"
+                    className="react-select-container "
                     classNamePrefix="react-select"
                     placeholder="Select students..."
+                    styles={customStyles}
                   />
                 )}
               />
@@ -398,7 +416,7 @@ const GroupList = () => {
           <Loader />
         ) : viewGroup ? (
           <div>
-            <p>
+            <p className="dark:text-[#fff]">
               Status:{" "}
               <span
                 className={`${
@@ -410,12 +428,12 @@ const GroupList = () => {
                 {viewGroup.status}
               </span>
             </p>
-            <p>
+            <p className="dark:text-[#fff]">
               Students: {viewGroup.students.length}/{viewGroup.max_students}
             </p>
             <ul className="list-disc ml-4">
               {viewGroup.students.map((s, i) => (
-                <li key={i}>
+                <li key={i} className="dark:text-[#fff]">
                   {s.first_name} {s.last_name}
                 </li>
               ))}

@@ -27,12 +27,13 @@ const ReusableModal = ({
       <div
         className={`
           bg-white rounded-lg shadow-xl 
+          dark:text-[#fff]  dark:bg-[#0D1321] dark:border dark:border-[#fff]
           ${className}
         `}
       >
      {/* Header */}
-          <div className="flex items-center justify-between border-b border-[#00000033] shadow-sm">
-            <h2 className="px-6 py-2 text-lg font-semibold text-gray-800">
+          <div className="flex items-center justify-between border-b border-[#00000033] dark:border-[#fff] shadow-sm ">
+            <h2 className="px-6 py-2 text-lg font-semibold text-gray-800 dark:text-[#fff] ">
               {title}
             </h2>
             <div className="flex divide-x border-s border-[#00000033]">

@@ -1,109 +1,140 @@
-import { sideBarLogo } from "@/assets/images";
-import {  useState } from "react";
-import { Sidebar, Menu, MenuItem, type SidebarProps } from "react-pro-sidebar";
+import { lightLogo, sideBarLogo } from "@/assets/images";
+import React, { useState } from "react";
+import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { LuMenu } from "react-icons/lu";
-import { IoHomeOutline } from "react-icons/io5";
-import { NavLink, useLocation } from "react-router-dom";
-import { PiStudent } from "react-icons/pi";
-import { GrGroup } from "react-icons/gr";
-import { CiViewTimeline } from "react-icons/ci";
-import { FaFileCircleQuestion } from "react-icons/fa6";
-
-import { IoNewspaperOutline } from "react-icons/io5";
-
-import { IoIosHelpCircleOutline } from "react-icons/io";
-import { FaChartBar, FaHome, FaQuestionCircle, FaRegListAlt, FaUserGraduate, FaUsers } from "react-icons/fa";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import {
+  FaChartBar,
+  FaHome,
+  FaRegListAlt,
+  FaUserGraduate,
+  FaUsers,
+  FaLock,
+} from "react-icons/fa";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
-const SideBar:React.FC<SidebarProps> = ({...props }) => {
-  const location = useLocation(); 
-  const [collapsed, setIsCollapsed] = useState(false);  
+import { IoIosLogOut } from "react-icons/io";
+import Cookies from "js-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/redux/slices/authSlice";
 
-  const handleCollapse = () => {  
-    setIsCollapsed(prev => !prev);  
-  };  
+interface SidebarProps {
+  darkMode: boolean;
+  toggled: boolean;                 // Drawer للموبايل
+  setToggled: (v: boolean) => void; // تحكم فتح/اغلاق الدروار
+}
+
+const SideBar: React.FC<SidebarProps> = ({ darkMode, toggled, setToggled }) => {
+  const user = useSelector((state: any) => state.auth.user);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [collapsed, setCollapsed] = useState(false); // للدسكتوب/تابلت
+
+  const handleMenuButton = () => {
+    if (window.innerWidth < 768) {
+      setToggled(!toggled);      // موبايل => Drawer
+    } else {
+      setCollapsed((p) => !p);   // تابلت/ديسكتوب => Collapse
+    }
+  };
+
+  const handleBackdrop = () => setToggled(false);
+
   const menuItems = [
-    {
-      label: "Dashboard",
-      icon: <FaHome className="w-6 h-6" />,
-      path: "dashboard",
-    },
-    {
-      label: "Students",
-      icon: <FaUserGraduate className="w-6 h-6" />,
-      path: "students",
-    },
-    {
-      label: "Groups",
-      icon: <FaUsers className="w-6 h-6" />,
-      path: "groups",
-    },
-       {
-      label: "Questions",
-      icon:<FaRegListAlt className="w-6 h-6" />,
-      path: "questions",
-    },
-    {
-      label: "Quizzes",
-     icon: <HiOutlineClipboardDocumentList className="w-6 h-6" />,
-      path: "quizzes",
-    },
-    {
-      label: "Results",
-      icon: <FaChartBar className="w-6 h-6" />,
-      path: "results",
-    },
-    {
-      label: "Help",
-      icon: <IoIosHelpCircleOutline className="w-[30px] h-[30px]" />,
-      path: "help",
-    },
+    { label: "Dashboard", icon: <FaHome className="w-6 h-6" />, path: "/dashboard" },
+    { label: "Students",  icon: <FaUserGraduate className="w-6 h-6" />, path: "/dashboard/students" },
+    { label: "Groups",    icon: <FaUsers className="w-6 h-6" />, path: "/dashboard/groups" },
+    { label: "Questions", icon: <FaRegListAlt className="w-6 h-6" />, path: "/dashboard/questions" },
+    { label: "Quizzes",   icon: <HiOutlineClipboardDocumentList className="w-6 h-6" />, path: "/dashboard/quizzes" },
+    { label: "Results",   icon: <FaChartBar className="w-6 h-6" />, path: "/dashboard/results" },
+    { label: "Change Password", icon: <FaLock className="w-[30px] h-[30px]" />, path: "/change-password" },
   ];
 
+  const handleLogout = () => {
+    Cookies.remove("token");
+    dispatch(logout());
+    navigate("/login");
+  };
 
   return (
     <Sidebar
-      backgroundColor="#fff"
-      collapsed={collapsed }
-      {...props}
-      width="200px"
-      breakPoint="md" 
-      className=" h-full"
+      backgroundColor={darkMode ? "#0D1321" : "#fff"}
+      className="h-full"
+      width="240px"
+      collapsedWidth="72px"
+      collapsed={collapsed}        // تابلت/ديسكتوب
+      breakPoint="md"              // < md = Drawer فقط (موبايل)
+      toggled={toggled}            // فتح/إغلاق الدروار
+      onBackdropClick={handleBackdrop}
     >
-      <Menu>
-        <MenuItem className="border-b border-[#00000033] py-[28px] ">
-          <div className="flex items-start">
+      <Menu className={darkMode ? "dark bg-[#0D1321] text-white" : "bg-white text-gray-800"}>
+        {/* Header / Toggle */}
+        <MenuItem className="main-border py-5 hover:bg-[#FFEDDF] hover:text-[#0D1321] transition-colors">
+          <div className="flex items-center">
             <LuMenu
-              className={`size-8 ${collapsed ? "" : "me-8"}`}
-                onClick={handleCollapse}
-            />{" "}
-            <img
-              src={sideBarLogo}
-              alt="side bar logo"
-              onClick={handleCollapse}
+              className={`size-7 ${collapsed ? "" : "me-4"}`}
+              onClick={handleMenuButton}
+              aria-label="Toggle sidebar"
+              role="button"
             />
+            {darkMode ? (
+              <img
+                src={lightLogo}
+                alt="logo"
+                className={`h-6 cursor-pointer ${collapsed ? "hidden" : "block"}`}
+                onClick={handleMenuButton}
+              />
+            ) : (
+              <img
+                src={sideBarLogo}
+                alt="logo"
+                className={`${collapsed ? "hidden" : "block"}`}
+                onClick={handleMenuButton}
+              />
+            )}
           </div>
         </MenuItem>
+
+        {/* Links */}
         {menuItems.map((item) => {
-          const isActive = location.pathname === item.path;
+          const isActive =
+            location.pathname === item.path ||
+            location.pathname.startsWith(item.path + "/");
           return (
             <MenuItem
-              component={<NavLink to={item.path} />}
               key={item.label}
-              className={`menu-item border-b border-[#00000033] py-[28px]  size[18px] font-bold ${isActive ? "active-menu-item" : ""}`}
+              component={<NavLink to={item.path} />}
+              className={`main-border py-5 text-[16px] font-semibold hover:bg-[#FFEDDF] hover:text-[#0D1321] transition-colors ${
+                isActive ? "bg-[#FFEDDF]/60 text-[#0D1321]" : ""
+              }`}
               icon={
-                <span
-                  className={`rounded-[10px] bg-[#FFEDDF] p-2 me-[10px] ${
-                    isActive ? "icon-active" : ""
-                  }`}
-                >
+                <span className="rounded-[10px] bg-[#FFEDDF] text-[#0D1321] p-2 me-2">
                   {item.icon}
                 </span>
               }
+              onClick={() => {
+                if (window.innerWidth < 768) setToggled(false); // اغلاق Drawer بعد التنقل
+              }}
             >
               {item.label}
             </MenuItem>
           );
         })}
+
+        {/* Logout */}
+        <MenuItem
+          key="logout"
+          onClick={handleLogout}
+          className="border-t py-5 text-[16px] font-semibold hover:bg-[#FFEDDF] hover:text-[#0D1321] transition-colors"
+          icon={
+            <span className="rounded-[10px] bg-[#FFEDDF] text-[#0D1321] p-2 me-2">
+              <IoIosLogOut className="w-[30px] h-[30px]" />
+            </span>
+          }
+        >
+          Logout
+        </MenuItem>
       </Menu>
     </Sidebar>
   );

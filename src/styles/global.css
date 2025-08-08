@@ -1,5 +1,7 @@
 @import "./sideBar.css";
 @import "./Quizzes.css";
+
+/* ========== ألوان وحدود عامة ========== */
 :root {
   --main-text-color: rgba(0, 0, 0, 1);
   --second-text-color: #c5d86d;
@@ -7,41 +9,92 @@
   --second-border: 5px solid #c5d86d;
 }
 
-.main-text {
-  color: var(--main-text-color);
-}
-.second-color {
-  color: var(--second-text-color);
-}
-.main-border {
-  border: var(--main-border);
-}
+.main-text { color: var(--main-text-color); }
+.second-color { color: var(--second-text-color); }
+.main-border { border: var(--main-border); }
+.second-border { border: var(--second-border); }
 
-.second-border {
-  border: var(--second-border);
-}
+/* ========== DayPicker Overrides (Light) ========== */
 
+/* وسّع الشبكة وثبّت الأعمدة */
 .rdp-month_grid {
   width: 100% !important;
   table-layout: fixed !important;
   padding-left: 0 !important;
 }
 
-.rdp-selected .rdp-day_button {
-  border: 2px solid #f7d6bd !important;
+/* خلي عنوان أيام الأسبوع في النص */
+.rdp-head_cell {
+  text-align: center !important;
+}
+
+/* خلي الخلية نفسها بدون إزاحة */
+.rdp-day {
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+/* زر اليوم (الرقم) متوسّط ومقاسه ثابت */
+.rdp-day_button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 36px;                 /* زودي/قللي لو حابة */
+  height: 36px;
+  margin-inline: auto;         /* توسيط أفقي */
+  border-radius: 9999px;       /* شكل دائري لطيف */
   color: rgba(0, 0, 0, 1) !important;
 }
 
-.rdp-chevron {
+
+.rdp-cell {
+  padding: 8px !important;
+}
+
+
+.rdp-selected .rdp-day_button,
+.rdp-day[aria-selected="true"] {
+  background: transparent !important;
+  color: rgba(0, 0, 0, 1) !important;
+}
+.rdp-chevron,
+.rdp-nav_button svg {
   fill: #f7d6bd !important;
 }
 
-.rdp-day {
-  padding-left: 3% !important;
-  padding-top: 0.5% !important;
-  color: rgba(0, 0, 0, 1) !important;
+/* ========== DayPicker Overrides (Dark) ========== */
+
+.dark .rdp-day_button {
+  color: #fff !important;           
 }
 
+.dark .rdp-selected .rdp-day_button,
+.dark .rdp-day[aria-selected="true"] {
+  border: 2px solid #FFEDDF !important;
+  background: #FFEDDF !important;
+  color: #0D1321 !important;              /* تباين واضح */
+}
+
+.dark .rdp-head_cell {
+  color: #e5e7eb !important;              /* رمادي فاتح للهيدر */
+}
+
+.dark .rdp-nav_button svg {
+  fill: #FFEDDF !important;
+}
+
+.rdp-day_button:hover:not([aria-disabled="true"]):not([aria-selected="true"]) {
+  background: #f3f4f6 !important;
+}
+.dark .rdp-day_button:hover:not([aria-disabled="true"]):not([aria-selected="true"]) {
+  background: #172038 !important;
+}
+.rdp-selected .rdp-day_button {
+  border: 2px solid #f7d6bd;
+}
+
+
+/* ========== Autofill tweaks ========== */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -51,3 +104,4 @@ select:-webkit-autofill {
   -webkit-text-fill-color: #fff !important;
   box-shadow: 0 0 0px 1000px #0c0f1a inset !important;
 }
+

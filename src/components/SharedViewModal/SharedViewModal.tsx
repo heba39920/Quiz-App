@@ -32,17 +32,17 @@ const SharedViewModal: React.FC<SharedViewModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 dark:bg-[#0D1321]/70 px-4"
       role="dialog"
       aria-modal="true"
     >
-      <div className="bg-white w-full max-w-xl rounded-xl shadow-xl main-border overflow-hidden">
+      <div className="bg-white  rounded-xl shadow-xl main-border w-[45%] overflow-y-auto dark:bg-[#0D1321] dark:text-[#fff] dark:border dark:border-[#fff]">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#00000033] shadow-sm">
-          <h2 className="px-6 py-2 text-lg font-semibold text-gray-800">
+        <div className="flex items-center justify-between border-b dark:border-[#fff] border-[#00000033] shadow-sm">
+          <h2 className="px-6 py-2 text-lg font-semibold text-gray-800 dark:text-[#fff]">
             {title}
           </h2>
-          <div className="border-s border-[#00000033]">
+          <div className="border-s border-[#00000033] dark:border-[#fff]">
             <button
               onClick={onClose}
               aria-label="Close details modal"

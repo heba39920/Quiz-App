@@ -4,7 +4,6 @@ import { useAppDispatch } from "@/utils/hooks/Auth";
 import { login } from "@/redux/slices/authSlice";
 
 import { ToastContainer } from "react-toastify";
-import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
   AuthLayout,

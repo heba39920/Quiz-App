@@ -69,32 +69,36 @@ const DashboardQuizzes = () => {
           <div className="flex flex-col sm:flex-row gap-4">
             <button
               onClick={() => setShowQuizModal(true)}
-              className="flex-1 bg-white main-border shadow rounded-lg flex flex-col items-center justify-center p-6 hover:bg-gray-50 transition focus:outline-none"
+              className="flex-1 bg-white dark:bg-[#0D1321]  dark:text-[#fff] dark:border dark:border-[#fff] main-border shadow rounded-lg flex flex-col items-center justify-center p-6 hover:bg-gray-50 hover:dark:bg-[#FFEDDF] hover:dark:text-[#0D1321] transition focus:outline-none"
             >
               <img
                 src={SetUpQ}
                 alt="Set up new quiz"
-                className="mb-2 w-10 h-10"
+                className="mb-2 w-10 h-10 dark:bg-[#fff]"
               />
               <span className="font-medium text-sm text-center">
                 Set up a new quiz
               </span>
             </button>
-            <button className="flex-1 bg-white main-border shadow rounded-lg flex flex-col items-center justify-center p-6 hover:bg-gray-50 transition focus:outline-none">
-              <img src={QBank} alt="Question Bank" className="mb-2 w-10 h-10" />
+            <button className="flex-1 dark:bg-[#0D1321] dark:border dark:border-[#fff] dark:text-[#fff] bg-white main-border shadow rounded-lg flex flex-col items-center justify-center p-6 hover:bg-gray-50 hover:dark:bg-[#FFEDDF] hover:dark:text-[#0D1321] transition focus:outline-none">
+              <img
+                src={QBank}
+                alt="Question Bank"
+                className="mb-2 w-10 h-10 dark:bg-[#fff]"
+              />
               <span className="font-medium text-sm text-center">
                 Question Bank
               </span>
             </button>
           </div>
 
-          <div className="w-full">
+          <div className="w-full ">
             <CustomCalendar markedDates={markedDates} />
           </div>
         </div>
 
         <div className="col-span-1 lg:col-span-2 space-y-6">
-          <div className="bg-white rounded-lg main-border shadow p-4">
+          <div className="bg-white rounded-lg main-border shadow p-4 dark:bg-[#0D1321] dark:text-[#fff]">
             <h2 className="text-lg font-semibold mb-4">Upcoming quizzes</h2>
             {isLoading && (
               <p className="text-sm text-gray-500">Loading quizzes...</p>
@@ -108,7 +112,7 @@ const DashboardQuizzes = () => {
                   <li
                     key={quiz._id}
                     onClick={() => navigate(`/dashboard/quizzes/${quiz._id}`)}
-                    className="flex items-center justify-between gap-4 rounded-lg main-border p-4 shadow-sm bg-white"
+                    className="flex items-center justify-between gap-4 dark:bg-[#0D1321] dark:text-[#fff] dark:border dark:border-[#fff] rounded-lg main-border p-4 shadow-sm bg-white"
                   >
                     <div className="flex items-center gap-4">
                       <div className="bg-orange-100 p-2 rounded-md">
@@ -119,10 +123,10 @@ const DashboardQuizzes = () => {
                         />
                       </div>
                       <div>
-                        <p className="font-medium text-sm text-gray-800">
+                        <p className="font-medium text-sm text-gray-800 dark:text-[#fff]">
                           {quiz.title}
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-gray-500 dark:text-[#fff]">
                           {quiz.schadule &&
                           !isNaN(new Date(quiz.schadule).getTime())
                             ? new Date(quiz.schadule).toLocaleDateString(
@@ -138,7 +142,7 @@ const DashboardQuizzes = () => {
                               })
                             : "--:--"}
                         </p>
-                        <p className="text-xs text-gray-600 mt-1">
+                        <p className="text-xs text-gray-600 mt-1 dark:text-[#fff]">
                           No. of students enrolled: {quiz.participants ?? 0}
                         </p>
                       </div>
@@ -155,7 +159,7 @@ const DashboardQuizzes = () => {
             )}
           </div>
 
-          <div className="bg-white rounded-lg main-border shadow p-4">
+          <div className="bg-white rounded-lg main-border shadow p-4 dark:text-[#fff] dark:border dark:border-[#fff] dark:bg-[#0D1321]">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold">Completed Quizzes</h2>
               <button className="text-sm text-[#f3caab] font-semibold hover:underline">
@@ -185,7 +189,10 @@ const DashboardQuizzes = () => {
                   </thead>
                   <tbody>
                     {completedData?.map((quiz: any) => (
-                      <tr key={quiz._id} className="border-t hover:bg-gray-50">
+                      <tr
+                        key={quiz._id}
+                        className="border-t hover:dark:bg-[#FFEDDF] hover:dark:text-[#0D1321] transition-colors "
+                      >
                         <td className="p-2">{quiz.title}</td>
                         <td className="p-2">{quiz.group}</td>
                         <td className="p-2">

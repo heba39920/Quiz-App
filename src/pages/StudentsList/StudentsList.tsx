@@ -120,8 +120,8 @@ const StudentsList = () => {
               <>
                 {/* "All Students" button */}
                 <li
-                  className={`border-1 rounded-4xl border-[#00000033] px-[20px] md:px-[35px] py-[6px] cursor-pointer ${
-                    searchGroup === "all" ? "bg-[#FFEDDF]" : ""
+                  className={`border-1 rounded-4xl border-[#00000033] px-[20px] md:px-[35px] py-[6px] cursor-pointer dark:border-[#fff] ${
+                    searchGroup === "all" ? "bg-[#FFEDDF] dark:text-[#0D1321]" : ""
                   }`}
                   onClick={() => handleGroupClick("all")}
                 >
@@ -132,8 +132,8 @@ const StudentsList = () => {
                 {displayedGroups?.map((group) => (
                   <li
                     key={group._id}
-                    className={`border-1 rounded-4xl border-[#00000033] px-[20px] md:px-[35px] py-[6px] cursor-pointer ${
-                      searchGroup === group?.name ? "bg-[#FFEDDF]" : ""
+                    className={`border-1 rounded-4xl border-[#00000033] px-[20px] md:px-[35px] py-[6px] cursor-pointer dark:border-[#fff] ${
+                      searchGroup === group?.name ? "bg-[#FFEDDF] dark:text-[#0D1321]" : ""
                     }`}
                     onClick={() => handleGroupClick(group?.name)}
                   >
@@ -144,7 +144,7 @@ const StudentsList = () => {
                 {/* Show/Hide all groups button */}
                 {groups && groups.length > maxVisibleGroups && (
                   <li
-                    className="cursor-pointer font-semibold border border-[#00000033] text-black-500 rounded-3xl px-[10px] md:px-[15px] py-[6px]"
+                    className="cursor-pointer font-semibold border border-[#00000033] text-black-500 dark:border-[#fff] rounded-3xl px-[10px] md:px-[15px] py-[6px]"
                     onClick={() => setShowAllGroups(!showAllGroups)}
                   >
                     {showAllGroups ? 'Show Less' : 'Show More...'}
@@ -222,7 +222,7 @@ const StudentsList = () => {
                   layout
                  aria-label={`${student.first_name}`} 
                 >
-                  <div className="flex w-[100%] items-center justify-between border-1 rounded-2xl border-[#00000033] mb-2.5">
+                  <div className="flex w-[100%] dark:border-[#fff] items-center justify-between border-1 rounded-2xl border-[#00000033] mb-2.5">
                     <div className="flex items-center">
                       <div className="flex h-full items-center">
                         <img
@@ -235,7 +235,7 @@ const StudentsList = () => {
                         <p className=" font-semibold capitalize">
                           {student?.first_name} {student?.last_name}
                         </p>
-                        <p className=" font-medium text-[#0000008d]">
+                        <p className=" font-medium text-[13px] text-[#0000008d] dark:text-[#fff4f4d5]">
                           Group: {student?.group?.name}
                         </p>
                         <p className="flex items-center text-emerald-600 capitalize">
@@ -301,8 +301,8 @@ const StudentsList = () => {
                 onClick={() => setCurrentPage(page)}
                 className={`w-8 h-8 flex items-center justify-center rounded-full border text-sm transition ${
                   currentPage === page
-                    ? "bg-[#FFEDDF] main-text"
-                    : "text-gray-800 border-gray-300 hover:bg-gray-100"
+                    ? "bg-[#FFEDDF] main-text dark:text-[#0D1321]"
+                    : "text-gray-800 border-gray-300 hover:bg-gray-100  dark:text-[#fff] dark:bg-[#0D1321] hover:dark:text-[#0D1321]"
                 }`}
                 aria-current={currentPage === page ? "page" : undefined}
                 aria-label={`Page ${page}`}
@@ -377,9 +377,9 @@ const StudentsList = () => {
             <Loader />
           </div>
         ) : studentDetails ? (
-          <div className="space-y-4 h-[70vh] overflow-y-auto">
+          <div className=" h-[80vh]">
             <div className="">
-              <div className="bg-[#ffeddf53] p-5 rounded-2xl">
+              <div className="bg-[#ffeddf53] dark:bg-[#ffeddfc1] p-5 rounded-2xl">
                 <h5 className="flex items-center font-bold mb-2">
                   <IoPerson className="me-1.5" /> Personal Information
                 </h5>
@@ -404,7 +404,7 @@ const StudentsList = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-[#efb47d7b] p-5 rounded-2xl mt-3">
+              <div className="bg-[#efb47d7b] dark:bg-[#efb47dc2] p-5 rounded-2xl mt-3">
                 <h5 className="flex items-center font-bold mb-2">
                   <PiMedalFill className="me-1.5" />
                   Academic Performance
@@ -433,7 +433,7 @@ const StudentsList = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-[#ffeddf53] p-5 rounded-2xl  mt-3">
+              <div className="bg-[#ffeddf53] dark:bg-[#ffeddfc1] p-5 rounded-2xl  my-3">
                 <h5 className="flex items-center font-bold mb-2">
                   <GrGroup className="me-1.5" /> Group Information
                 </h5>
