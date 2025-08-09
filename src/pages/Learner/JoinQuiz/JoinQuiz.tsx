@@ -1,34 +1,38 @@
+import { fetchIncomingQuizzes } from "@/services/API/StudentExam";
 import { useJoinQuiz } from "@/utils/hooks/StudentExam";
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function JoinQuiz({ onClose }: { onClose: () => void }) {
   const [code, setCode] = useState("");
   const joinMutation = useJoinQuiz();
+  const navigate = useNavigate();
 
-//   const handleJoin = () => {
-//     joinMutation.mutate(code, {
-//       onSuccess: (data) => {
-//         console.log("Joined quiz:", data);
-//         onClose();
-//       },
-//       onError: (err) => {
-//         console.error(err);
-//       },
-//     });
-//   };
+  const handleJoin = () => {
+    joinMutation.mutate(code, {
+      onSuccess: (data) => {
+        toast.info(data.message || "Joined successfully");
+        onClose();
 
-const handleJoin = () => {
-  joinMutation.mutate(code, {
-    onSuccess: (data) => {
-      console.log("API Response:", data); // شوفي هنا إيه اللي راجع
-    },
-    onError: (error) => {
-      console.error("Join failed:", error);
-    },
-  });
-};
-
+        
+        fetchIncomingQuizzes().then((quizzes) => {
+          
+          const quiz = quizzes.find((q) => q.code === code);
+          if (quiz) {
+           
+            navigate(`/dashboard/exammodel/${quiz._id}`);
+          } else {
+            toast.error("Quiz not found in incoming quizzes");
+          }
+        });
+      },
+      onError: (error) => {
+        toast.error(error.response?.data?.message || error.message || "Unknown error");
+        onClose();
+      },
+    });
+  };
 
   return (
     <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
@@ -45,10 +49,7 @@ const handleJoin = () => {
           <button onClick={onClose} className="px-4 py-2 border rounded">
             ✖
           </button>
-          <button
-            onClick={handleJoin}
-            className="px-4 py-2 bg-amber-500 text-white rounded"
-          >
+          <button onClick={handleJoin} className="px-4 py-2 bg-amber-500 text-white rounded">
             ✔
           </button>
         </div>

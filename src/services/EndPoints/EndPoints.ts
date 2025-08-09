@@ -11,7 +11,9 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = Cookies.get("token");
+
+   const token =Cookies.get("token")
+
     if (token) {
       config.headers.Authorization = token;
     }
@@ -22,6 +24,22 @@ axiosInstance.interceptors.request.use(
   }
 );
 
+
+// axiosInstance.interceptors.request.use(
+//   (config) => {
+//     const token = Cookies.get("token");
+//     console.log("Token from cookie:", token);  // تأكد أنه يظهر التوكن في الكونسول
+
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
 
 
 /*************Authentication EndPoint Start*******************/
