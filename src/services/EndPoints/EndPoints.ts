@@ -78,5 +78,14 @@ export const QUIZZES_URL = {
   CREATE_NEW_QUIZE: `${QuizUrl}`,
   CET_ALL_QUIZZES: `${QuizUrl}`,
   GET_QUIZ_DETAILS : (id:string) => `${QuizUrl}/${id}`,
-
 };
+
+/********* Student Exam (learner) ********* */
+
+export const STUDENT_EXAM = {
+   GET_QUIZWITHOUTANSWER: (id:string) => `${QuizUrl}/without-answers/${id}`,
+   JOIN_EXAM : `${QuizUrl}/join`,
+   SUBMIT_QUIZ: (id: string) => `${QuizUrl}/submit/${id}`,
+   GET_INCOMING: `${QuizUrl}/incomming`,
+   GET_COMPLETED: `${QuizUrl}/completed`,
+}

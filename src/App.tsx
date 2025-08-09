@@ -22,7 +22,9 @@ import DashboardQuizzes from "./pages/DashboardQuizzes/DashboardQuizzes";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import QuizeDeatiles from "./pages/DashboardQuizzes/QuizeDeatiles";
 import NotFound from "./components/NotFound/NotFound";
+import ExamModel from "./pages/Learner/ExamModel/ExamModel";
 import Profile from "./pages/Authentication/Profile/Profile";
+import LearnerDashboard from "./pages/Learner/LearnerDashboard/LearnerDashboard";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -66,6 +68,9 @@ function App() {
           { path: "questions", element: <QuestionsList /> },
           { path: "quizzes", element: <DashboardQuizzes /> },
           { path: "quizzes/:id", element: <QuizeDeatiles /> },
+          { path: "exammodel", element: <ExamModel /> },
+          { path: "learnerdashboard", element: <LearnerDashboard /> },
+
           { path: "profile", element: <Profile /> },
         ],
         errorElement: <NotFound />,

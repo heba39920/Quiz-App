@@ -38,6 +38,7 @@
     "react-select": "^5.10.2",
     "react-toastify": "^11.0.5",
     "redux": "^5.0.1",
+    "sweetalert2": "^11.22.2",
     "tailwindcss": "^4.1.11",
     "use-sound": "^5.0.0",
     "zod": "^4.0.9"

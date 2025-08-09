@@ -22,3 +22,4 @@ export const fetchQuizDetails = async (quizId: string): Promise<Quiz> => {
   const response = await axiosInstance.get(QUIZZES_URL.GET_QUIZ_DETAILS(quizId));
   return response.data;
 };
+
