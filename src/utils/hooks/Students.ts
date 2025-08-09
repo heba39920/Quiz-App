@@ -1,4 +1,12 @@
-import { deleteStudent, deleteStudentFromGroup, getAllStudents, getAllStudentsWithoutGroup, getStudentById } from "@/services/API/Students";
+import type { TopStudent } from "@/interface/StudentInterface";
+import {
+  deleteStudent,
+  deleteStudentFromGroup,
+  getAllStudents,
+  getAllStudentsWithoutGroup,
+  getStudentById,
+  getTopFiveStudents,
+} from "@/services/API/Students";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
@@ -31,9 +39,17 @@ export const useDeleteStudent = () => {
 export const useDeleteStudentFromGroup = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ studentId, groupId }: { studentId: string; groupId: string }) => deleteStudentFromGroup(studentId, groupId),
+    mutationFn: ({
+      studentId,
+      groupId,
+    }: {
+      studentId: string;
+      groupId: string;
+    }) => deleteStudentFromGroup(studentId, groupId),
     onSuccess: (data) => {
-      toast.success(data.message || "student has been deleted from this group successfully");
+      toast.success(
+        data.message || "student has been deleted from this group successfully"
+      );
       queryClient.invalidateQueries({ queryKey: ["students"] });
     },
     onError: (error: any) => {
@@ -48,5 +64,13 @@ export const useStudentDetails = (id: string, enabled = true) => {
     queryFn: () => getStudentById(id),
     enabled: !!id && enabled,
     retry: false,
+  });
+};
+
+export const useTopFiveStudents = () => {
+  return useQuery<TopStudent[]>({
+    queryKey: ["topFiveStudents"],
+    queryFn: getTopFiveStudents,
+    staleTime: 1000 * 60 * 5,
   });
 };
