@@ -25,6 +25,7 @@ const Navbar: React.FC<NavbarProps> = ({
   const dispatch = useDispatch();
   const auth = useSelector((state: any) => state.auth);
 
+
   const handleLogout = () => {
     Cookies.remove("token");
     dispatch(logout());

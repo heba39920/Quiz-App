@@ -18,7 +18,7 @@ interface SidebarProps {
 }
 const SideBar:React.FC<SidebarProps> = ({darkMode, toggled, setToggled}) => {
   const user = useSelector((state: any) => state.auth.user);
-  console.log(user);
+ 
   
   
   
@@ -131,7 +131,7 @@ const SideBar:React.FC<SidebarProps> = ({darkMode, toggled, setToggled}) => {
           
           </div>
         </MenuItem>
-        {user?.role === "Instructor" ? (menuItems.map((item) => {
+        {user?.role === "Instructor" ?(menuItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
             <MenuItem
@@ -152,7 +152,7 @@ const SideBar:React.FC<SidebarProps> = ({darkMode, toggled, setToggled}) => {
             </MenuItem>
          
           );
-        })) : (learnerMenuItems.map((item) => {
+        })) :  (learnerMenuItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
             <MenuItem
