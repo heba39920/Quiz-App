@@ -11,8 +11,7 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-
-   const token =Cookies.get("token")
+    const token = Cookies.get("token");
 
     if (token) {
       config.headers.Authorization = token;
@@ -23,8 +22,6 @@ axiosInstance.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
-
 
 // axiosInstance.interceptors.request.use(
 //   (config) => {
@@ -41,7 +38,6 @@ axiosInstance.interceptors.request.use(
 //     return Promise.reject(error);
 //   }
 // );
-
 
 /*************Authentication EndPoint Start*******************/
 
@@ -77,6 +73,7 @@ export const STUDENT_URLS = {
     `${StudentUrl}/${StudentId}/${GroupId}`,
 
   GET_STUDENT_BY_ID: (id: string) => `${StudentUrl}/${id}`,
+  GET_TOP_FIVE: `${StudentUrl}/top-five`,
 };
 /*************Student EndPoint End*******************/
 /*************Questions EndPoint Start*******************/
@@ -85,9 +82,8 @@ export const QUESTIONS_URLS = {
   ADD_QUESTION: "question",
   UPDATE_QUESTION: (id: string) => `question/${id}`,
   DELETE_QUESTION: (id: string) => `question/${id}`,
-  GET_QUESTION_BY_ID: (id:string)=>`question/${id}`,
+  GET_QUESTION_BY_ID: (id: string) => `question/${id}`,
 };
-
 
 /*************Quizzes EndPoint Start*******************/
 
@@ -96,15 +92,15 @@ export const QUIZZES_URL = {
   GET_LASTFIVECOMPLETED: `${QuizUrl}/completed`,
   CREATE_NEW_QUIZE: `${QuizUrl}`,
   CET_ALL_QUIZZES: `${QuizUrl}`,
-  GET_QUIZ_DETAILS : (id:string) => `${QuizUrl}/${id}`,
+  GET_QUIZ_DETAILS: (id: string) => `${QuizUrl}/${id}`,
 };
 
 /********* Student Exam (learner) ********* */
 
 export const STUDENT_EXAM = {
-   GET_QUIZWITHOUTANSWER: (id:string) => `${QuizUrl}/without-answers/${id}`,
-   JOIN_EXAM : `${QuizUrl}/join`,
-   SUBMIT_QUIZ: (id: string) => `${QuizUrl}/submit/${id}`,
-   GET_INCOMING: `${QuizUrl}/incomming`,
-   GET_COMPLETED: `${QuizUrl}/completed`,
-}
+  GET_QUIZWITHOUTANSWER: (id: string) => `${QuizUrl}/without-answers/${id}`,
+  JOIN_EXAM: `${QuizUrl}/join`,
+  SUBMIT_QUIZ: (id: string) => `${QuizUrl}/submit/${id}`,
+  GET_INCOMING: `${QuizUrl}/incomming`,
+  GET_COMPLETED: `${QuizUrl}/completed`,
+};

@@ -23,16 +23,16 @@ import { toast } from "react-toastify";
 import { BsGrid3X3GapFill, BsGridFill } from "react-icons/bs";
 import { FaListUl } from "react-icons/fa";
 
-type ViewType = 'grid-2-col' | 'grid-3-col' | 'list-view';
+type ViewType = "grid-2-col" | "grid-3-col" | "list-view";
 
 const StudentsList = () => {
-    const [activeView, setActiveView] = useState<ViewType>('grid-2-col');
+  const [activeView, setActiveView] = useState<ViewType>("grid-2-col");
   const [groupId, setGroupId] = useState<string | null>(null);
   const [removeId, setRemoveId] = useState<string | null>(null);
   const [isModalOpen, setModalOpen] = useState(false);
   const { data: StudentsData, isLoading } = useGetAllStudents();
   const [currentPage, setCurrentPage] = useState(1);
- const [ itemsPerPage , setItemsPerPage] = useState(8);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
   const [playDelete] = useSound(deleteSound);
   const [playView] = useSound(viewSound);
   const { mutate: deleteStudent, isPending: isDeleting } = useDeleteStudent();
@@ -46,30 +46,30 @@ const StudentsList = () => {
   const { data: groups, isLoading: isGroupsLoading } = useGroup();
   const [searchGroup, setSearchGroup] = useState<string | null>("all");
   const [searchName, setSearchName] = useState<string>("");
-   
+
   const handleGroupClick = (groupName: string) => {
     setSearchGroup(groupName);
     setCurrentPage(1);
   };
-  
+
   const handleNameSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchName(e.target.value);
     setCurrentPage(1);
   };
-  
+
   const filteredStudents = useMemo(() => {
     if (!StudentsData) return [];
     let filtered = StudentsData;
     // Filter by group
     if (searchGroup && searchGroup !== "all") {
       filtered = filtered.filter(
-        (student:Student) => student?.group?.name === searchGroup
+        (student: Student) => student?.group?.name === searchGroup
       );
     }
     // Filter by name (case-insensitive)
     if (searchName.trim() !== "") {
       filtered = filtered.filter(
-        (student:Student) =>
+        (student: Student) =>
           student?.first_name
             .toLowerCase()
             .includes(searchName.toLowerCase()) ||
@@ -78,35 +78,37 @@ const StudentsList = () => {
     }
     return filtered;
   }, [StudentsData, searchGroup, searchName]);
-  
+
   const totalPages = useMemo(() => {
     return Math.ceil(filteredStudents.length / itemsPerPage);
   }, [filteredStudents, itemsPerPage]);
-  
+
   const displayedStudents = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredStudents.slice(startIndex, startIndex + itemsPerPage);
   }, [filteredStudents, currentPage, itemsPerPage]);
-  
+
   const [showAllGroups, setShowAllGroups] = useState(false);
   const maxVisibleGroups = 3;
-  const displayedGroups = showAllGroups ? groups : groups?.slice(0, maxVisibleGroups);
+  const displayedGroups = showAllGroups
+    ? groups
+    : groups?.slice(0, maxVisibleGroups);
   const gridClasses = useMemo(() => {
     switch (activeView) {
-      case 'grid-2-col':
-        return 'grid grid-cols-1 md:grid-cols-2';
-      case 'grid-3-col':
-        return 'grid grid-cols-1 md:grid-cols-3';
-      case 'list-view':
-        return 'grid grid-cols-1'; // List view usually means a single column
+      case "grid-2-col":
+        return "grid grid-cols-1 md:grid-cols-2";
+      case "grid-3-col":
+        return "grid grid-cols-1 md:grid-cols-3";
+      case "list-view":
+        return "grid grid-cols-1"; // List view usually means a single column
       default:
-        return 'grid grid-cols-1 md:grid-cols-2';
+        return "grid grid-cols-1 md:grid-cols-2";
     }
   }, [activeView]);
   return (
     <div className="m-[21px] border-1 border-[#00000033] p-[20px]">
       <h1 className="font-bold text-2xl">Students list</h1>
-      
+
       {/* Changed to flex-col when showAllGroups is true */}
       <div className={`flex flex-row gap-4`}>
         {/* Group list */}
@@ -121,7 +123,9 @@ const StudentsList = () => {
                 {/* "All Students" button */}
                 <li
                   className={`border-1 rounded-4xl border-[#00000033] px-[20px] md:px-[35px] py-[6px] cursor-pointer dark:border-[#fff] ${
-                    searchGroup === "all" ? "bg-[#FFEDDF] dark:text-[#0D1321]" : ""
+                    searchGroup === "all"
+                      ? "bg-[#FFEDDF] dark:text-[#0D1321]"
+                      : ""
                   }`}
                   onClick={() => handleGroupClick("all")}
                 >
@@ -133,7 +137,9 @@ const StudentsList = () => {
                   <li
                     key={group._id}
                     className={`border-1 rounded-4xl border-[#00000033] px-[20px] md:px-[35px] py-[6px] cursor-pointer dark:border-[#fff] ${
-                      searchGroup === group?.name ? "bg-[#FFEDDF] dark:text-[#0D1321]" : ""
+                      searchGroup === group?.name
+                        ? "bg-[#FFEDDF] dark:text-[#0D1321]"
+                        : ""
                     }`}
                     onClick={() => handleGroupClick(group?.name)}
                   >
@@ -147,57 +153,94 @@ const StudentsList = () => {
                     className="cursor-pointer font-semibold border border-[#00000033] text-black-500 dark:border-[#fff] rounded-3xl px-[10px] md:px-[15px] py-[6px]"
                     onClick={() => setShowAllGroups(!showAllGroups)}
                   >
-                    {showAllGroups ? 'Show Less' : 'Show More...'}
+                    {showAllGroups ? "Show Less" : "Show More..."}
                   </li>
                 )}
               </>
             )}
           </ul>
         </div>
-
-
-      </div> 
-    
-             <div>
-          <input
-            type="text"
-            placeholder="Search by name..."
-            value={searchName}
-            onChange={handleNameSearch}
-            className="border border-gray-300 rounded-2xl my-3 px-4 py-2 md:w-[50%] w-[100%]"
-          />
-        </div>
-      <div className="justify-center md:justify-end  items-center  mb-4 flex">
-<div className="flex gap-2">
-          <button
-          className={`p-2 cursor-pointer rounded-md ${activeView === 'grid-2-col' ? 'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200`}
-          onClick={() => setActiveView('grid-2-col')}
-          title="2 Column Grid View"
-        >
-          <BsGridFill size={20} />
-        </button>
-        <button
-          className={`p-2 cursor-pointer rounded-md lg:block md:hidden ${activeView === 'grid-3-col' ? 'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200`}
-          onClick={() => setActiveView('grid-3-col')}
-          title="3 Column Grid View"
-        >
-          <BsGrid3X3GapFill size={20} />
-        </button>
-        <button
-          className={`p-2 cursor-pointer rounded-md ${activeView === 'list-view' ? 'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200`}
-          onClick={() => setActiveView('list-view')}
-          title="List View"
-        >
-          <FaListUl size={20} />
-        </button>
-</div>
-         <div className="w-fit  ms-5">
-      <button className={`py-1.5 px-3 cursor-pointer font-bold  rounded-tl-md rounded-bl-md  border-e-2 border-gray-400  ${itemsPerPage === 8 ?'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200` }  onClick={()=>setItemsPerPage(8)}>8</button>
-      <button className={`py-1.5 px-3 cursor-pointer font-bold border-e-2  border-gray-400  ${itemsPerPage === 12 ?'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200`} onClick={()=>setItemsPerPage(12)}>12</button>
-      <button className={`py-1.5 px-3 cursor-pointer font-bold rounded-tr-md rounded-br-md   ${itemsPerPage === 24 ?'bg-[#FFEDDF] text-black' : 'bg-gray-200 text-gray-700'} transition-colors duration-200`} onClick={()=>setItemsPerPage(24)}>24</button>
-     </div>
       </div>
-    
+
+      <div>
+        <input
+          type="text"
+          placeholder="Search by name..."
+          value={searchName}
+          onChange={handleNameSearch}
+          className="border border-gray-300 rounded-2xl my-3 px-4 py-2 md:w-[50%] w-[100%]"
+        />
+      </div>
+      <div className="justify-center md:justify-end  items-center  mb-4 flex">
+        <div className="flex gap-2">
+          <button
+            className={`p-2 cursor-pointer rounded-md ${
+              activeView === "grid-2-col"
+                ? "bg-[#FFEDDF] text-black"
+                : "bg-gray-200 text-gray-700"
+            } transition-colors duration-200`}
+            onClick={() => setActiveView("grid-2-col")}
+            title="2 Column Grid View"
+          >
+            <BsGridFill size={20} />
+          </button>
+          <button
+            className={`p-2 cursor-pointer rounded-md lg:block md:hidden ${
+              activeView === "grid-3-col"
+                ? "bg-[#FFEDDF] text-black"
+                : "bg-gray-200 text-gray-700"
+            } transition-colors duration-200`}
+            onClick={() => setActiveView("grid-3-col")}
+            title="3 Column Grid View"
+          >
+            <BsGrid3X3GapFill size={20} />
+          </button>
+          <button
+            className={`p-2 cursor-pointer rounded-md ${
+              activeView === "list-view"
+                ? "bg-[#FFEDDF] text-black"
+                : "bg-gray-200 text-gray-700"
+            } transition-colors duration-200`}
+            onClick={() => setActiveView("list-view")}
+            title="List View"
+          >
+            <FaListUl size={20} />
+          </button>
+        </div>
+        <div className="w-fit  ms-5">
+          <button
+            className={`py-1.5 px-3 cursor-pointer font-bold  rounded-tl-md rounded-bl-md  border-e-2 border-gray-400  ${
+              itemsPerPage === 8
+                ? "bg-[#FFEDDF] text-black"
+                : "bg-gray-200 text-gray-700"
+            } transition-colors duration-200`}
+            onClick={() => setItemsPerPage(8)}
+          >
+            8
+          </button>
+          <button
+            className={`py-1.5 px-3 cursor-pointer font-bold border-e-2  border-gray-400  ${
+              itemsPerPage === 12
+                ? "bg-[#FFEDDF] text-black"
+                : "bg-gray-200 text-gray-700"
+            } transition-colors duration-200`}
+            onClick={() => setItemsPerPage(12)}
+          >
+            12
+          </button>
+          <button
+            className={`py-1.5 px-3 cursor-pointer font-bold rounded-tr-md rounded-br-md   ${
+              itemsPerPage === 24
+                ? "bg-[#FFEDDF] text-black"
+                : "bg-gray-200 text-gray-700"
+            } transition-colors duration-200`}
+            onClick={() => setItemsPerPage(24)}
+          >
+            24
+          </button>
+        </div>
+      </div>
+
       {/* Rest of your component remains the same */}
       <div className={`${gridClasses} gap-4`}>
         {isLoading ? (
@@ -205,7 +248,7 @@ const StudentsList = () => {
             <Loader />
           </div>
         ) : (
-    displayedStudents?.map((student: Student) => {
+          displayedStudents?.map((student: Student) => {
             // Check if the student has a group AND if that group exists in the fetched groups list
             const studentHasExistingGroup =
               !!student?.group?._id &&
@@ -220,7 +263,7 @@ const StudentsList = () => {
                   exit={{ opacity: 0, y: -20, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
                   layout
-                 aria-label={`${student.first_name}`} 
+                  aria-label={`${student.first_name}`}
                 >
                   <div className="flex w-[100%] dark:border-[#fff] items-center justify-between border-1 rounded-2xl border-[#00000033] mb-2.5">
                     <div className="flex items-center">
@@ -263,7 +306,6 @@ const StudentsList = () => {
                         setModalOpen(true);
                         playDelete();
                       }}
-              
                       hasGroup={studentHasExistingGroup}
                     />
                   </div>
@@ -273,7 +315,7 @@ const StudentsList = () => {
           })
         )}
       </div>
-      
+
       {/* Pagination and modals remain the same */}
       <nav
         className="mt-6 flex flex-wrap justify-center items-center gap-2 text-sm"
@@ -342,8 +384,8 @@ const StudentsList = () => {
       />
       <ConfirmDeleteModal
         isOpen={isModalOpen}
-        title='Remove From Group'
-        message = 'Are you sure you want to Remove this Student from this Group?'
+        title="Remove From Group"
+        message="Are you sure you want to Remove this Student from this Group?"
         isLoading={isRemoving}
         onCancel={() => {
           setStudentId("");
@@ -353,9 +395,10 @@ const StudentsList = () => {
         onConfirm={() => {
           if (removeId && groupId) {
             // verify if the group still exists
-            const groupExists = groups && groups.some(group => group._id === groupId);
+            const groupExists =
+              groups && groups.some((group) => group._id === groupId);
             if (!groupExists) {
-              toast.error('The group has already been deleted.');
+              toast.error("The group has already been deleted.");
               setModalOpen(false);
               return;
             }
