@@ -78,7 +78,7 @@ const SideBar:React.FC<SidebarProps> = ({darkMode, toggled, setToggled}) => {
     {
       label: "Quizzes",
      icon: <HiOutlineClipboardDocumentList className="w-6 h-6" />,
-      path: "quizzes",
+      path: "learnerdashboard",
     },
    
     {
