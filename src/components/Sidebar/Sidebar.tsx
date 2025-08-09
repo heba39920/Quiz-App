@@ -76,9 +76,9 @@ const SideBar:React.FC<SidebarProps> = ({darkMode, toggled, setToggled}) => {
   ];
    const learnerMenuItems = [
     {
-      label: "Dashboard",
-      icon: <FaHome className="w-6 h-6" />,
-      path: "dashboard",
+      label: "Quizzes",
+     icon: <HiOutlineClipboardDocumentList className="w-6 h-6" />,
+      path: "quizzes",
     },
    
     {
@@ -131,7 +131,7 @@ const SideBar:React.FC<SidebarProps> = ({darkMode, toggled, setToggled}) => {
           
           </div>
         </MenuItem>
-        {user?.role === "admin" ? (menuItems.map((item) => {
+        {user?.role === "Instructor" ? (menuItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
             <MenuItem
