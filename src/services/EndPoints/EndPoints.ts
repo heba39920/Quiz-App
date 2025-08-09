@@ -9,23 +9,8 @@ export const axiosInstance = axios.create({
   baseURL,
 });
 
-// axiosInstance.interceptors.request.use(
-//   (config) => {
-//     const token = Cookies.get("token");
-//     if (token) {
-//       config.headers.Authorization = token;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-
 axiosInstance.interceptors.request.use(
   (config) => {
-    // const token =
-    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODgwZGUyYTQ0ZGFiN2I4Y2IwMjRiNzciLCJlbWFpbCI6InNoYW1hem91cm9iQGdtYWlsLmNvbSIsInJvbGUiOiJJbnN0cnVjdG9yIiwiaWF0IjoxNzUzNTM4OTIxLCJleHAiOjE3NTcxMzg5MjF9.CIfKwZqhKMkxSOZBENEl-3OcLlAQ1P41pgrPiuev9Gk";
 
    const token =Cookies.get("token")
 
@@ -39,6 +24,21 @@ axiosInstance.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+// axiosInstance.interceptors.request.use(
+//   (config) => {
+//     const token = Cookies.get("token");
+//     if (token) {
+//       config.headers.Authorization = token;
+//     }
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
+
+
 
 
 // axiosInstance.interceptors.request.use(
