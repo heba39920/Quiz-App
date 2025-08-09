@@ -1,0 +1,91 @@
+.container {
+  padding: 20px;
+}
+
+.title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.thead {
+  background-color: #1a202c;
+  color: white;
+}
+
+.th, .td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.viewButton {
+  background-color: #c1d95c;
+  border: none;
+  border-radius: 12px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modalContent {
+  background-color: white;
+  border-radius: 15px;
+  padding: 30px 40px;
+  width: 90%;
+  max-width: 550px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  direction: rtl;
+}
+
+.modalTitle {
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #2c3e50;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  border-bottom: 3px solid #c1d95c;
+  padding-bottom: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.modalBody {
+  font-size: 1.2rem;
+  color: #333;
+  line-height: 2;
+  direction: ltr;
+  font-weight: 600;
+}
+
+.closeButton {
+  margin-top: 30px;
+  width: 100%;
+  background-color: #FFEDDF;
+  color: black;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 0;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 6px 10px rgba(231, 76, 60, 0.5);
+  transition: background-color 0.3s ease;
+}

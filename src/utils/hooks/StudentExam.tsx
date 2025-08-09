@@ -1,4 +1,4 @@
-import { fetchCompletedQuizzes, fetchIncomingQuizzes, fetchQuizWithoutAnswer, joinQuiz, submitQuiz } from "@/services/API/StudentExam"
+import { fetchCompletedQuizzes, fetchIncomingQuizzes, fetchQuizWithoutAnswer, fetchResults, joinQuiz, submitQuiz } from "@/services/API/StudentExam"
 import { useMutation, useQuery } from "@tanstack/react-query"
 
 
@@ -30,7 +30,7 @@ export const useJoinQuiz = () => {
 export const useSubmitQuiz = () => {
   return useMutation({
     mutationFn: ({ quizId, answers }: { quizId: string; answers: any }) =>
-      submitQuiz(quizId, { answers }),  // << هنا وضعتهم داخل كائن
+      submitQuiz(quizId, { answers }),  
   });
 };
 
@@ -48,3 +48,10 @@ export const useCompletedQuizzes = () => {
     queryFn: fetchCompletedQuizzes,
   });
 };
+
+export const useResults =()=>{
+  return useQuery ({
+    queryKey : ["Results"],
+    queryFn: fetchResults,
+  });
+}

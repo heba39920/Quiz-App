@@ -121,4 +121,6 @@ export const STUDENT_EXAM = {
   SUBMIT_QUIZ: (id: string) => `${QuizUrl}/submit/${id}`,
   GET_INCOMING: `${QuizUrl}/incomming`,
   GET_COMPLETED: `${QuizUrl}/completed`,
+  GET_RESULTS: `${QuizUrl}/result`,
+
 };

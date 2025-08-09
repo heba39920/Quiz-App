@@ -28,3 +28,8 @@ export const fetchCompletedQuizzes = async () => {
   const { data } = await axiosInstance.get(STUDENT_EXAM.GET_COMPLETED);
   return data;
 };
+
+export const fetchResults = async ()=>{
+  const {data} = await axiosInstance.get(STUDENT_EXAM.GET_RESULTS);
+  return data;
+};
