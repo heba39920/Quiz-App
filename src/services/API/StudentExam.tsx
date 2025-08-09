@@ -17,3 +17,13 @@ export const submitQuiz = async (quizId: string, data: any) => {
   const response = await axiosInstance.post(STUDENT_EXAM.SUBMIT_QUIZ(quizId), data);
   return response.data;
 };
+
+export const fetchIncomingQuizzes = async () => {
+  const { data } = await axiosInstance.get(STUDENT_EXAM.GET_INCOMING);
+  return data;
+};
+
+export const fetchCompletedQuizzes = async () => {
+  const { data } = await axiosInstance.get(STUDENT_EXAM.GET_COMPLETED);
+  return data;
+};
