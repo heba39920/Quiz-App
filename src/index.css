@@ -3,5 +3,5 @@
 @custom-variant dark (&:where(.dark, .dark *));
 @import url(./styles//Quizzes.css);
 .sidebar .css-1t8x7v1 >.ps-menu-button:hover {
-  background-color: transparent;
+  background-color: transparent !important;
 }
