@@ -30,9 +30,10 @@ export const useJoinQuiz = () => {
 export const useSubmitQuiz = () => {
   return useMutation({
     mutationFn: ({ quizId, answers }: { quizId: string; answers: any }) =>
-    submitQuiz(quizId, answers),
+      submitQuiz(quizId, { answers }),  // << هنا وضعتهم داخل كائن
   });
 };
+
 
 export const useIncomingQuizzes = () => {
   return useQuery({

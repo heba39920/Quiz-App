@@ -1,16 +1,8 @@
+import { getTopFiveStudents } from "@/services/API/Students";
+import { useQuery } from "@tanstack/react-query";
 
-export interface Student {
-  _id : string,
-  first_name: string,
-      last_name: string,
-       email: string,
-     status: string,
-        role: string,
-        group: Group;
-
-}
-
-interface Group {
+// src/types/Student.ts
+export interface Group {
   _id: string;
   name: string;
   status: string;
@@ -21,21 +13,32 @@ interface Group {
   createdAt: string;
   __v: number;
 }
-export interface StudentWithoutGroup {
-  _id : string,
-  first_name: string,
-      last_name: string,
-       email: string,
-     status: string,
-        role: string,
-}
-export interface StudentResponse {
-  data: Student | Student[]; 
-  message?: string; 
+
+export interface Student {
+  _id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  status: string;
+  role: string;
+  group: Group | string | null;
 }
 
-
-export interface StudentsListResponse {
-  data: Student[];
-  message?: string;
+// types
+export interface TopStudent {
+  _id: string;
+  first_name: string;
+  last_name: string;
+  group?: { name?: string } | string | null;
+  average_score?: number;
+  rank?: number;
 }
+
+// hook
+export const useTopFiveStudents = () => {
+  return useQuery<TopStudent[]>({
+    queryKey: ["topFiveStudents"],
+    queryFn: getTopFiveStudents, 
+    staleTime: 1000 * 60 * 5,
+  });
+};

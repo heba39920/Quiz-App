@@ -1,121 +1,122 @@
-
 import { useQuizWithoutAnswer, useSubmitQuiz } from "@/utils/hooks/StudentExam";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-
+import { useParams, useNavigate } from "react-router-dom";
 
 const ExamModel = () => {
   const { quizId } = useParams<{ quizId: string }>();
-  console.log("Exam ID:", quizId);
+  const navigate = useNavigate();
+
   const { data, isLoading, error } = useQuizWithoutAnswer(quizId!);
-  console.log("Quiz data:", data);
   const { mutate: submitQuiz, isPending } = useSubmitQuiz();
 
-  const [answers, setAnswers] = useState<{ questionId: string; selectedChoice: string }[]>([]);
-  const [timeLeft, setTimeLeft] = useState(10 * 60); // 10 دقائق = 600 ثانية
+  const [answers, setAnswers] = useState<{ question: string; answer: string }[]>([]);
+  const [showResultModal, setShowResultModal] = useState(false);
+  const [resultData, setResultData] = useState<{ score: number; total: number } | null>(null);
 
+  if (isLoading || !data) {
+    return (
+      <div>Loading...</div>
+    );
+  }
 
- if (isLoading || !data) {
-  return (
-    <div className="flex min-h-screen bg-gray-100">
-      <div className="flex-1 p-6">
-        <div className="flex justify-between items-center mb-6">
-          <div className="h-8 w-40 bg-gray-300 rounded animate-pulse" />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-white rounded-lg shadow p-4 animate-pulse">
-              <div className="h-4 w-24 bg-gray-300 mb-4 rounded" />
-              <div className="h-4 w-full bg-gray-200 mb-2 rounded" />
-              <div className="h-4 w-3/4 bg-gray-200 mb-2 rounded" />
-              <div className="h-4 w-2/3 bg-gray-200 mb-2 rounded" />
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-6 text-right">
-          <div className="h-10 w-32 bg-gray-300 rounded inline-block animate-pulse" />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-  if (error) return <p className="p-4 text-red-600">حدث خطأ أثناء تحميل البيانات</p>;
+  if (error) return <p className="text-red-600">Error loading data</p>;
 
   const handleSelect = (questionId: string, selectedChoice: string) => {
     setAnswers((prevAnswers) => {
-      const updated = prevAnswers.filter((a) => a.questionId !== questionId);
-      return [...updated, { questionId, selectedChoice }];
+      const updated = prevAnswers.filter((a) => a.question !== questionId);
+      return [...updated, { question: questionId, answer: selectedChoice }];
     });
   };
 
   const handleSubmit = () => {
+    if (!quizId) return;
+
     submitQuiz(
-      { quizId: quizId!, answers },
+      { quizId, answers },
       {
         onSuccess: (data) => {
-          alert("تم تسليم الامتحان بنجاح ✅");
-          console.log("Response:", data);
+          // Assuming the API returns score and total
+          setResultData({ score: data.score, total: data.total });
+          setShowResultModal(true);
         },
-        onError: (error) => {
-          alert("حدث خطأ أثناء التسليم ❌");
-          console.error(error);
+        onError: (error: any) => {
+          const message =
+            error.response?.data?.message ||
+            error.message ||
+            "Unknown error occurred";
+          alert(`Error submitting quiz: ${message}`);
         },
       }
     );
   };
 
-  return (
-    <div className="flex min-h-screen bg-gray-100">
-      <div className="flex-1 p-6">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">{data.title}</h1>
-        </div>
+  const handleCloseModal = () => {
+    setShowResultModal(false);
+    navigate("/dashboard/learnerdashboard"); // Redirect to learner dashboard
+  };
 
-        {/* Questions Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {data.questions.map((q: any, index: number) => (
-            <div key={q._id} className="bg-white rounded-lg shadow p-4">
-              <h3 className="font-semibold mb-3">Question {index + 1}</h3>
-              <p className="mb-4">{q.questionText}</p>
-              <div className="space-y-2">
-                {q.choices.map((opt: string, i: number) => (
+  return (
+    <div className="min-h-screen bg-gray-100 p-6 max-w-5xl mx-auto">
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold">{data.title}</h1>
+        <p className="text-gray-600">{data.description}</p>
+      </header>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {data.questions.map((q) => {
+          const options = Object.entries(q.options).filter(([key]) => key !== "_id");
+          return (
+            <div key={q._id} className="bg-white rounded-lg shadow p-6">
+              <h3 className="text-lg font-semibold mb-4">{q.title}</h3>
+              <div className="space-y-3">
+                {options.map(([key, value]) => (
                   <label
-                    key={i}
-                    className={`block p-2 border rounded-lg cursor-pointer hover:bg-gray-50`}
+                    key={key}
+                    className="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 rounded p-2"
                   >
                     <input
                       type="radio"
                       name={`question-${q._id}`}
-                      value={opt}
-                      className="mr-2"
-                      onChange={() => handleSelect(q._id, opt)}
-                      checked={
-                        answers.find((a) => a.questionId === q._id)?.selectedChoice === opt
-                      }
+                      value={value}
+                      checked={answers.find((a) => a.question === q._id)?.answer === value}
+                      onChange={() => handleSelect(q._id, value)}
+                      className="form-radio"
                     />
-                    {opt}
+                    <span>{key}: {value}</span>
                   </label>
                 ))}
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* Submit Button */}
-        <div className="mt-6 text-right">
-          <button
-            onClick={handleSubmit}
-            disabled={isPending}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
-          >
-            {isPending ? "جارٍ الإرسال..." : "Submit"}
-          </button>
-        </div>
+          );
+        })}
       </div>
+
+      <div className="mt-10 text-right">
+        <button
+          onClick={handleSubmit}
+          disabled={isPending}
+          className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+        >
+          {isPending ? "Loading..." : "Submit"}
+        </button>
+      </div>
+
+      {showResultModal && resultData && (
+        <div className="fixed inset-0 bg-black/30 flex justify-center items-center z-50">
+          <div className="bg-white p-8 rounded-lg max-w-sm w-full text-center">
+            <h2 className="text-2xl font-bold mb-4">Your Result</h2>
+            <p className="text-lg mb-6">
+              Score: <span className="font-semibold">{resultData.score}</span> out of <span className="font-semibold">{resultData.total}</span>
+            </p>
+            <button
+              className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+              onClick={handleCloseModal}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

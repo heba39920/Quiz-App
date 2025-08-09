@@ -3,7 +3,7 @@ import { axiosInstance, STUDENT_EXAM } from "../EndPoints/EndPoints";
 
 export const fetchQuizWithoutAnswer = async (id : string) =>{
   const response = await axiosInstance.get(STUDENT_EXAM.GET_QUIZWITHOUTANSWER(id));
-  return response.data;
+  return response.data.data;
 
 }
 
@@ -17,6 +17,7 @@ export const submitQuiz = async (quizId: string, data: any) => {
   const response = await axiosInstance.post(STUDENT_EXAM.SUBMIT_QUIZ(quizId), data);
   return response.data;
 };
+
 
 export const fetchIncomingQuizzes = async () => {
   const { data } = await axiosInstance.get(STUDENT_EXAM.GET_INCOMING);

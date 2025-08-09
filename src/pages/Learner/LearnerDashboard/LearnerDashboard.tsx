@@ -19,12 +19,7 @@ export default function LearnerDashboard() {
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Quizzes</h1>
-          {/* <button
-            onClick={() => setIsJoinOpen(true)}
-            className="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg"
-          >
-            Join Quiz
-          </button> */}
+    
         </div>
 
         {/* Join Quiz Big Button */}
