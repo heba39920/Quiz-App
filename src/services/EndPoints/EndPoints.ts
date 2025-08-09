@@ -1,6 +1,5 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useSelector } from "react-redux";
 const baseURL = "https://upskilling-egypt.com:3005/api/";
 const AuthUrl = "auth/";
 const GroupUrl = "group";
@@ -26,8 +25,10 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     // const token =
-      // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODgyMzkxNDQ0ZGFiN2I4Y2IwMjY4Y2IiLCJlbWFpbCI6IlVzZXJTaGltYWFAZ21haWwuY29tIiwicm9sZSI6IlN0dWRlbnQiLCJpYXQiOjE3NTQ3NDEwNDksImV4cCI6MTc1ODM0MTA0OX0.nA1J9nsHYJasaLfX_Bpv1uUjBPA-9DnPmIJ9z9KaLHA";
-const token = useSelector((state )=> state.auth.token)
+    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODgwZGUyYTQ0ZGFiN2I4Y2IwMjRiNzciLCJlbWFpbCI6InNoYW1hem91cm9iQGdtYWlsLmNvbSIsInJvbGUiOiJJbnN0cnVjdG9yIiwiaWF0IjoxNzUzNTM4OTIxLCJleHAiOjE3NTcxMzg5MjF9.CIfKwZqhKMkxSOZBENEl-3OcLlAQ1P41pgrPiuev9Gk";
+
+   const token =Cookies.get("token")
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
