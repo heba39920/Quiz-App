@@ -15,7 +15,9 @@ interface SidebarProps {
 }
 const SideBar:React.FC<SidebarProps> = ({darkMode}) => {
   const user = useSelector((state: any) => state.auth.user);
-  console.log("user from sidebar", user);
+  console.log(user);
+  
+  
   
   const dispatch = useDispatch();
   const location = useLocation(); 
@@ -50,6 +52,24 @@ const SideBar:React.FC<SidebarProps> = ({darkMode}) => {
      icon: <HiOutlineClipboardDocumentList className="w-6 h-6" />,
       path: "quizzes",
     },
+    {
+      label: "Results",
+      icon: <FaChartBar className="w-6 h-6" />,
+      path: "results",
+    },
+    {
+      label: "Change Password",
+      icon:<FaLock className="w-[30px] h-[30px]" />,
+      path: "/change-password",
+    }
+  ];
+   const learnerMenuItems = [
+  {
+      label: "Quizzes",
+     icon: <HiOutlineClipboardDocumentList className="w-6 h-6" />,
+      path: "quizzes",
+    },
+   
     {
       label: "Results",
       icon: <FaChartBar className="w-6 h-6" />,
@@ -97,11 +117,11 @@ const SideBar:React.FC<SidebarProps> = ({darkMode}) => {
           
           </div>
         </MenuItem>
-        {menuItems.map((item) => {
+        {user?.role === "Instructor" ? (menuItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
             <MenuItem
-              component={<NavLink to={item.path} />}
+              component={<NavLink className="hover:bg-transparent" to={item.path} />}
               key={item.label}
               className={`menu-item  border-b-[#00000033] py-[28px] hover:bg-[#FFEDDF]  hover:text-[#0D1321] hover:border-e-5 hover:border-[#0D1321]  transition-colors  cursor-pointer hover:dark:border-0 text-[18px] font-bold ${isActive ? "active-menu-item" : ""}`}
               icon={
@@ -118,7 +138,28 @@ const SideBar:React.FC<SidebarProps> = ({darkMode}) => {
             </MenuItem>
          
           );
-        })}   <MenuItem
+        })) : (learnerMenuItems.map((item) => {
+          const isActive = location.pathname === item.path;
+          return (
+            <MenuItem
+              component={<NavLink className="hover:bg-transparent" to={item.path} />}
+              key={item.label}
+              className={`menu-item border-b-[#00000033] py-[28px] hover:bg-[#FFEDDF] hover:text-[#0D1321] hover:border-e-5 hover:border-[#0D1321] transition-colors cursor-pointer hover:dark:border-0 text-[18px] font-bold ${isActive ? "active-menu-item" : ""}`}
+              icon={
+                <span
+                  className={`rounded-[10px] bg-[#FFEDDF]  dark:text-[#0D1321]  p-2 me-[10px] ${
+                    isActive ? "icon-active" : ""
+                  }`}
+                >
+                  {item.icon}
+                </span>
+              }
+            >
+              {item.label}
+            </MenuItem>
+          );
+          }))}  
+         <MenuItem
               key="logout"
               className="menu-item border-b-[#00000033] py-[28px] hover:bg-[#FFEDDF] hover:text-[#0D1321] hover:border-e-5 hover:border-[#0D1321] transition-colors cursor-pointer hover:dark:border-0 text-[18px] font-bold"
               icon={<span className={`rounded-[10px] bg-[#FFEDDF]  dark:text-[#0D1321]  p-2 me-[10px] 
