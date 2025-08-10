@@ -122,3 +122,8 @@ export const useLogin = (): UseMutationResult<
     },
   });
 };
+
+export default function useAuth() {
+  const logedInData = useAppSelector((state) => state.auth); // أو حسب طريقة تخزين auth في الريدوكس
+  return { logedInData };
+}
