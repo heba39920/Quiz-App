@@ -132,14 +132,15 @@ const Navbar: React.FC<NavbarProps> = ({
             className="inline-flex items-center gap-2 h-9 px-4 rounded-full border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
             title="Create new quiz"
           >
-            <img src={SetUpQ} alt="" className="w-5 h-5" />
+            <img src={SetUpQ} alt="" className="w-5 h-5 dark:bg-[#fff]" />
             <span className="text-sm font-medium">New quiz</span>
           </button>
 
           {/* Email */}
           <div className="relative px-2">
             <FaEnvelope className="w-5 h-5" />
-            <span className="absolute -top-2 -right-1 bg-[#f7d6bd] text-white text-[10px] font-bold rounded-full px-1">
+            <span className="absolute -top-2 -right-1 bg-[#f7d6bd] text-white dark:text-[#0D1321]
+             text-[10px] font-bold rounded-full px-1">
               10
             </span>
           </div>
@@ -147,7 +148,7 @@ const Navbar: React.FC<NavbarProps> = ({
           {/* Bell */}
           <div className="relative px-2">
             <FaBell className="w-5 h-5" />
-            <span className="absolute -top-2 -right-1 bg-[#f7d6bd] text-white text-[10px] font-bold rounded-full px-1">
+            <span className="absolute -top-2 -right-1 bg-[#f7d6bd]  text-white dark:text-[#0D1321] text-[10px] font-bold rounded-full px-1">
               10
             </span>
           </div>

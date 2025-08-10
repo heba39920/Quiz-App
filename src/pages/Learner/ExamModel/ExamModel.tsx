@@ -132,7 +132,7 @@ const ExamModel = () => {
 
   const handleCloseModal = () => {
     setShowResultModal(false);
-    navigate("/dashboard/learnerdashboard");
+    navigate("/dashboard/learner-dashboard"); // Redirect to learner dashboard
   };
 
   return (

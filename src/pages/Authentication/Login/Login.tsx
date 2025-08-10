@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, Link } from "react-router-dom";
@@ -14,11 +14,14 @@ import { IoMdMail } from "react-icons/io";
 import { ImSpinner2 } from "react-icons/im";
 import Cookies from "js-cookie";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const Login = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
-
+  const user = useSelector((state: any) => state.auth.user);
+  console.log(user);
+  
   const {
     register,
     handleSubmit,
@@ -39,9 +42,13 @@ const Login = () => {
       Cookies.set("token", loginMutation?.data?.data.accessToken, { expires: 7 , path: '/' });
      
    
-      navigate("/dashboard");
+     if (user?.role === "Instructor") {
+        navigate("/dashboard");
+      } else {
+        navigate("/dashboard/learner-dashboard");
+      }
     }
-  }, [loginMutation.isSuccess, loginMutation.data?.token, navigate, loginMutation.data?.data?.accessToken]);
+  }, [loginMutation.isSuccess, loginMutation.data?.token, navigate, loginMutation.data?.data?.accessToken,user?.role]);
 
   return (
     <div className="w-full max-w-lg lg:max-w-2xl sm:px-6 md:px-0">

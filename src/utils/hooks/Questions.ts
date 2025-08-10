@@ -1,6 +1,6 @@
 import type { QuestionsInterface } from "@/interface/QuestionsInterface";
-import { addQuestion, editQuestion } from "@/services/API/Questions";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addQuestion, deleteQuestion, editQuestion, getAllQuestions, getQuestionById } from "@/services/API/Questions";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
 export const  useAddQuestion = () => {
@@ -19,7 +19,7 @@ export const  useAddQuestion = () => {
 export const useEditQuestion = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: () => editQuestion(id),
+    mutationFn: (data:QuestionsInterface) => editQuestion(id, data),
     onSuccess: (data) => {
       toast.success(data.message || "Question has been updated successfully");
       queryClient.invalidateQueries({ queryKey: ["questions"] });
@@ -27,5 +27,34 @@ export const useEditQuestion = (id: string) => {
     onError: (error: any) => {
       toast.error(error.response?.data?.message);
     },
+  });
+};
+export const useDeleteQuestion = (id: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => deleteQuestion(id),
+    onSuccess: (data) => {
+      toast.success(data.message || "Question has been deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["questions"] });
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.message);
+    },
+  });
+};
+export const useGetAllQuestions = () => {
+  return useQuery({
+    queryKey: ["questions"],
+    queryFn: getAllQuestions,
+    refetchOnWindowFocus: false,
+    retry: 1,
+  });
+};
+export const useGetQuestionById = (id: string) => {
+  return useQuery({
+    queryKey: ["question", id],
+    queryFn: () => getQuestionById(id),
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
 };

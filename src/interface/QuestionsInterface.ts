@@ -10,4 +10,5 @@ export interface QuestionsInterface {
     answer:string;
     difficulty:string;
     type:string;
+    _id?:string ; 
 }
