@@ -95,7 +95,7 @@ const ExamModel = () => {
         <button
           onClick={handleSubmit}
           disabled={isPending}
-          className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+          className="bg-orange-300 text-black px-8 py-3 rounded-lg hover:bg-orange-400 disabled:opacity-50"
         >
           {isPending ? "Loading..." : "Submit"}
         </button>
@@ -109,7 +109,7 @@ const ExamModel = () => {
               Score: <span className="font-semibold">{resultData.score}</span> out of <span className="font-semibold">{resultData.total}</span>
             </p>
             <button
-              className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+              className="bg-orange-300 text-black px-6 py-2 rounded hover:bg-orange-400"
               onClick={handleCloseModal}
             >
               Close
