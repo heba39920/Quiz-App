@@ -3,6 +3,7 @@ import type { QuestionsInterface } from "@/interface/QuestionsInterface";
 import { questionSchema } from "@/utils/validation/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
 // import { useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
@@ -15,31 +16,41 @@ interface QuestionsFormProps {
     isPending: boolean;
     modalType: "add" | "edit";
     isEditing?: boolean;
+      questionData?: QuestionsInterface, // <-- Add this prop to receive question data for editing
+
 }
-const QuestionsForm:React.FC<QuestionsFormProps> = ({OnSubmit, isModalOpen,handleCloseModal, onConfirm,isPending, modalType, isEditing}) => {
+const QuestionsForm:React.FC<QuestionsFormProps> = ({OnSubmit, isModalOpen,handleCloseModal, onConfirm,isPending, modalType, isEditing,questionData}) => {
 const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInterface>({
  mode: "onChange",
- resolver: zodResolver(questionSchema),
-    defaultValues: {
-    title: "",
-    description: "",
-    options: {
-        A: "",
-        B: "",
-        C: "",
-        D: ""
-    },
-    answer: "",
-    difficulty: "",
-    type: ""
-    },
+ resolver: zodResolver(questionSchema)
 });
-// useEffect(()=>{
-// if(modalType === "edit" && isEditing) {
-//   fetchQuestionData(questionId).then(data => reset(data));
-// },[])
+console.log("Question Data:", questionData);
+
+  // Reset form with question data when editing
+  useEffect(() => {
+    if (modalType === "edit" && isEditing && questionData) {
+      
+      
+      reset({
+        title: questionData.title,
+        description: questionData.description,
+        options: {
+          A: questionData.options?.A || "",
+          B: questionData.options?.B || "",
+          C: questionData.options?.C || "",
+          D: questionData.options?.D || "",
+        },
+        answer: questionData.answer || "",
+        difficulty: questionData.difficulty || "",
+        type: questionData.type || "",
+      });
+    }
+  }, [modalType, isEditing, questionData, reset]);
   return (
-      <ReusableModal title="Set up a new question" isOpen={isModalOpen} onConfirm={onConfirm} onClose={handleCloseModal} className="w-[100%] md:w-[70%]  mx-auto h-[80%] overflow-y-auto">     
+      <ReusableModal   
+          title={modalType === "add" ? "Set up a new question" : "Edit question"}
+ isOpen={isModalOpen}
+  onConfirm={onConfirm} onClose={handleCloseModal} className="w-[100%] md:w-[70%]  mx-auto h-[80%] overflow-y-auto">     
     <form
       className="space-y-4 px-0 md:px-8"
       onSubmit={OnSubmit ? handleSubmit(OnSubmit) : undefined}
@@ -315,9 +326,10 @@ const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInte
             className="flex-1 ps-[110px] p-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
           >
              <option value="">Choose Answer</option>
-            <option value="FE">FE</option>
-            <option value="BE">BE</option>
-            <option value="DO">DO</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
          </select> 
         </motion.div>
         </AnimatePresence>

@@ -69,7 +69,7 @@ function App() {
           { path: "quizzes", element: <DashboardQuizzes /> },
           { path: "quizzes/:id", element: <QuizeDeatiles /> },
           { path: "exammodel/:quizId", element: <ExamModel /> },
-          { path: "learnerdashboard", element: <LearnerDashboard /> },
+          { path: "learner-dashboard", element: <LearnerDashboard /> },
 
           { path: "profile", element: <Profile /> },
         ],

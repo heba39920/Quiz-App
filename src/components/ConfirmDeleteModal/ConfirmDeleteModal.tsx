@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { FiCheck, FiX } from "react-icons/fi";
 import deleteImage from "@/assets/images/Delete.png";
+import Loader from "../Loader/Loader";
 
 interface ConfirmDeleteModalProps {
   isOpen: boolean;
@@ -71,14 +72,14 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
         </div>
 
         {/* Body */}
-        <div className="px-6 py-6 text-[16px] text-gray-700 leading-relaxed text-center dark:text-[#fff]">
+      {isLoading? (<Loader/>):(  <div className="px-6 py-6 text-[16px] text-gray-700 leading-relaxed text-center dark:text-[#fff]">
           <img
             src={deleteImage}
             alt="Delete Illustration"
             className="mx-auto mb-4 w-50 h-50 object-contain"
           />
           {message}
-        </div>
+        </div>)}
       </div>
     </div>
   );

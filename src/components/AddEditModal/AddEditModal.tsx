@@ -42,7 +42,7 @@ const ReusableModal = ({
                 onClick={onConfirm}
                 aria-label="Confirm"
                 // disabled={isLoading}
-                className="w-12 h-12 flex items-center justify-center main-text hover:bg-[#FFEDDF] transition"
+                className="w-12 h-12 flex items-center justify-center main-text hover:bg-[#FFEDDF] transition dark:text-[#fff]"
               >
                 <FiCheck size={20} />
               </button>
@@ -50,7 +50,7 @@ const ReusableModal = ({
                 onClick={onClose}
                 aria-label="Cancel"
               
-                className="w-12 h-12 flex items-center justify-center main-text hover:bg-[#FFEDDF] transition"
+                className="w-12 h-12 flex items-center justify-center main-text hover:bg-[#FFEDDF] transition dark:text-[#fff]"
               >
                 <FiX size={20} />
               </button>
