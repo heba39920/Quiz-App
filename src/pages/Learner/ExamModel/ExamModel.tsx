@@ -35,7 +35,7 @@ const ExamModel = () => {
       { quizId, answers },
       {
         onSuccess: (data) => {
-          // Assuming the API returns score and total
+          console.log("Submit response data:", data); 
           setResultData({ score: data.score, total: data.total });
           setShowResultModal(true);
         },
@@ -52,7 +52,7 @@ const ExamModel = () => {
 
   const handleCloseModal = () => {
     setShowResultModal(false);
-    navigate("/dashboard/learnerdashboard"); // Redirect to learner dashboard
+    navigate("/dashboard/learnerdashboard"); 
   };
 
   return (
