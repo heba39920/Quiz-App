@@ -1,14 +1,15 @@
 import  { useState } from "react";
 import { useResults } from "@/utils/hooks/StudentExam";
 import styles from "./Results.module.css";
-import { Loader } from "lucide-react";
+
 import Nodata from "@/components/NoData/Nodata";
+import Loader from "@/components/Loader/Loader";
 
 const Results = () => {
   const { data, isLoading, error } = useResults();
   const [selectedResult, setSelectedResult] = useState<any>(null);
 
-  if (isLoading) return <p>Loading ...</p>;
+ 
   if (error) return <p>No Results Available Now</p>;
 
   return (
@@ -28,7 +29,7 @@ const Results = () => {
         <tbody>
          {isLoading ? (
               <tr>
-                <td colSpan={6} className="col-span-full flex justify-center items-center">
+                <td colSpan={6} className="h-[500px]">
                   <Loader />
                 </td>
               </tr>

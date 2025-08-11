@@ -1,5 +1,5 @@
 import { lightLogo, sideBarLogo } from "@/assets/images";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { LuMenu } from "react-icons/lu";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
@@ -20,13 +20,14 @@ interface SidebarProps {
   darkMode: boolean;
   setToggled: (v: boolean) => void; // يجي من الـMasterLayout
   toggled: boolean; // للتحكم بالـdrawer على الموبايل
+ 
 }
 const SideBar: React.FC<SidebarProps> = ({ darkMode, toggled, setToggled }) => {
   const user = useSelector((state: any) => state.auth.user);
 
   const dispatch = useDispatch();
   const location = useLocation();
-  const [collapsed, setIsCollapsed] = useState(false);
+   const [collapsed, setIsCollapsed] = useState(false);
   const handleMenuClick = () => {
     if (window.innerWidth < 1024) {
       // < lg => افتح/اقفل drawer
@@ -106,7 +107,7 @@ const SideBar: React.FC<SidebarProps> = ({ darkMode, toggled, setToggled }) => {
       className="h-full"
       width="240px" // عرض الدسكتوب
       collapsedWidth="72px" // عرض الحالة المصغّرة
-      collapsed={collapsed}
+      collapsed={collapsed}      
       breakPoint="lg" // < lg يتحول لدروار
       toggled={toggled} // تحكم فتح/إغلاق الموبايل
       onBackdropClick={handleBackdrop}
@@ -124,7 +125,7 @@ const SideBar: React.FC<SidebarProps> = ({ darkMode, toggled, setToggled }) => {
                 alt="side bar logo"
                 onClick={handleMenuClick}
                 className={`w-[6rem] h-[1.5rem]  cursor-pointer object-fit dark:bg-[#0D1321]  ${
-                  collapsed ? "hidden" : ""
+                 collapsed ? "hidden" : ""
                 }`}
               />
             ) : (

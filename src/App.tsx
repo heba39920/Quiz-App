@@ -25,6 +25,7 @@ import NotFound from "./components/NotFound/NotFound";
 import ExamModel from "./pages/Learner/ExamModel/ExamModel";
 import Profile from "./pages/Authentication/Profile/Profile";
 import LearnerDashboard from "./pages/Learner/LearnerDashboard/LearnerDashboard";
+import Results from "./pages/Learner/Results/Results";
 
 
 function App() {
