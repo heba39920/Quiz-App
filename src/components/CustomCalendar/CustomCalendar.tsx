@@ -7,7 +7,12 @@ import QuizModal from "../QuizModal/QuizModal";
 import { toast } from "react-toastify";
 import { useCreateQuiz } from "@/utils/hooks/Quizzes";
 
-const CustomCalendar = ({ markedDates = [] }: { markedDates: string[] }) => {
+type Props = {
+  markedDates: string[];
+  showNewQuizButton?: boolean; // ✅ جديد
+};
+
+const CustomCalendar = ({ markedDates = [], showNewQuizButton = true }: Props) => {
   const [selected, setSelected] = useState<Date | undefined>(new Date());
   const [showQuizModal, setShowQuizModal] = useState(false);
 
@@ -43,12 +48,16 @@ const CustomCalendar = ({ markedDates = [] }: { markedDates: string[] }) => {
         <h2 className="text-lg font-semibold main-text dark:text-white">
           Calendar
         </h2>
-        <button
-          className="bg-black text-[rgba(255,237,223,1)] px-3 py-1 rounded text-sm hover:opacity-90 transition"
-          onClick={() => setShowQuizModal(true)}
-        >
-          New Quiz
-        </button>
+
+        {/* ✅ زر الإنشاء يظهر فقط عند السماح */}
+        {showNewQuizButton && (
+          <button
+            className="bg-black text-[rgba(255,237,223,1)] px-3 py-1 rounded text-sm hover:opacity-90 transition"
+            onClick={() => setShowQuizModal(true)}
+          >
+            New Quiz
+          </button>
+        )}
       </div>
 
       <div className="w-full overflow-x-auto">
@@ -77,7 +86,8 @@ const CustomCalendar = ({ markedDates = [] }: { markedDates: string[] }) => {
         />
       </div>
 
-      {showQuizModal && (
+      {/* ✅ المودال يظهر فقط لو زر الإنشاء مفعّل */}
+      {showNewQuizButton && showQuizModal && (
         <QuizModal
           onClose={() => setShowQuizModal(false)}
           onSubmit={handleCreateQuiz}

@@ -1,5 +1,5 @@
 import Loader from "@/components/Loader/Loader";
-import type { Student } from "@/interface/StudentInterface";
+import type { Student, Group } from "@/interface/StudentInterface";
 import {
   useDeleteStudent,
   useDeleteStudentFromGroup,
@@ -24,6 +24,21 @@ import { BsGrid3X3GapFill, BsGridFill } from "react-icons/bs";
 import { FaListUl } from "react-icons/fa";
 import Nodata from "@/components/NoData/Nodata";
 
+/* ===== helpers to normalize group ===== */
+const isGroup = (g: Student["group"]): g is Group =>
+  !!g && typeof g === "object" && "_id" in g;
+
+const getGroupId = (g: Student["group"]) =>
+  isGroup(g) ? g._id : typeof g === "string" ? g : null;
+
+const getGroupName = (g: Student["group"], allGroups?: Group[]) =>
+  isGroup(g)
+    ? g.name
+    : typeof g === "string"
+    ? allGroups?.find((gr) => gr._id === g)?.name
+    : undefined;
+/* ===================================== */
+
 type ViewType = "grid-2-col" | "grid-3-col" | "list-view";
 
 const StudentsList = () => {
@@ -31,20 +46,29 @@ const StudentsList = () => {
   const [groupId, setGroupId] = useState<string | null>(null);
   const [removeId, setRemoveId] = useState<string | null>(null);
   const [isModalOpen, setModalOpen] = useState(false);
+
   const { data: StudentsData, isLoading } = useGetAllStudents();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
+
   const [playDelete] = useSound(deleteSound);
   const [playView] = useSound(viewSound);
+
   const { mutate: deleteStudent, isPending: isDeleting } = useDeleteStudent();
   const { mutate: removeStudentFromGroup, isPending: isRemoving } =
     useDeleteStudentFromGroup();
+
   const [StudentId, setStudentId] = useState<string>("");
   const [selectedId, setSelectedId] = useState("");
+
   const { data: studentDetails, isLoading: isDetailsLoading } =
     useStudentDetails(selectedId);
 
   const { data: groups, isLoading: isGroupsLoading } = useGroup();
+
+  // ✅ حول أي قيمة إلى Array آمنة للاستخدام
+  const groupsArr: Group[] = Array.isArray(groups) ? (groups as Group[]) : [];
+
   const [searchGroup, setSearchGroup] = useState<string | null>("all");
   const [searchName, setSearchName] = useState<string>("");
 
@@ -61,24 +85,22 @@ const StudentsList = () => {
   const filteredStudents = useMemo(() => {
     if (!StudentsData) return [];
     let filtered = StudentsData;
-    // Filter by group
+
     if (searchGroup && searchGroup !== "all") {
       filtered = filtered.filter(
-        (student: Student) => student?.group?.name === searchGroup
+        (s: Student) => getGroupName(s.group, groupsArr) === searchGroup
       );
     }
-    // Filter by name (case-insensitive)
+
     if (searchName.trim() !== "") {
       filtered = filtered.filter(
-        (student: Student) =>
-          student?.first_name
-            .toLowerCase()
-            .includes(searchName.toLowerCase()) ||
-          student?.last_name.toLowerCase().includes(searchName.toLowerCase())
+        (s: Student) =>
+          s.first_name.toLowerCase().includes(searchName.toLowerCase()) ||
+          s.last_name.toLowerCase().includes(searchName.toLowerCase())
       );
     }
     return filtered;
-  }, [StudentsData, searchGroup, searchName]);
+  }, [StudentsData, searchGroup, searchName, groupsArr]);
 
   const totalPages = useMemo(() => {
     return Math.ceil(filteredStudents.length / itemsPerPage);
@@ -92,8 +114,9 @@ const StudentsList = () => {
   const [showAllGroups, setShowAllGroups] = useState(false);
   const maxVisibleGroups = 3;
   const displayedGroups = showAllGroups
-    ? groups
-    : groups?.slice(0, maxVisibleGroups);
+    ? groupsArr
+    : groupsArr.slice(0, maxVisibleGroups);
+
   const gridClasses = useMemo(() => {
     switch (activeView) {
       case "grid-2-col":
@@ -101,18 +124,18 @@ const StudentsList = () => {
       case "grid-3-col":
         return "grid grid-cols-1 md:grid-cols-3";
       case "list-view":
-        return "grid grid-cols-1"; // List view usually means a single column
+        return "grid grid-cols-1";
       default:
         return "grid grid-cols-1 md:grid-cols-2";
     }
   }, [activeView]);
+
   return (
     <div className="m-[21px] border-1 border-[#00000033] p-[20px] dark:border-[#fff] rounded-3xl">
       <h1 className="font-bold text-2xl">Students list</h1>
 
-      {/* Changed to flex-col when showAllGroups is true */}
-      <div className={`flex flex-row gap-4`}>
-        {/* Group list */}
+      {/* groups filter */}
+      <div className="flex flex-row gap-4">
         <div className="flex-1">
           <ul className="flex flex-wrap items-center gap-2 mt-4 mb-5">
             {isGroupsLoading ? (
@@ -121,7 +144,6 @@ const StudentsList = () => {
               </div>
             ) : (
               <>
-                {/* "All Students" button */}
                 <li
                   className={`border-1 rounded-4xl border-[#00000033] px-[20px] md:px-[35px] py-[6px] cursor-pointer dark:border-[#fff] ${
                     searchGroup === "all"
@@ -133,7 +155,6 @@ const StudentsList = () => {
                   All Students
                 </li>
 
-                {/* Dynamic groups */}
                 {displayedGroups?.map((group) => (
                   <li
                     key={group._id}
@@ -148,8 +169,7 @@ const StudentsList = () => {
                   </li>
                 ))}
 
-                {/* Show/Hide all groups button */}
-                {groups && groups.length > maxVisibleGroups && (
+                {groupsArr.length > maxVisibleGroups && (
                   <li
                     className="cursor-pointer font-semibold border border-[#00000033] text-black-500 dark:border-[#fff] rounded-3xl px-[10px] md:px-[15px] py-[6px]"
                     onClick={() => setShowAllGroups(!showAllGroups)}
@@ -172,7 +192,8 @@ const StudentsList = () => {
           className="border border-gray-300 rounded-2xl my-3 px-4 py-2 md:w-[50%] w-[100%]"
         />
       </div>
-      <div className="justify-center md:justify-end  items-center  mb-4 flex">
+
+      <div className="justify-center md:justify-end items-center mb-4 flex">
         <div className="flex gap-2">
           <button
             className={`p-2 cursor-pointer rounded-md ${
@@ -208,9 +229,10 @@ const StudentsList = () => {
             <FaListUl size={20} />
           </button>
         </div>
-        <div className="w-fit  ms-5">
+
+        <div className="w-fit ms-5">
           <button
-            className={`py-1.5 px-3 cursor-pointer font-bold  rounded-tl-md rounded-bl-md  border-e-2 border-gray-400  ${
+            className={`py-1.5 px-3 cursor-pointer font-bold rounded-tl-md rounded-bl-md border-e-2 border-gray-400 ${
               itemsPerPage === 8
                 ? "bg-[#FFEDDF] text-black"
                 : "bg-gray-200 text-gray-700"
@@ -220,7 +242,7 @@ const StudentsList = () => {
             8
           </button>
           <button
-            className={`py-1.5 px-3 cursor-pointer font-bold border-e-2  border-gray-400  ${
+            className={`py-1.5 px-3 cursor-pointer font-bold border-e-2 border-gray-400 ${
               itemsPerPage === 12
                 ? "bg-[#FFEDDF] text-black"
                 : "bg-gray-200 text-gray-700"
@@ -230,7 +252,7 @@ const StudentsList = () => {
             12
           </button>
           <button
-            className={`py-1.5 px-3 cursor-pointer font-bold rounded-tr-md rounded-br-md   ${
+            className={`py-1.5 px-3 cursor-pointer font-bold rounded-tr-md rounded-br-md ${
               itemsPerPage === 24
                 ? "bg-[#FFEDDF] text-black"
                 : "bg-gray-200 text-gray-700"
@@ -252,10 +274,10 @@ const StudentsList = () => {
           <Nodata message="No students found." /> // <-- Show NoData if no students
         ) : (
           displayedStudents?.map((student: Student) => {
-            // Check if the student has a group AND if that group exists in the fetched groups list
+            const studGroupId = getGroupId(student.group);
+
             const studentHasExistingGroup =
-              !!student?.group?._id &&
-              groups?.some((group) => group._id === student?.group?._id);
+              !!studGroupId && groupsArr.some((g) => g._id === studGroupId); // ✅ ما نحط تايب هنا وخلاص
 
             return (
               <AnimatePresence mode="popLayout" key={student._id}>
@@ -282,7 +304,7 @@ const StudentsList = () => {
                           {student?.first_name} {student?.last_name}
                         </p>
                         <p className=" font-medium text-[13px] text-[#0000008d] dark:text-[#fff4f4d5]">
-                          Group: {student?.group?.name}
+                          Group: {getGroupName(student.group, groupsArr) ?? "—"}
                         </p>
                         <p className="flex items-center text-emerald-600 capitalize">
                           {student?.status}
@@ -293,10 +315,10 @@ const StudentsList = () => {
                         </p>
                       </div>
                     </div>
+
                     <DropdownMenu
                       onView={() => {
                         setSelectedId(student?._id);
-                        console.log(studentDetails);
                         playView();
                       }}
                       onDelete={() => {
@@ -305,7 +327,7 @@ const StudentsList = () => {
                       }}
                       onRemove={() => {
                         setRemoveId(student?._id);
-                        setGroupId(student?.group?._id);
+                        setGroupId(studGroupId);
                         setModalOpen(true);
                         playDelete();
                       }}
@@ -319,7 +341,7 @@ const StudentsList = () => {
         )}
       </div>
 
-      {/* Pagination and modals remain the same */}
+      {/* Pagination */}
       <nav
         className="mt-6 flex flex-wrap justify-center items-center gap-2 text-sm"
         aria-label="Pagination"
@@ -372,6 +394,8 @@ const StudentsList = () => {
           ›
         </button>
       </nav>
+
+      {/* Delete student modal */}
       <ConfirmDeleteModal
         isOpen={!!StudentId}
         title={`Delete Student`}
@@ -385,6 +409,8 @@ const StudentsList = () => {
           }
         }}
       />
+
+      {/* Remove from group modal */}
       <ConfirmDeleteModal
         isOpen={isModalOpen}
         title="Remove From Group"
@@ -392,27 +418,26 @@ const StudentsList = () => {
         isLoading={isRemoving}
         onCancel={() => {
           setStudentId("");
-          setGroupId("");
+          setGroupId(null);
           setModalOpen(false);
         }}
         onConfirm={() => {
           if (removeId && groupId) {
-            // verify if the group still exists
-            const groupExists =
-              groups && groups.some((group) => group._id === groupId);
+            const groupExists = groupsArr.some((g) => g._id === groupId);
             if (!groupExists) {
               toast.error("The group has already been deleted.");
               setModalOpen(false);
               return;
             }
-            // Proceed with removal
             removeStudentFromGroup({ studentId: removeId, groupId });
             setModalOpen(false);
-            setRemoveId("");
-            setGroupId("");
+            setRemoveId(null);
+            setGroupId(null);
           }
         }}
       />
+
+      {/* View modal */}
       <SharedViewModal
         isOpen={!!selectedId}
         onClose={() => setSelectedId("")}
@@ -463,7 +488,6 @@ const StudentsList = () => {
                     </p>
                   </div>
                   <div>
-                    {" "}
                     <p className="font-semibold">Status </p>
                     <p
                       className={`mt-1 inline-flex items-center px-2 py-0.5 rounded text-sm font-medium ${
@@ -493,7 +517,6 @@ const StudentsList = () => {
                     <p>{studentDetails?.group?.students?.length}</p>
                   </div>
                   <div>
-                    {" "}
                     <p className="font-semibold">Status </p>
                     <p
                       className={`mt-1 inline-flex items-center px-2 py-0.5 rounded text-sm font-medium ${

@@ -1,6 +1,5 @@
 import {
   useMutation,
-  useQuery,
   type UseMutationResult,
 } from "@tanstack/react-query";
 import {
@@ -13,7 +12,6 @@ import {
 } from "@/services/API/Auth";
 import type {
   ForgetPasswordPayload,
-  LoginPayload,
   RegisterPayload,
   ResetPasswordPayload,
 } from "@/interface/AuthInterface";
@@ -77,11 +75,12 @@ export const useChangePassword = () => {
 };
 
 export const useLogout = () => {
-  return useQuery({
-    queryFn: logout,
-    queryKey: ["logout"],
+  return useMutation({
+    mutationFn: logout,
   });
 };
+
+
 
 export const useRegister = (): UseMutationResult<
   any,
@@ -99,29 +98,30 @@ export const useRegister = (): UseMutationResult<
     },
   });
 };
-export const useLogin = (): UseMutationResult<
-  any,
-  Error,
-  LoginPayload,
-  unknown
-> => {
+export const useLogin = () => {
   const dispatch = useAppDispatch();
 
   return useMutation({
     mutationFn: login,
     onSuccess: (response) => {
-      const accessToken = response?.data?.accessToken;
-      const user = response?.data?.profile;
-      Cookies.set("token", accessToken, { expires: 7 });
-      dispatch(loginRedux({ token: accessToken, user }));
+      const { accessToken, profile, message } = response?.data ?? {};
 
-      toast.success(response?.data?.message || "Logged in successfully!");
+      if (!accessToken) {
+        toast.error("No token returned from server");
+        return;
+      }
+
+      Cookies.set("token", accessToken, { expires: 7, path: "/" });
+      dispatch(loginRedux({ token: accessToken, user: profile }));
+
+      toast.success(message || "Logged in successfully!");
     },
     onError: (error: any) => {
       toast.error(error?.response?.data?.message || "Something went wrong");
     },
   });
 };
+
 
 export default function useAuth() {
   const logedInData = useAppSelector((state) => state.auth); // أو حسب طريقة تخزين auth في الريدوكس

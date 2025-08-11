@@ -2,9 +2,9 @@ import {  useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, Link } from "react-router-dom";
-import { loginSchema } from "@/utils/validation/validation.ts";
-import { useLogin } from "@/utils/hooks/Auth.tsx";
-import type { LoginPayload } from "@/interface/AuthInterface.tsx";
+import { loginSchema } from "@/utils/validation/validation"; // يفضل بدون .ts
+import { useLogin } from "@/utils/hooks/Auth"; // يفضل بدون .tsx
+import type { LoginPayload } from "@/interface/AuthInterface";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import InputField from "@/components/InputField";
@@ -12,16 +12,11 @@ import { FaCircleCheck, FaLock } from "react-icons/fa6";
 import { BsFillPersonFill, BsFillPersonPlusFill } from "react-icons/bs";
 import { IoMdMail } from "react-icons/io";
 import { ImSpinner2 } from "react-icons/im";
-import Cookies from "js-cookie";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
 
 const Login = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
-  const user = useSelector((state: any) => state.auth.user);
-  console.log(user);
-  
+
   const {
     register,
     handleSubmit,
@@ -30,25 +25,19 @@ const Login = () => {
 
   const loginMutation = useLogin();
 
+  // ✅ التوجيه بعد نجاح الميوتاشن مباشرة
   const onSubmit = (data: LoginPayload) => {
-    loginMutation.mutate(data);
-
+    loginMutation.mutate(data, {
+      onSuccess: (res: any) => {
+        const role = res?.data?.profile?.role;
+        if (role === "Instructor") {
+          navigate("/dashboard");
+        } else {
+          navigate("/dashboard/learner-dashboard");
+        }
+      },
+    });
   };
-
-  // Handle success/error after mutation
-  useEffect(() => {
-    if (loginMutation.isSuccess) {
-  
-      Cookies.set("token", loginMutation?.data?.data.accessToken, { expires: 7 , path: '/' });
-     
-   
-     if (user?.role === "Instructor") {
-        navigate("/dashboard");
-      } else {
-        navigate("/dashboard/learner-dashboard");
-      }
-    }
-  }, [loginMutation.isSuccess, loginMutation.data?.token, navigate, loginMutation.data?.data?.accessToken,user?.role]);
 
   return (
     <div className="w-full max-w-lg lg:max-w-2xl sm:px-6 md:px-0">

@@ -35,24 +35,24 @@ interface GroupFormValues {
 
 const GroupList = () => {
   const customStyles = {
-  menu: (provided:any) => ({
-    ...provided,
-    backgroundColor: '#0D1321', // dark background
-    color: '#fff', // text color
-    border: '1px solid #fff',
-    // Add any other styles you need
-  }),
-  menuList: (provided:any) => ({
-    ...provided,
-    color: '#fff',
-  }),
-  option: (provided:any, state:any) => ({
-    ...provided,
-    backgroundColor: state.isFocused ? '#1a2138' : '#0D1321',
-    color: '#fff',
-  }),
-  // You can add more style customizations as needed
-};
+    menu: (provided: any) => ({
+      ...provided,
+      backgroundColor: "#0D1321", // dark background
+      color: "#fff", // text color
+      border: "1px solid #fff",
+      // Add any other styles you need
+    }),
+    menuList: (provided: any) => ({
+      ...provided,
+      color: "#fff",
+    }),
+    option: (provided: any, state: any) => ({
+      ...provided,
+      backgroundColor: state.isFocused ? "#1a2138" : "#0D1321",
+      color: "#fff",
+    }),
+    // You can add more style customizations as needed
+  };
   const { data: groups, isLoading, isError } = useGroup();
   const { mutate: deleteGroup, isPending: isDeleting } = useDeleteGroup();
   const { mutate: addGroup } = useAddGroup();
@@ -117,19 +117,28 @@ const GroupList = () => {
   const handleOpenModal = (group?: Group) => {
     setIsEditing(Boolean(group));
     setIsModalOpen(true);
+
     if (group) {
       setGroupIdToEdit(group._id);
       setValue("name", group.name);
+
+      // ✅ لو الطلاب في الجروب راجعين كـ Objects أو IDs فقط
       setValue(
         "students",
         group.students.map((s: any) => {
           if (typeof s === "string") {
-            const matched = studentOptions.find((opt:any) => opt.value === s);
+            const matched = studentOptions.find(
+              (opt: { value: string; label: string }) => opt.value === s
+            );
             return matched || { value: s, label: s };
           }
-          return { value: s._id, label: `${s.first_name} ${s.last_name}` };
+          return {
+            value: s._id,
+            label: `${s.first_name} ${s.last_name}`,
+          };
         })
       );
+
       playUpdate();
     } else {
       reset();
@@ -200,7 +209,7 @@ const GroupList = () => {
                 viewMode === "grid2" ? "bg-orange-100 dark:text-[#0D1321]" : ""
               }`}
             >
-              <BsGrid3X3GapFill/>
+              <BsGrid3X3GapFill />
             </button>
             <button
               onClick={() => setViewMode("grid3")}
@@ -208,7 +217,7 @@ const GroupList = () => {
                 viewMode === "grid3" ? "bg-orange-100 dark:text-[#0D1321]" : ""
               }`}
             >
-              <FaListUl/>
+              <FaListUl />
             </button>
             <select
               className=" rounded-lg px-3 py-1 border border-gray-300 dark:bg-[#0D1321]"
@@ -345,7 +354,9 @@ const GroupList = () => {
             key={i}
             onClick={() => setCurrentPage(i + 1)}
             className={`w-8 h-8 rounded-full ${
-              currentPage === i + 1 ? "bg-orange-200 dark:text-[#0D1321]" : "border dark:text-[#fff] dark:bg-[#0D1321] hover:dark:text-[#0D1321]"
+              currentPage === i + 1
+                ? "bg-orange-200 dark:text-[#0D1321]"
+                : "border dark:text-[#fff] dark:bg-[#0D1321] hover:dark:text-[#0D1321]"
             } flex items-center justify-center`}
           >
             {i + 1}
@@ -453,4 +464,3 @@ const GroupList = () => {
 };
 
 export default GroupList;
-
