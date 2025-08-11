@@ -14,12 +14,12 @@ const MasterLayout = () => {
     <div className={`flex flex-col min-h-screen ${darkMode ? "dark bg-[#0D1321] text-white" : ""}`}>
       <main className="flex flex-1">
         {/* Sidebar */}
-        <aside aria-label="Sidebar Navigation">
+        <aside aria-label="Sidebar Navigation " className={`fixed top-0 left-0 lg:z-500 ${sidebarToggled? "z-500" :"z-40"} h-screen `}>
           <SideBar darkMode={darkMode} toggled={sidebarToggled} setToggled={setSidebarToggled} />
         </aside>
 
         {/* Content */}
-        <section className="w-full">
+        <section className="w-full lg:ps-60 ">
           <header className="w-full h-[80px]">
             <Navbar
               handleDarkMode={toggleDarkMode}

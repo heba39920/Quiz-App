@@ -289,7 +289,6 @@ const QuestionsList = () => {
           </div>
         </div>
       </div>
-
       <ConfirmDeleteModal
         isOpen={!!deleteId}
         title="Delete Question"
@@ -379,6 +378,8 @@ const QuestionsList = () => {
         OnSubmit={onSubmit}
         isModalOpen={isModalOpen}
         questionData={modalType === "edit" ? questionData : undefined}
+          key={modalType === "edit" ? questionData?._id : "add-form"}
+            isLoading={modalType === "edit" && isLoadingQuestion}
       />
     </div>
   );

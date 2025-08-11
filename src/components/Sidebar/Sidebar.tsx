@@ -13,7 +13,8 @@ import { logout } from "@/redux/slices/authSlice";
 interface SidebarProps {
   darkMode: boolean;
     setToggled: (v: boolean) => void; // يجي من الـMasterLayout
-    toggled: boolean;                 // للتحكم بالـdrawer على الموبايل
+    toggled: boolean;              
+// للتحكم بالـdrawer على الموبايل
 
 }
 const SideBar:React.FC<SidebarProps> = ({darkMode, toggled, setToggled}) => {

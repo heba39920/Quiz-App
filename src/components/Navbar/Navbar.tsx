@@ -1,10 +1,11 @@
 import { logout } from "@/redux/slices/authSlice";
 import Cookies from "js-cookie";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SetUpQ from "@/assets/images/new quiz icon.png";
 import { FaBell, FaEnvelope, FaMoon, FaSun, FaBars } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { qLogo } from "@/assets/images";
 
 interface NavbarProps {
   title?: string;
@@ -14,13 +15,31 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({
-  title = "Dashboard",
+
+  
   handleDarkMode,
   darkMode,
   onToggleSidebar,
 }) => {
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const location = useLocation();
+   const [currentTitle, setCurrentTitle] = useState("");
 
+  
+   useEffect(() => {
+    const path = location.pathname;
+    const titles = {
+      "/dashboard/quizzes": "Quizzes",
+      "/dashboard/results": "Results",
+      "/dashboard/students": "Students",
+      "/dashboard/groups": "Groups",
+      "/dashboard/questions": "Questions",
+      "/dashboard/profile": "Profile"
+    };
+
+    const matchedPath = Object.keys(titles).find(key => path.startsWith(key));
+    setCurrentTitle(matchedPath ? titles[matchedPath] : "Dashboard");
+  }, [location.pathname]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector((state: any) => state.auth);
@@ -51,9 +70,12 @@ const Navbar: React.FC<NavbarProps> = ({
       </div>
 
       {/* CENTER: العنوان — بالنص على الموبايل، يسار على md+ */}
-      <h1 className="justify-self-center md:justify-self-start text-base sm:text-lg font-semibold text-center md:text-left">
-        {title}
+    <div className="flex items-center justify-center gap-2">
+         <img className="w-10 " src={qLogo} alt="navbar logo" />
+      <h1 className=" text-3xl justify-self-center md:justify-self-start sm:text-lg font-semibold text-center md:text-left">
+       {currentTitle}
       </h1>
+    </div>
 
       {/* RIGHT: موبايل = أيقونات صغيرة | تابلت/ديسكتوب = واجهة كاملة */}
       <div className="flex items-center justify-end gap-2">

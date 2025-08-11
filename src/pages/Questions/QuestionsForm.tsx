@@ -1,11 +1,13 @@
 import ReusableModal from "@/components/AddEditModal/AddEditModal";
+import Loader from "@/components/Loader/Loader";
 import type { QuestionsInterface } from "@/interface/QuestionsInterface";
 import { questionSchema } from "@/utils/validation/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
+
 import { useEffect } from "react";
-// import { useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { Circles } from "react-loader-spinner";
 
 
 interface QuestionsFormProps {
@@ -17,9 +19,10 @@ interface QuestionsFormProps {
     modalType: "add" | "edit";
     isEditing?: boolean;
       questionData?: QuestionsInterface, // <-- Add this prop to receive question data for editing
+        isLoading?: boolean;
 
 }
-const QuestionsForm:React.FC<QuestionsFormProps> = ({OnSubmit, isModalOpen,handleCloseModal, onConfirm,isPending, modalType, isEditing,questionData}) => {
+const QuestionsForm:React.FC<QuestionsFormProps> = ({isLoading,OnSubmit, isModalOpen,handleCloseModal, onConfirm,isPending, modalType, isEditing,questionData}) => {
 const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInterface>({
  mode: "onChange",
  resolver: zodResolver(questionSchema)
@@ -27,31 +30,38 @@ const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInte
 console.log("Question Data:", questionData);
 
   // Reset form with question data when editing
-  useEffect(() => {
-    if (modalType === "edit" && isEditing && questionData) {
-      
-      
-      reset({
-        title: questionData.title,
-        description: questionData.description,
-        options: {
-          A: questionData.options?.A || "",
-          B: questionData.options?.B || "",
-          C: questionData.options?.C || "",
-          D: questionData.options?.D || "",
-        },
-        answer: questionData.answer || "",
-        difficulty: questionData.difficulty || "",
-        type: questionData.type || "",
-      });
-    }
-  }, [modalType, isEditing, questionData, reset]);
+useEffect(() => {
+  if (modalType === "edit" && isModalOpen && questionData) {
+    reset({
+      title: questionData.title || "",
+      description: questionData.description || "",
+      options: {
+        A: questionData.options?.A || "",
+        B: questionData.options?.B || "",
+        C: questionData.options?.C || "",
+        D: questionData.options?.D || "",
+      },
+      answer: questionData.answer || "",
+      difficulty: questionData.difficulty || "",
+      type: questionData.type || "",
+    });
+  } else if (modalType === "add") {
+    reset({
+      title: "",
+      description: "",
+      options: { A: "", B: "", C: "", D: "" },
+      answer: "",
+      difficulty: "",
+      type: "",
+    });
+  }
+}, [modalType, isModalOpen, questionData, reset]);
   return (
       <ReusableModal   
           title={modalType === "add" ? "Set up a new question" : "Edit question"}
  isOpen={isModalOpen}
-  onConfirm={onConfirm} onClose={handleCloseModal} className="w-[100%] md:w-[70%]  mx-auto h-[80%] overflow-y-auto">     
-    <form
+  onConfirm={onConfirm} onClose={handleCloseModal} className="w-[100%] md:w-[70%]  mx-auto h-[80%] overflow-y-auto"> 
+  {isLoading?<div className="flex h-[500px] justify-center items-center"><Loader /></div>:( <form
       className="space-y-4 px-0 md:px-8"
       onSubmit={OnSubmit ? handleSubmit(OnSubmit) : undefined}
       aria-labelledby="form-title"
@@ -384,17 +394,43 @@ console.log("Question Data:", questionData);
                     
               
                  
-          <button
-            type="submit"
-            aria-label="Submit"
-            className="px-[10px] py-[5px] main-text bg-[#FFEDDF] transition rounded-2xl cursor-pointer"
-            disabled={isPending || isEditing}
-          >
-          {modalType === "add" ? "Add Question" : "Edit Question"}
-          </button>
+     <button
+  type="submit"
+  aria-label={modalType === "add" ? "Add Question" : "Edit Question"}
+  className={`px-[10px] py-[5px] main-text bg-[#FFEDDF] transition rounded-2xl cursor-pointer flex items-center justify-center min-w-[120px] ${
+    isPending || isEditing ? "opacity-70 cursor-not-allowed" : "hover:bg-[#FFD8B9]"
+  }`}
+  disabled={isPending || isEditing}
+>
+  {isPending && modalType === "add" ? (
+    <>
+
+      Adding... 
+           <Circles  
+          color="#0D1321"
+        ariaLabel="circles-loading"
+         width={20} height={20} />
+    </>
+  ) : isEditing && modalType === "edit" ? (
+    <>
+      
+     Editing...
+      <Circles  
+          color="#0D1321"
+        ariaLabel="circles-loading"
+         width={20} height={20} />
+    </>
+  ) : modalType === "add" ? (
+    "Add Question"
+  ) : (
+    "Edit Question"
+  )}
+</button>
         </motion.div>
         </AnimatePresence>
-    </form>
+    </form>)}
+    
+   
     </ReusableModal>
   );
 };

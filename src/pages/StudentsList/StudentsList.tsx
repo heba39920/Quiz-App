@@ -107,7 +107,7 @@ const StudentsList = () => {
     }
   }, [activeView]);
   return (
-    <div className="m-[21px] border-1 border-[#00000033] p-[20px]">
+    <div className="m-[21px] border-1 border-[#00000033] p-[20px] dark:border-[#fff] rounded-3xl">
       <h1 className="font-bold text-2xl">Students list</h1>
 
       {/* Changed to flex-col when showAllGroups is true */}
