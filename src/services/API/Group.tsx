@@ -3,7 +3,6 @@ import type {
   GroupDelete,
   GroupView,
   GroupAdd,
-  StudentUpdate,
 } from "@/interface/GroupInterface";
 import { axiosInstance, GROUP_URLS } from "../EndPoints/EndPoints";
 

@@ -1,64 +1,54 @@
+// services/EndPoints/EndPoints.ts
 import axios from "axios";
 import Cookies from "js-cookie";
+
 const baseURL = "https://upskilling-egypt.com:3005/api/";
-const AuthUrl = "auth/";
+
+// 👇 خليه بدون سلاش أخير لتفادي auth//login
+const AuthUrl = "auth";
 const GroupUrl = "group";
 const StudentUrl = "student";
 const QuizUrl = "quiz";
+
 export const axiosInstance = axios.create({
   baseURL,
+  // لو API يعتمد على كوكيز السيرفر، فعّل السطر التالي:
+  // withCredentials: true,
+  timeout: 20000,
 });
 
+// ---------- Request Interceptor (واحد فقط) ----------
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = Cookies.get("token");
-
     if (token) {
+      config.headers = config.headers ?? {};
       config.headers.Authorization = `Bearer ${token}`;
+    }
+    // تأكد من نوع المحتوى افتراضيًا
+    if (!config.headers["Content-Type"]) {
+      config.headers["Content-Type"] = "application/json";
     }
     return config;
   },
+  (error) => Promise.reject(error)
+);
+
+// ---------- Response Interceptor (اختياري لكن مفيد) ----------
+axiosInstance.interceptors.response.use(
+  (res) => res,
   (error) => {
+    // لو انتهت الجلسة أو التوكن باطل
+    if (error?.response?.status === 401) {
+      Cookies.remove("token", { path: "/" });
+      // لو بتستخدمي روتينج: ممكن ترجعي للّوجين
+      // window.location.href = "/login";
+    }
     return Promise.reject(error);
   }
 );
 
-// axiosInstance.interceptors.request.use(
-//   (config) => {
-
-//    const token =Cookies.get("token")
-
-//     if (token) {
-//       config.headers.Authorization = token;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-
-
-
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = Cookies.get("token");
-    console.log("Token from cookie:", token);  // تأكد أنه يظهر التوكن في الكونسول
-
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-
-/*************Authentication EndPoint Start*******************/
-
+/************* Authentication EndPoints ******************/
 export const USERS_URLS = {
   LOGIN: `${AuthUrl}/login`,
   FORGET_PASSWORD: `${AuthUrl}/forgot-password`,
@@ -66,12 +56,10 @@ export const USERS_URLS = {
   REGISTER: `${AuthUrl}/register`,
   CHANGE_PASSWORD: `${AuthUrl}/change-password`,
   LOGOUT: `${AuthUrl}/logout`,
+  ME: `${AuthUrl}/me`, // مفيد للهيدرايشن بعد الريفريش
 };
 
-/*************Authentication EndPoint End*******************/
-
-/*************Group EndPoint Start*******************/
-
+/************* Group EndPoints ******************/
 export const GROUP_URLS = {
   GET_GROUP_LIST: `${GroupUrl}`,
   DELETE_GROUP: (id: string) => `${GroupUrl}/${id}`,
@@ -79,22 +67,19 @@ export const GROUP_URLS = {
   ADD_GROUP: `${GroupUrl}`,
   UPDATE_GROUP: (id: string) => `${GroupUrl}/${id}`,
 };
-/*************Group EndPoint End*******************/
 
-/*************Student EndPoint Start*******************/
-
+/************* Student EndPoints ******************/
 export const STUDENT_URLS = {
   GET_ALL_STUDENT: StudentUrl,
   GET_ALL_STUDENTS_WITHOUT_GROUP: `${StudentUrl}/without-group`,
   DELETE_STUDENT: (id: string) => `${StudentUrl}/${id}`,
   DELETE_STUDENT_FROM_GROUP: (StudentId: string, GroupId: string) =>
     `${StudentUrl}/${StudentId}/${GroupId}`,
-
   GET_STUDENT_BY_ID: (id: string) => `${StudentUrl}/${id}`,
   GET_TOP_FIVE: `${StudentUrl}/top-five`,
 };
-/*************Student EndPoint End*******************/
-/*************Questions EndPoint Start*******************/
+
+/************* Questions EndPoints ******************/
 export const QUESTIONS_URLS = {
   GET_ALL_QUESTIONS: "question",
   ADD_QUESTION: "question",
@@ -103,18 +88,16 @@ export const QUESTIONS_URLS = {
   GET_QUESTION_BY_ID: (id: string) => `question/${id}`,
 };
 
-/*************Quizzes EndPoint Start*******************/
-
+/************* Quizzes EndPoints ******************/
 export const QUIZZES_URL = {
-  GET_FIRSTFIVEINCOMING: `${QuizUrl}/incomming`,
+  GET_FIRSTFIVEINCOMING: `${QuizUrl}/incomming`, // لو السيرفر كاتبه كده سيبيه
   GET_LASTFIVECOMPLETED: `${QuizUrl}/completed`,
   CREATE_NEW_QUIZE: `${QuizUrl}`,
   CET_ALL_QUIZZES: `${QuizUrl}`,
   GET_QUIZ_DETAILS: (id: string) => `${QuizUrl}/${id}`,
 };
 
-/********* Student Exam (learner) ********* */
-
+/********* Student Exam (learner) *********/
 export const STUDENT_EXAM = {
   GET_QUIZWITHOUTANSWER: (id: string) => `${QuizUrl}/without-answers/${id}`,
   JOIN_EXAM: `${QuizUrl}/join`,
@@ -122,5 +105,4 @@ export const STUDENT_EXAM = {
   GET_INCOMING: `${QuizUrl}/incomming`,
   GET_COMPLETED: `${QuizUrl}/completed`,
   GET_RESULTS: `${QuizUrl}/result`,
-
 };

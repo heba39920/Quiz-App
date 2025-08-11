@@ -1,11 +1,11 @@
-import { logout } from "@/redux/slices/authSlice";
 import Cookies from "js-cookie";
 import React, { useState } from "react";
 import SetUpQ from "@/assets/images/new quiz icon.png";
 import { FaBell, FaEnvelope, FaMoon, FaSun, FaBars } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-
+import { useLogout } from "@/utils/hooks/Auth";
+import { logout as logoutAction } from "@/redux/slices/authSlice";
 interface NavbarProps {
   title?: string;
   handleDarkMode: () => void;
@@ -25,11 +25,21 @@ const Navbar: React.FC<NavbarProps> = ({
   const dispatch = useDispatch();
   const auth = useSelector((state: any) => state.auth);
 
+  const logoutMutation = useLogout();
 
   const handleLogout = () => {
-    Cookies.remove("token");
-    dispatch(logout());
-    navigate("/login");
+    logoutMutation.mutate(undefined, {
+      onSuccess: () => {
+        Cookies.remove("token", { path: "/" });
+        dispatch(logoutAction());
+        navigate("/login");
+      },
+      onError: () => {
+        Cookies.remove("token", { path: "/" });
+        dispatch(logoutAction());
+        navigate("/login");
+      },
+    });
   };
 
   return (
@@ -75,7 +85,11 @@ const Navbar: React.FC<NavbarProps> = ({
             aria-label="Toggle dark mode"
             title="Toggle theme"
           >
-            {darkMode ? <FaSun className="w-4 h-4" /> : <FaMoon className="w-4 h-4" />}
+            {darkMode ? (
+              <FaSun className="w-4 h-4" />
+            ) : (
+              <FaMoon className="w-4 h-4" />
+            )}
           </button>
 
           {/* User (أيقونة بحرف أول + منيو صغيرة) */}
@@ -99,7 +113,10 @@ const Navbar: React.FC<NavbarProps> = ({
               >
                 <ul className="py-2 text-sm">
                   <li className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
-                    <Link to="/dashboard/profile" onClick={() => setIsUserDropdownOpen(false)}>
+                    <Link
+                      to="/dashboard/profile"
+                      onClick={() => setIsUserDropdownOpen(false)}
+                    >
                       Profile
                     </Link>
                   </li>
@@ -139,8 +156,10 @@ const Navbar: React.FC<NavbarProps> = ({
           {/* Email */}
           <div className="relative px-2">
             <FaEnvelope className="w-5 h-5" />
-            <span className="absolute -top-2 -right-1 bg-[#f7d6bd] text-white dark:text-[#0D1321]
-             text-[10px] font-bold rounded-full px-1">
+            <span
+              className="absolute -top-2 -right-1 bg-[#f7d6bd] text-white dark:text-[#0D1321]
+             text-[10px] font-bold rounded-full px-1"
+            >
               10
             </span>
           </div>
@@ -163,12 +182,25 @@ const Navbar: React.FC<NavbarProps> = ({
             >
               <div className="flex flex-col leading-tight text-left">
                 <span className="font-medium text-sm">
-                  {auth?.user?.first_name ?? "Guest"} {auth?.user?.last_name ?? ""}
+                  {auth?.user?.first_name ?? "Guest"}{" "}
+                  {auth?.user?.last_name ?? ""}
                 </span>
-                <span className="text-green-500 text-xs">{auth?.user?.role ?? ""}</span>
+                <span className="text-green-500 text-xs">
+                  {auth?.user?.role ?? ""}
+                </span>
               </div>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
               </svg>
             </button>
 
@@ -179,7 +211,10 @@ const Navbar: React.FC<NavbarProps> = ({
               >
                 <ul className="py-2">
                   <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer">
-                    <Link to="/dashboard/profile" onClick={() => setIsUserDropdownOpen(false)}>
+                    <Link
+                      to="/dashboard/profile"
+                      onClick={() => setIsUserDropdownOpen(false)}
+                    >
                       Profile
                     </Link>
                   </li>

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
 import { useResults } from "@/utils/hooks/StudentExam";
 import styles from "./Results.module.css";
+import { useState } from "react";
 
 const Results = () => {
   const { data, isLoading, error } = useResults();

@@ -45,12 +45,12 @@ export const register = async (data: RegisterPayload) => {
   return response.data;
 };
 
-export const login = async (data: LoginPayload) => {
-  const response = await axiosInstance.post(USERS_URLS.LOGIN, {
-    email: data.email,
-    password: data.password,
+export const login = async (payload: LoginPayload) => {
+  const res = await axiosInstance.post(USERS_URLS.LOGIN, {
+    email: payload.email,
+    password: payload.password,
+  });
+  return res.data; 
+};
 
-  })
-  return response.data;
-}
 

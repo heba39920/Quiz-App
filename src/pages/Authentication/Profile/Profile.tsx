@@ -1,5 +1,4 @@
 import { Mail, ShieldCheck } from "lucide-react";
-import React from "react";
 import { useSelector } from "react-redux";
 import defultAvater from "@/assets/images/default-avatar.png";
 const Profile = () => {
