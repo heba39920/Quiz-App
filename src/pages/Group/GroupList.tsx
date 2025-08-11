@@ -26,6 +26,7 @@ import addSound from "@/assets/Sound/new-notification-09-352705.mp3";
 import updateSound from "@/assets/Sound/new-notification-09-352705.mp3";
 import { BsGrid3X3GapFill, BsGridFill } from "react-icons/bs";
 import { FaListUl } from "react-icons/fa";
+import Nodata from "@/components/NoData/Nodata";
 
 interface GroupFormValues {
   name: string;
@@ -123,7 +124,7 @@ const GroupList = () => {
         "students",
         group.students.map((s: any) => {
           if (typeof s === "string") {
-            const matched = studentOptions.find((opt) => opt.value === s);
+            const matched = studentOptions.find((opt:any) => opt.value === s);
             return matched || { value: s, label: s };
           }
           return { value: s._id, label: `${s.first_name} ${s.last_name}` };
@@ -242,8 +243,12 @@ const GroupList = () => {
             {isLoading ? (
               <div className="col-span-full flex justify-center items-center">
                 <Loader />
-              </div>
-            ) : (
+           </div>
+         ) : paginatedGroups.length === 0 ? (
+                        <div className=" col-span-full flex justify-center items-center">
+          <Nodata message="No groups found." /> 
+                       </div>
+        ) : (
               paginatedGroups.map((group: Group) => (
                 <motion.div
                   key={group._id}

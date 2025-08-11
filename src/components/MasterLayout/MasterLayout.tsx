@@ -1,7 +1,7 @@
 import Navbar from "../Navbar/Navbar";
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
-import SideBar from "../Sidebar/Sidebar";
+import SideBar from "../SideBar/Sidebar";
 
 const MasterLayout = () => {
   const [darkMode, setDarkMode] = useState(false);

@@ -11,6 +11,7 @@ import {
 } from "@/utils/hooks/Quizzes";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Nodata from "@/components/NoData/Nodata";
 
 const DashboardQuizzes = () => {
   const [showQuizModal, setShowQuizModal] = useState(false);
@@ -107,6 +108,9 @@ const DashboardQuizzes = () => {
               <p className="text-sm text-red-500">Failed to load quizzes.</p>
             )}
             {!isLoading && !isError && (
+              incomingData?.length === 0 ? (
+                <Nodata message="No upcoming quizzes found." /> // <-- Show NoData if none
+              ) : (
               <ul className="space-y-4">
                 {incomingData?.map((quiz: any) => (
                   <li
@@ -156,7 +160,7 @@ const DashboardQuizzes = () => {
                   </li>
                 ))}
               </ul>
-            )}
+           ) )}
           </div>
 
           <div className="bg-white rounded-lg main-border shadow p-4 dark:text-[#fff] dark:border dark:border-[#fff] dark:bg-[#0D1321]">

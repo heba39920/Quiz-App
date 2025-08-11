@@ -13,6 +13,7 @@ import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import ConfirmDeleteModal from "@/components/ConfirmDeleteModal/ConfirmDeleteModal";
 import SharedViewModal from "@/components/SharedViewModal/SharedViewModal";
 import type { QuestionsInterface } from "@/interface/QuestionsInterface";
+import Nodata from "@/components/NoData/Nodata";
 
 const QuestionsList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -225,7 +226,7 @@ const QuestionsList = () => {
                   {!isLoadingQuestions && paginatedQuestions.length === 0 && (
                     <tr>
                       <td colSpan={5} className="text-center py-4 text-gray-500">
-                        No questions found.
+                       <Nodata message="No questions found!"/>
                       </td>
                     </tr>
                   )}

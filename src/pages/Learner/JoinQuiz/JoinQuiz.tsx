@@ -18,7 +18,7 @@ export default function JoinQuiz({ onClose }: { onClose: () => void }) {
         
         fetchIncomingQuizzes().then((quizzes) => {
           
-          const quiz = quizzes.find((q) => q.code === code);
+          const quiz = quizzes.find((q:any) => q.code === code);
           if (quiz) {
            
             navigate(`/dashboard/exammodel/${quiz._id}`);
@@ -27,8 +27,8 @@ export default function JoinQuiz({ onClose }: { onClose: () => void }) {
           }
         });
       },
-      onError: (error) => {
-        toast.error(error.response?.data?.message || error.message || "Unknown error");
+      onError: (error:any) => {
+        toast.error(error?.response?.data?.message || error.message || "Unknown error");
         onClose();
       },
     });
@@ -36,7 +36,7 @@ export default function JoinQuiz({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg w-full max-w-sm">
+      <div className="bg-white p-6 rounded-lg w-full max-w-sm dark:bg-[#0D1321] dark:text-[#fff] dark:border dark:border-[#fff]" >
         <h2 className="text-xl font-bold mb-4">Join Quiz</h2>
         <input
           type="text"

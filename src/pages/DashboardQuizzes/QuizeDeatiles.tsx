@@ -1,12 +1,11 @@
-import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+
+import { useParams } from "react-router-dom";
 import { useQuizDetails } from "@/utils/hooks/Quizzes";
 import { Calendar, Clock } from "lucide-react";
 import { FormInput } from "@/components/FormInput/FormInput"; 
 
 const QuizeDeatiles = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { data: quiz, isLoading, isError } = useQuizDetails(id!);
 
   if (isLoading) {

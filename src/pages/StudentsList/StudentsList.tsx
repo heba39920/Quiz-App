@@ -22,6 +22,7 @@ import { useGroup } from "@/utils/hooks/Group";
 import { toast } from "react-toastify";
 import { BsGrid3X3GapFill, BsGridFill } from "react-icons/bs";
 import { FaListUl } from "react-icons/fa";
+import Nodata from "@/components/NoData/Nodata";
 
 type ViewType = "grid-2-col" | "grid-3-col" | "list-view";
 
@@ -242,17 +243,19 @@ const StudentsList = () => {
       </div>
 
       {/* Rest of your component remains the same */}
-      <div className={`${gridClasses} gap-4`}>
+       <div className={`${gridClasses} gap-4`}>
         {isLoading ? (
           <div className="flex justify-center items-center col-span-2">
             <Loader />
           </div>
+        ) : displayedStudents.length === 0 ? (
+          <Nodata message="No students found." /> // <-- Show NoData if no students
         ) : (
           displayedStudents?.map((student: Student) => {
             // Check if the student has a group AND if that group exists in the fetched groups list
             const studentHasExistingGroup =
               !!student?.group?._id &&
-              groups?.some((group) => group._id === student.group._id);
+              groups?.some((group) => group._id === student?.group?._id);
 
             return (
               <AnimatePresence mode="popLayout" key={student._id}>

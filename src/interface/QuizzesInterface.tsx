@@ -1,4 +1,5 @@
 export interface Quiz {
+  randomize: boolean | undefined;
   _id: string;
   code: string;
   title: string;

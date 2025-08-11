@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuizWithoutAnswer, useSubmitQuiz } from "@/utils/hooks/StudentExam";
 import { Dialog } from "@headlessui/react";
@@ -143,7 +143,7 @@ const ExamModel = () => {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {data.questions.map((q) => {
+        {data.questions.map((q:any) => {
           const options = Object.entries(q.options).filter(([key]) => key !== "_id");
           return (
             <div key={q._id} className="bg-white rounded-lg shadow p-6">

@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useResults } from "@/utils/hooks/StudentExam";
 import styles from "./Results.module.css";
+import { Loader } from "lucide-react";
+import Nodata from "@/components/NoData/Nodata";
 
 const Results = () => {
   const { data, isLoading, error } = useResults();
@@ -24,34 +26,48 @@ const Results = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item: any) => {
-            const quiz = item.quiz;
-            const Score = item.result.score;
-            const Difficulty = quiz.difficulty;
-            const questionsNumber = quiz.questions_number;
-            const date = new Date(quiz.schadule).toLocaleDateString("en-GB");
-
-            return (
-              <tr
-                key={item.result._id}
-                style={{ borderBottom: "1px solid #ccc", textAlign: "center" }}
-              >
-                <td className={styles.td}>{quiz.title}</td>
-                <td className={styles.td}>{Score}</td>
-                <td className={styles.td}>{Difficulty}</td>
-                <td className={styles.td}>{questionsNumber}</td>
-                <td className={styles.td}>{date}</td>
-                <td className={styles.td}>
-                  <button
-                    className={styles.viewButton}
-                    onClick={() => setSelectedResult(item)}
-                  >
-                    View
-                  </button>
+         {isLoading ? (
+              <tr>
+                <td colSpan={6} className="col-span-full flex justify-center items-center">
+                  <Loader />
                 </td>
               </tr>
-            );
-          })}
+         ) : data.length === 0 ? (
+            <tr>
+              <td colSpan={6}>
+                <Nodata message="No results found." /> {/* Show NoData if no results */}
+              </td>
+            </tr>
+         ) : (
+            data.map((item: any) => {
+              const quiz = item.quiz;
+              const Score = item.result.score;
+              const Difficulty = quiz.difficulty;
+              const questionsNumber = quiz.questions_number;
+              const date = new Date(quiz.schadule).toLocaleDateString("en-GB");
+
+              return (
+                <tr
+                  key={item.result._id}
+                  style={{ borderBottom: "1px solid #ccc", textAlign: "center" }}
+                >
+                  <td className={styles.td}>{quiz.title}</td>
+                  <td className={styles.td}>{Score}</td>
+                  <td className={styles.td}>{Difficulty}</td>
+                  <td className={styles.td}>{questionsNumber}</td>
+                  <td className={styles.td}>{date}</td>
+                  <td className={styles.td}>
+                    <button
+                      className={styles.viewButton}
+                      onClick={() => setSelectedResult(item)}
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+              );
+            })
+         )}
         </tbody>
       </table>
 

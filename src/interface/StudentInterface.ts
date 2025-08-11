@@ -21,7 +21,7 @@ export interface Student {
   email: string;
   status: string;
   role: string;
-  group: Group | string | null;
+  group: Group;
 }
 
 // types
