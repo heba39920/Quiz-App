@@ -21,10 +21,10 @@ const MasterLayout = () => {
      });
    }, [darkMode]);
   return (
-    <div className={`flex flex-col min-h-screen ${darkMode ? "dark bg-[#0D1321] text-white" : ""}`}>
+    <div className={`flex flex-col min-h-screen ${darkMode ? "dark bg-[#0D1321] text-[#fff]" : ""}`}>
       <main className="flex flex-1">
         {/* Sidebar */}
-        <aside aria-label="Sidebar Navigation " className={`sticky top-0 left-0 lg:z-500 ${sidebarToggled? "z-500" :"z-40"} h-screen `}>
+        <aside aria-label="Sidebar Navigation " className={`sticky top-0 left-0 lg:z-50 ${sidebarToggled? "z-500" :"z-40"} h-screen `}>
           <SideBar darkMode={darkMode}  toggled={sidebarToggled} setToggled={setSidebarToggled} />
         </aside>
 

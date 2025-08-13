@@ -1,5 +1,7 @@
 import {
   useMutation,
+  useQuery,
+  useQueryClient,
   type UseMutationResult,
 } from "@tanstack/react-query";
 import {
@@ -16,14 +18,10 @@ import type {
   ResetPasswordPayload,
 } from "@/interface/AuthInterface";
 import { toast } from "react-toastify";
-import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { getAccessToken } from "@/services/AuthToken";
+import {  clearAuthData, getPersistedProfile, setAuthData } from "@/services/UserData";
 
-import { login as loginRedux } from "@/redux/slices/authSlice";
-import { useDispatch, useSelector } from "react-redux";
-import type { TypedUseSelectorHook } from "react-redux";
-import type { RootState, AppDispatch } from "@/redux/store";
-export const useAppDispatch: () => AppDispatch = useDispatch;
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const useForgotPassword = (): UseMutationResult<
   any,
@@ -73,13 +71,28 @@ export const useChangePassword = () => {
     },
   });
 };
-
 export const useLogout = () => {
-  return useMutation({
-    mutationFn: logout,
-  });
-};
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
+  return useMutation({
+  mutationFn: logout,
+    
+      onSuccess: () => {
+        // Clear in-memory token
+       clearAuthData()
+        // Clear current user data from cache
+        queryClient.setQueryData(['me'], null);
+        toast.success('Logged out');
+        // Redirect to login page
+        navigate('/login', { replace: true });
+      },
+      onError: (e:any) => {
+        toast.error(e?.response?.data?.message || 'Logout failed');
+      },
+    }
+  );
+};
 
 
 export const useRegister = (): UseMutationResult<
@@ -98,32 +111,59 @@ export const useRegister = (): UseMutationResult<
     },
   });
 };
-export const useLogin = () => {
-  const dispatch = useAppDispatch();
+export const useCurrentUser = () => {
 
-  return useMutation({
-    mutationFn: login,
-    onSuccess: (response) => {
-      const { accessToken, profile, message } = response?.data ?? {};
-
-      if (!accessToken) {
-        toast.error("No token returned from server");
-        return;
-      }
-
-      Cookies.set("token", accessToken, { expires: 7, path: "/" });
-      dispatch(loginRedux({ token: accessToken, user: profile }));
-
-      toast.success(message || "Logged in successfully!");
-    },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Something went wrong");
-    },
+  
+  // Get initial state from localStorage
+  const initialUser = getPersistedProfile();
+  
+  // Fetch fresh data if token exists
+  const { data: freshUser } = useQuery({
+    queryKey: ['me'],
+    enabled: !!getAccessToken(),
+    initialData: initialUser 
   });
+
+  return { 
+    user: freshUser || initialUser,
+    isLoading: !initialUser && !!getAccessToken() && !freshUser
+  };
 };
+export const useLogin = () => {  
+  const navigate = useNavigate();  
+  const queryClient = useQueryClient();
+  return useMutation(  {
+    mutationFn: login,
+      onSuccess: (response:any) => {  
+ 
+      
+          
+        const {data} = response ?? {};  
+        const { accessToken, profile, message } = data;  
+      
+        
+
+        if (!accessToken || !profile) {  
+          toast.error('No token or user profile returned from server');  
+          return;  
+        }  
+
+        // Persist token in memory for subsequent requests  
+setAuthData(accessToken, profile);
+
+      queryClient.setQueryData(['me'], profile);  
+
+        toast.success(message ?? 'Logged in successfully!');  
+
+        const redirectPath =  
+          profile?.role === 'Instructor' ? '/dashboard' : '/dashboard/quizzes';  
+        navigate(redirectPath, { replace: true });  
+      },  
+      onError: (error: any) => {  
+        toast.error(error?.response?.data?.message || 'Something went wrong');  
+      },  
+    }  
+  );  
+};  
 
 
-export default function useAuth() {
-  const logedInData = useAppSelector((state) => state.auth); // أو حسب طريقة تخزين auth في الريدوكس
-  return { logedInData };
-}

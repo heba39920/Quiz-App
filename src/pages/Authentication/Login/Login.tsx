@@ -27,16 +27,7 @@ const Login = () => {
 
   // ✅ التوجيه بعد نجاح الميوتاشن مباشرة
   const onSubmit = (data: LoginPayload) => {
-    loginMutation.mutate(data, {
-      onSuccess: (res: any) => {
-        const role = res?.data?.profile?.role;
-        if (role === "Instructor") {
-          navigate("/dashboard");
-        } else {
-          navigate("/dashboard/learner-dashboard");
-        }
-      },
-    });
+    loginMutation.mutate(data)
   };
 
   return (

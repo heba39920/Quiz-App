@@ -189,7 +189,7 @@ const StudentsList = () => {
           placeholder="Search by name..."
           value={searchName}
           onChange={handleNameSearch}
-          className="border border-gray-300 rounded-2xl my-3 px-4 py-2 md:w-[50%] w-[100%]"
+          className="border border-gray-300 rounded-2xl my-3 px-4 py-2 md:w-[50%] w-[100%] text-gray-600 dark:text-[#fff]"
         />
       </div>
 

@@ -1,12 +1,10 @@
-import Cookies from "js-cookie";
+
 import React, { useEffect, useState } from "react";
 import SetUpQ from "@/assets/images/new quiz icon.png";
 import { FaBell, FaEnvelope, FaMoon, FaSun, FaBars } from "react-icons/fa";
-import { useSelector, useDispatch } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation} from "react-router-dom";
 import { qLogo } from "@/assets/images";
-import { useLogout } from "@/utils/hooks/Auth";
-import { logout as logoutAction } from "@/redux/slices/authSlice";
+import { useCurrentUser, useLogout } from "@/utils/hooks/Auth";
 interface NavbarProps {
   title?: string;
   handleDarkMode: () => void;
@@ -24,7 +22,7 @@ const Navbar: React.FC<NavbarProps> = ({
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const location = useLocation();
    const [currentTitle, setCurrentTitle] = useState("");
-
+  const { user } = useCurrentUser();
   
    useEffect(() => {
     const path = location.pathname;
@@ -40,25 +38,16 @@ const Navbar: React.FC<NavbarProps> = ({
     const matchedPath = Object.keys(titles).find(key => path.startsWith(key));
     setCurrentTitle(matchedPath ? titles[matchedPath] : "Dashboard");
   }, [location.pathname]);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const auth = useSelector((state: any) => state.auth);
+
 
   const logoutMutation = useLogout();
 
   const handleLogout = () => {
-    logoutMutation.mutate(undefined, {
-      onSuccess: () => {
-        Cookies.remove("token", { path: "/" });
-        dispatch(logoutAction());
-        navigate("/login");
-      },
-      onError: () => {
-        Cookies.remove("token", { path: "/" });
-        dispatch(logoutAction());
-        navigate("/login");
-      },
-    });
+      
+
+    logoutMutation.mutate();
+    setIsUserDropdownOpen(false);
+    
   };
 
   return (
@@ -124,7 +113,7 @@ const Navbar: React.FC<NavbarProps> = ({
               title="User menu"
             >
               <span className="block w-4 h-4 text-xs font-semibold text-center leading-4">
-                {(auth?.user?.first_name?.[0] ?? "G").toUpperCase()}
+                {(user?.first_name?.[0] ?? "G").toUpperCase()}
               </span>
             </button>
 
@@ -204,11 +193,11 @@ const Navbar: React.FC<NavbarProps> = ({
             >
               <div className="flex flex-col leading-tight text-left">
                 <span className="font-medium text-sm">
-                  {auth?.user?.first_name ?? "Guest"}{" "}
-                  {auth?.user?.last_name ?? ""}
+                  {user?.first_name ?? "Guest"}{" "}
+                  {user?.last_name ?? ""}
                 </span>
                 <span className="text-green-500 text-xs">
-                  {auth?.user?.role ?? ""}
+                  {user?.role ?? ""}
                 </span>
               </div>
               <svg

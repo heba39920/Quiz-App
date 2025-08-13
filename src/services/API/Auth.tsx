@@ -12,8 +12,6 @@ export const forgotPassword = async (data: ForgetPasswordPayload) => {
   const response = await axiosInstance.post(USERS_URLS.FORGET_PASSWORD, data);
   return response.data;
 };
-
-
 export const resetPassword = async (data: ResetPasswordPayload) => {
   const response = await axiosInstance.post(USERS_URLS.RESET_PASSWORD, {
     email: data.email,
@@ -50,7 +48,6 @@ export const login = async (payload: LoginPayload) => {
     email: payload.email,
     password: payload.password,
   });
-  return res.data; 
+  return res.data;
 };
-
 

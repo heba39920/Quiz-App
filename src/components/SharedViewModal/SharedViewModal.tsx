@@ -36,7 +36,7 @@ const SharedViewModal: React.FC<SharedViewModalProps> = ({
       role="dialog"
       aria-modal="true"
     >
-      <div className="bg-white  rounded-xl shadow-xl main-border w-[45%] overflow-y-auto dark:bg-[#0D1321] dark:text-[#fff] dark:border dark:border-[#fff]">
+      <div className="bg-white  rounded-xl shadow-xl main-border  h-[80vh] overflow-y-auto dark:bg-[#0D1321] dark:text-[#fff] dark:border dark:border-[#fff]">
         {/* Header */}
         <div className="flex items-center justify-between border-b dark:border-[#fff] border-[#00000033] shadow-sm">
           <h2 className="px-6 py-2 text-lg font-semibold text-gray-800 dark:text-[#fff]">

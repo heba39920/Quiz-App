@@ -1,18 +1,16 @@
-// src/components/ProtectedRoute.tsx
 
-import { type PropsWithChildren } from "react";
-import { Navigate } from "react-router-dom";
-import { useAppSelector } from "@/utils/hooks/Auth";
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 
-const ProtectedRoute = ({ children }: PropsWithChildren) => {
-  const tokenFromRedux = useAppSelector((state) => state.auth.token);
-  const tokenFromCookie = Cookies.get("token");
 
-  const isAuthenticated = tokenFromRedux || tokenFromCookie;
+const ProtectedRoute: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
+const token = Cookies.get("token");
 
-  if (isAuthenticated) return <>{children}</>;
-  else return <Navigate to="/login" />;
+  if (token === undefined) return null;
+  if (!token) return <Navigate to="/login" replace />;
+
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;

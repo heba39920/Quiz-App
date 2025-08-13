@@ -159,10 +159,88 @@ const QuestionsList = () => {
       </div>
 
       <div className="flex flex-col">
-        <div className="-m-1.5 overflow-x-auto">
+  <div className="flex flex-col">
+        {/* Mobile Cards View */}
+        <div className="lg:hidden space-y-3">
+          {paginatedQuestions.map((question: QuestionsInterface) => (
+            <div 
+              key={question._id}
+              className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xs hover:bg-[#FFEDDF] dark:hover:bg-[#0D1321] transition-colors"
+            >
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="font-medium text-lg">{question.title}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 truncate">
+                    {question.description}
+                  </p>
+                </div>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => question._id && handleViewQuestion(question._id)}
+                    className="text-yellow-500"
+                    aria-label={`View ${question.title}`}
+                  >
+                    <FaEye />
+                  </button>
+                  <button
+                    onClick={() => question._id && handleEditQuestion(question._id)}
+                    className="text-blue-500"
+                    aria-label={`Edit ${question.title}`}
+                  >
+                    <FaEdit />
+                  </button>
+                  <button
+                    onClick={() => question._id && handleDeleteQuestion(question._id)}
+                    className="text-red-500"
+                    aria-label={`Delete ${question.title}`}
+                  >
+                    <FaTrash />
+                  </button>
+                </div>
+              </div>
+              
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <div>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">Difficulty</span>
+                  <span className={`block py-1 px-3 rounded-2xl text-sm dark:text-[#0D1321] ${
+                    question.difficulty === "easy" ? "bg-green-100" : 
+                    question.difficulty === "medium" ? "bg-yellow-100" : "bg-red-100"
+                  }`}>
+                    {question.difficulty}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">Type</span>
+                  <span className={`block py-1 px-3 rounded-2xl text-sm dark:text-[#0D1321] ${
+                    question.type === "FE" ? "bg-purple-100" : 
+                    question.type === "DO" ? "bg-lime-100" : "bg-blue-100"
+                  }`}>
+                    {question.type}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+          
+          {isLoadingQuestions && (
+            <div className="flex justify-center py-8">
+              <Loader />
+            </div>
+          )}
+          
+          {!isLoadingQuestions && paginatedQuestions.length === 0 && (
+            <div className="py-8 text-center text-gray-500">
+              <Nodata message="No questions found!" />
+            </div>
+          )}
+        </div>
+
+        {/* Desktop Table View */}
+        <div className="hidden lg:block -m-1.5 overflow-x-auto">
           <div className="p-1.5 min-w-full inline-block align-middle">
             <div className="border border-gray-200 rounded-lg shadow-xs overflow-hidden">
               <table className="min-w-full divide-y divide-[#fff]">
+                {/* Table Head (unchanged) */}
                 <thead className="bg-[#0D1321] text-white uppercase text-xs">
                   <tr>
                     <th scope="col" className="px-6 py-3 text-start font-medium border-2 border-[#fff]">Title</th>
@@ -172,6 +250,8 @@ const QuestionsList = () => {
                     <th scope="col" className="px-6 py-3 text-center font-medium">Actions</th>
                   </tr>
                 </thead>
+                
+                {/* Table Body (unchanged) */}
                 <tbody className="divide-y divide-gray-200 whitespace-nowrap text-[#000] dark:text-[#fff]">
                   {paginatedQuestions.map((question: QuestionsInterface) => (
                     <tr
@@ -187,35 +267,33 @@ const QuestionsList = () => {
                         <span className={`py-1.5 px-5 rounded-2xl dark:text-[#0D1321] ${question.type === "FE" ? "bg-purple-100" : question.type === "DO" ? "bg-lime-100" : "bg-blue-100"}`}>{question.type}</span>
                       </td>
                       <td className="px-6 py-4 text-end border border-[#00000033] dark:border-[#fff]">
-                        <button
-                          onClick={() =>{  if (question._id) handleViewQuestion(question?._id)}}
-                          className="text-yellow-500 mx-1"
-                          aria-label={`View ${question.title}`}
-                          title="View"
-                        >
-                          <FaEye />
-                        </button>
-                        <button
-                          onClick={() => {
-                            if (question._id) handleEditQuestion(question._id);
-                          }}
-                          className="text-blue-500 mx-3"
-                          aria-label={`Edit ${question.title}`}
-                          title="Edit"
-                        >
-                          <FaEdit />
-                        </button>
-                        <button
-                          onClick={() =>{ if (question._id) handleDeleteQuestion(question?._id)}}
-                          className="text-red-500 mx-1"
-                          aria-label={`Delete ${question.title}`}
-                          title="Delete"
-                        >
-                          <FaTrash />
-                        </button>
+                        <div className="flex justify-end space-x-3">
+                          <button
+                            onClick={() => question._id && handleViewQuestion(question._id)}
+                            className="text-yellow-500"
+                            aria-label={`View ${question.title}`}
+                          >
+                            <FaEye />
+                          </button>
+                          <button
+                            onClick={() => question._id && handleEditQuestion(question._id)}
+                            className="text-blue-500"
+                            aria-label={`Edit ${question.title}`}
+                          >
+                            <FaEdit />
+                          </button>
+                          <button
+                            onClick={() => question._id && handleDeleteQuestion(question._id)}
+                            className="text-red-500"
+                            aria-label={`Delete ${question.title}`}
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
+                  
                   {isLoadingQuestions && (
                     <tr>
                       <td colSpan={5} className="text-center py-4">
@@ -223,15 +301,19 @@ const QuestionsList = () => {
                       </td>
                     </tr>
                   )}
+                  
                   {!isLoadingQuestions && paginatedQuestions.length === 0 && (
                     <tr>
                       <td colSpan={5} className="text-center py-4 text-gray-500">
-                       <Nodata message="No questions found!"/>
+                        <Nodata message="No questions found!"/>
                       </td>
                     </tr>
                   )}
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
               {/* Pagination */}
               <nav
                 className="mt-6 flex flex-wrap justify-center items-center gap-2 text-sm py-5"
@@ -286,8 +368,6 @@ const QuestionsList = () => {
                 </button>
               </nav>
             </div>
-          </div>
-        </div>
       </div>
       <ConfirmDeleteModal
         isOpen={!!deleteId}

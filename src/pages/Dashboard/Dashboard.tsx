@@ -13,9 +13,7 @@ import ConfirmDeleteModal from "@/components/ConfirmDeleteModal/ConfirmDeleteMod
 import SharedViewModal from "@/components/SharedViewModal/SharedViewModal";
 import { useQueryClient } from "@tanstack/react-query";
 import Loader from "@/components/Loader/Loader";
-
 const ITEM_H = "h-[96px]";
-
 // نوع خفيف للـ Top Student (لتفادي never[])
 type TStudentLite = {
   _id: string;
@@ -123,6 +121,8 @@ const Dashboard: React.FC = () => {
       onError: () => setDeleteId(""),
     });
   };
+console.log(localStorage.getItem('root'))
+
 
   return (
     <div
@@ -223,9 +223,9 @@ const Dashboard: React.FC = () => {
           </div>
 
           {isTopLoading && (
-            <p className="text-sm text-gray-500">
+            <div className="text-sm text-gray-500">
               <Loader />
-            </p>
+            </div>
           )}
           {isTopError && (
             <p className="text-sm text-red-500">Failed to load students.</p>

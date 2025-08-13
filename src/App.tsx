@@ -1,7 +1,4 @@
-import { useEffect } from "react";
-import Cookies from "js-cookie";
-import { useAppDispatch } from "@/utils/hooks/Auth";
-import { login } from "@/redux/slices/authSlice";
+
 
 import { ToastContainer } from "react-toastify";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -29,16 +26,9 @@ import Results from "./pages/Learner/Results/Results";
 
 
 function App() {
-  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    const token = Cookies.get("token");
-    if (token) {
-      dispatch(login({ token, user: null }));
-    } else {
-      console.log("⛔ No token found in cookies");
-    }
-  }, []);
+
+
 
   const routes = createBrowserRouter(
     [

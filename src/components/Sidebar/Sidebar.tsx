@@ -1,5 +1,5 @@
 import { lightLogo, sideBarLogo } from "@/assets/images";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { LuMenu } from "react-icons/lu";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
@@ -12,10 +12,8 @@ import {
 } from "react-icons/fa";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import { IoIosLogOut } from "react-icons/io";
-import Cookies from "js-cookie";
 import { FaLock } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "@/redux/slices/authSlice";
+import { useCurrentUser, useLogout } from "@/utils/hooks/Auth";
 interface SidebarProps {
   darkMode: boolean;
   setToggled: (v: boolean) => void; // يجي من الـMasterLayout
@@ -23,9 +21,8 @@ interface SidebarProps {
  
 }
 const SideBar: React.FC<SidebarProps> = ({ darkMode, toggled, setToggled }) => {
-  const user = useSelector((state: any) => state.auth.user);
-
-  const dispatch = useDispatch();
+  const logOutMutation = useLogout();
+  const { user } = useCurrentUser();
   const location = useLocation();
    const [collapsed, setIsCollapsed] = useState(false);
   const handleMenuClick = () => {
@@ -39,7 +36,7 @@ const SideBar: React.FC<SidebarProps> = ({ darkMode, toggled, setToggled }) => {
   };
 
   const handleBackdrop = () => setToggled(false);
-  const navigate = useNavigate();
+ 
   const menuItems = [
     {
       label: "Dashboard",
@@ -96,9 +93,7 @@ const SideBar: React.FC<SidebarProps> = ({ darkMode, toggled, setToggled }) => {
     },
   ];
   const handleLogout = () => {
-    Cookies.remove("token");
-    navigate("/login");
-    dispatch(logout());
+  logOutMutation.mutate();  
   };
 
   return (

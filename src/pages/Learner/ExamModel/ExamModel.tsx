@@ -4,7 +4,7 @@ import { useQuizWithoutAnswer, useSubmitQuiz } from "@/utils/hooks/StudentExam";
 import { Dialog } from "@headlessui/react";
 import { motion } from "framer-motion";
 import { FaTimes, FaMedal, FaSmile, FaRegSadTear, FaRegThumbsUp } from "react-icons/fa";
-import useAuth from "@/utils/hooks/Auth";
+import { useCurrentUser } from "@/utils/hooks/Auth";
 
 
 const ScoreCardModal = ({
@@ -21,7 +21,7 @@ const ScoreCardModal = ({
   title: string | null;
 }) => {
   const navigate = useNavigate();
-  const { logedInData } = useAuth();
+ const { user } = useCurrentUser(); 
   const percentage = total > 0 ? ((score / total) * 100).toFixed(0) : "0";
 
   const getMessage = () => {
@@ -71,7 +71,7 @@ const ScoreCardModal = ({
           <button
             onClick={() => {
               onClose();
-              navigate(`/learner/certificate/${logedInData?.profile._id}`, {
+              navigate(`/learner/certificate/${user?._id}`, {
                 state: { score: percentage, title, total },
               });
             }}

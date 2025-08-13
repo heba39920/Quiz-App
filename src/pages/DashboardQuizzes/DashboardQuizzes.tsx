@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import SetUpQ from "@/assets/images/new quiz icon.png";
 import QBank from "@/assets/images/Vault icon.png";
@@ -13,10 +12,12 @@ import {
 } from "@/utils/hooks/Quizzes";
 import { toast } from "react-toastify";
 import JoinQuiz from "../Learner/JoinQuiz/JoinQuiz";
+import { useCurrentUser } from "@/utils/hooks/Auth";
 
 const DashboardQuizzes = () => {
   const navigate = useNavigate();
-  const role: string | undefined = useSelector((s: any) => s.auth?.user?.role);
+    const { user } = useCurrentUser();
+  const role: string | undefined = user?.role
   const isInstructor = role === "Instructor";
 
   // shared data
@@ -89,7 +90,7 @@ const DashboardQuizzes = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={() => setShowQuizModal(true)}
-                className="flex-1 bg-white dark:bg-[#0D1321] dark:text-white dark:border dark:border-white main-border shadow rounded-lg flex flex-col items-center justify-center p-6 hover:bg-gray-50 hover:dark:bg-[#FFEDDF] hover:dark:text-[#0D1321] transition"
+                className="flex-1 bg-white dark:bg-[#0D1321] dark:text-white dark:border dark:border-[#fff] main-border shadow rounded-lg flex flex-col items-center justify-center p-6 hover:bg-gray-50 hover:dark:bg-[#FFEDDF] hover:dark:text-[#0D1321] transition"
               >
                 <img
                   src={SetUpQ}
@@ -113,7 +114,7 @@ const DashboardQuizzes = () => {
               </button>
             </div>
 
-            <div className="w-full">
+            <div className="w-full dark:border dark:border-white">
               <CustomCalendar markedDates={markedDates} showNewQuizButton />
             </div>
           </div>
@@ -282,15 +283,16 @@ const DashboardQuizzes = () => {
               )}
             </div>
           </div>
-
-          {/* RIGHT column: Calendar (no new quiz button) then Completed */}
+ {/* RIGHT column: Calendar (no new quiz button) then Completed */}
+      
           <div className="space-y-6">
-            <div className="bg-white rounded-lg main-border shadow p-4 dark:bg-[#0D1321] dark:text-white dark:border dark:border-white">
+            {isInstructor? (    <div className="bg-white rounded-lg main-border shadow p-4 dark:bg-[#0D1321] dark:text-white dark:border dark:border-white">
+             
               <CustomCalendar
                 markedDates={markedDates}
                 showNewQuizButton={false}
               />
-            </div>
+            </div>):""}
 
             <div className="bg-white rounded-lg main-border shadow p-4 dark:text-white dark:border dark:border-white dark:bg-[#0D1321]">
               <div className="flex items-center justify-between mb-4">

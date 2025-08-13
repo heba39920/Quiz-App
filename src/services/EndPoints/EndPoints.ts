@@ -1,6 +1,7 @@
 // services/EndPoints/EndPoints.ts
 import axios from "axios";
 import Cookies from "js-cookie";
+import { getAccessToken } from "../AuthToken";
 
 const baseURL = "https://upskilling-egypt.com:3005/api/";
 
@@ -12,20 +13,20 @@ const QuizUrl = "quiz";
 
 export const axiosInstance = axios.create({
   baseURL,
-  // لو API يعتمد على كوكيز السيرفر، فعّل السطر التالي:
-  // withCredentials: true,
-  timeout: 20000,
 });
 
 // ---------- Request Interceptor (واحد فقط) ----------
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = Cookies.get("token");
+    const tokenFromMemory = getAccessToken();
+    const tokenFromCookie = Cookies.get("token");
+    const token = tokenFromMemory ?? tokenFromCookie;
+
     if (token) {
       config.headers = config.headers ?? {};
       config.headers.Authorization = `Bearer ${token}`;
     }
-    // تأكد من نوع المحتوى افتراضيًا
+
     if (!config.headers["Content-Type"]) {
       config.headers["Content-Type"] = "application/json";
     }
@@ -34,6 +35,7 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+
 // ---------- Response Interceptor (اختياري لكن مفيد) ----------
 axiosInstance.interceptors.response.use(
   (res) => res,
@@ -41,8 +43,6 @@ axiosInstance.interceptors.response.use(
     // لو انتهت الجلسة أو التوكن باطل
     if (error?.response?.status === 401) {
       Cookies.remove("token", { path: "/" });
-      // لو بتستخدمي روتينج: ممكن ترجعي للّوجين
-      // window.location.href = "/login";
     }
     return Promise.reject(error);
   }
