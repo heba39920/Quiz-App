@@ -191,11 +191,11 @@ const DashboardQuizzes = () => {
           <div className="space-y-6">
             <button
               onClick={() => setIsJoinOpen(true)}
-className="w-full h-[160px] sm:h-[180px] 
-bg-white dark:bg-[#0D1321] dark:text-white 
+className="w-full h-[160px] sm:h-[180px]  
+bg-white  dark:bg-[#0D1321] dark:text-white 
 shadow rounded-lg p-6 flex flex-col items-center justify-center 
 hover:text-black dark:hover:bg-amber-50 
-border-2 border-transparent dark:border-white dark:hover:border-amber-400
+border-2 border-gray-300 dark:border-white dark:hover:border-amber-400
 transition duration-300 ease-in-out !border-solid"
           >
               <img src={SetUpQ} alt="Join Quiz" className="mb-3 w-14 h-14 dark:bg-white" />
