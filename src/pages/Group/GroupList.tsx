@@ -1,4 +1,4 @@
-// Updated GroupList.tsx with enhanced filters, search, and layout switching
+// Updated GroupList.tsx with enhanced filters, search, layout switching, Loader & Nodata
 
 import ReusableModal from "@/components/AddEditModal/AddEditModal";
 import ConfirmDeleteModal from "@/components/ConfirmDeleteModal/ConfirmDeleteModal";
@@ -37,10 +37,9 @@ const GroupList = () => {
   const customStyles = {
     menu: (provided: any) => ({
       ...provided,
-      backgroundColor: "#0D1321", // dark background
-      color: "#fff", // text color
+      backgroundColor: "#0D1321",
+      color: "#fff",
       border: "1px solid #fff",
-      // Add any other styles you need
     }),
     menuList: (provided: any) => ({
       ...provided,
@@ -51,8 +50,8 @@ const GroupList = () => {
       backgroundColor: state.isFocused ? "#1a2138" : "#0D1321",
       color: "#fff",
     }),
-    // You can add more style customizations as needed
   };
+
   const { data: groups, isLoading, isError } = useGroup();
   const { mutate: deleteGroup, isPending: isDeleting } = useDeleteGroup();
   const { mutate: addGroup } = useAddGroup();
@@ -122,20 +121,15 @@ const GroupList = () => {
       setGroupIdToEdit(group._id);
       setValue("name", group.name);
 
-      // ✅ لو الطلاب في الجروب راجعين كـ Objects أو IDs فقط
+      // normalize students (ids OR objects)
       setValue(
         "students",
         group.students.map((s: any) => {
           if (typeof s === "string") {
-            const matched = studentOptions.find(
-              (opt: { value: string; label: string }) => opt.value === s
-            );
+            const matched = studentOptions.find((opt) => opt.value === s);
             return matched || { value: s, label: s };
           }
-          return {
-            value: s._id,
-            label: `${s.first_name} ${s.last_name}`,
-          };
+          return { value: s._id, label: `${s.first_name} ${s.last_name}` };
         })
       );
 
@@ -200,6 +194,7 @@ const GroupList = () => {
               className={`main-border rounded-lg p-2 ${
                 viewMode === "list" ? "bg-orange-100 dark:text-[#0D1321]" : ""
               }`}
+              title="List"
             >
               <BsGridFill />
             </button>
@@ -208,6 +203,7 @@ const GroupList = () => {
               className={`main-border rounded-lg p-2 ${
                 viewMode === "grid2" ? "bg-orange-100 dark:text-[#0D1321]" : ""
               }`}
+              title="2 columns"
             >
               <BsGrid3X3GapFill />
             </button>
@@ -216,6 +212,7 @@ const GroupList = () => {
               className={`main-border rounded-lg p-2 ${
                 viewMode === "grid3" ? "bg-orange-100 dark:text-[#0D1321]" : ""
               }`}
+              title="3 columns"
             >
               <FaListUl />
             </button>
@@ -239,6 +236,7 @@ const GroupList = () => {
             </select>
           </div>
         </div>
+
         <AnimatePresence mode="popLayout">
           <div
             className={`grid gap-4 min-h-[200px] ${
@@ -250,14 +248,14 @@ const GroupList = () => {
             }`}
           >
             {isLoading ? (
-              <div className="col-span-full flex justify-center items-center">
+              <div className="col-span-full flex justify-center items-center py-10">
                 <Loader />
-           </div>
-         ) : paginatedGroups.length === 0 ? (
-                        <div className=" col-span-full flex justify-center items-center">
-          <Nodata message="No groups found." /> 
-                       </div>
-        ) : (
+              </div>
+            ) : paginatedGroups.length === 0 ? (
+              <div className="col-span-full flex justify-center items-center py-10">
+                <Nodata message="No groups found." />
+              </div>
+            ) : (
               paginatedGroups.map((group: Group) => (
                 <motion.div
                   key={group._id}
@@ -300,17 +298,14 @@ const GroupList = () => {
                         className="bg-[#f7d6bd] h-full"
                         style={{
                           width: `${Math.round(
-                            (group.students.length /
-                              (group.max_students || 25)) *
-                              100
+                            (group.students.length / (group.max_students || 25)) * 100
                           )}%`,
                         }}
-                      ></div>
+                      />
                     </div>
                     <p className="text-xs text-gray-500 mt-1 dark:text-[#fff]">
                       {Math.round(
-                        (group.students.length / (group.max_students || 25)) *
-                          100
+                        (group.students.length / (group.max_students || 25)) * 100
                       )}
                       % filled
                     </p>
@@ -348,22 +343,26 @@ const GroupList = () => {
         </AnimatePresence>
       </div>
 
-      <nav className="mt-6 flex justify-center gap-2">
-        {Array.from({ length: totalPages }, (_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrentPage(i + 1)}
-            className={`w-8 h-8 rounded-full ${
-              currentPage === i + 1
-                ? "bg-orange-200 dark:text-[#0D1321]"
-                : "border dark:text-[#fff] dark:bg-[#0D1321] hover:dark:text-[#0D1321]"
-            } flex items-center justify-center`}
-          >
-            {i + 1}
-          </button>
-        ))}
-      </nav>
+      {/* pagination */}
+      {totalPages > 1 && (
+        <nav className="mt-6 flex justify-center gap-2">
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentPage(i + 1)}
+              className={`w-8 h-8 rounded-full ${
+                currentPage === i + 1
+                  ? "bg-orange-200 dark:text-[#0D1321]"
+                  : "border dark:text-[#fff] dark:bg-[#0D1321] hover:dark:text-[#0D1321]"
+              } flex items-center justify-center`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </nav>
+      )}
 
+      {/* delete confirm */}
       <ConfirmDeleteModal
         isOpen={!!selectedGroupId}
         title={`Delete Group "${
@@ -379,6 +378,7 @@ const GroupList = () => {
         }}
       />
 
+      {/* add/edit modal */}
       <ReusableModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
@@ -398,10 +398,15 @@ const GroupList = () => {
               className="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-orange-300"
             />
           </div>
+
           <div>
             <label className="block text-sm font-semibold mb-1">Students</label>
             {isStudentsLoading ? (
-              <p className="text-gray-500 text-sm">Loading students...</p>
+              <div className="py-3 flex justify-center">
+                <Loader />
+              </div>
+            ) : studentOptions.length === 0 ? (
+              <Nodata message="No available students to add." />
             ) : (
               <Controller
                 control={control}
@@ -411,7 +416,7 @@ const GroupList = () => {
                     {...field}
                     options={studentOptions}
                     isMulti
-                    className="react-select-container "
+                    className="react-select-container"
                     classNamePrefix="react-select"
                     placeholder="Select students..."
                     styles={customStyles}
@@ -423,13 +428,16 @@ const GroupList = () => {
         </div>
       </ReusableModal>
 
+      {/* view modal */}
       <SharedViewModal
         isOpen={!!viewGroupId}
         onClose={() => setViewGroupId(null)}
         title={`Group Details`}
       >
         {isViewLoading ? (
-          <Loader />
+          <div className="py-4 flex justify-center">
+            <Loader />
+          </div>
         ) : viewGroup ? (
           <div>
             <p className="dark:text-[#fff]">
@@ -447,13 +455,20 @@ const GroupList = () => {
             <p className="dark:text-[#fff]">
               Students: {viewGroup.students.length}/{viewGroup.max_students}
             </p>
-            <ul className="list-disc ml-4">
-              {viewGroup.students.map((s, i) => (
-                <li key={i} className="dark:text-[#fff]">
-                  {s.first_name} {s.last_name}
-                </li>
-              ))}
-            </ul>
+
+            {viewGroup.students.length === 0 ? (
+              <div className="mt-3">
+                <Nodata message="No students in this group." />
+              </div>
+            ) : (
+              <ul className="list-disc ml-4 mt-2">
+                {viewGroup.students.map((s, i) => (
+                  <li key={i} className="dark:text-[#fff]">
+                    {s.first_name} {s.last_name}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         ) : (
           <p className="text-red-500">Failed to load group data.</p>
