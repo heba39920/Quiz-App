@@ -10,7 +10,6 @@
     "build": "vite build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
-    
   },
   "homepage": "https://heba39920.github.io/Quiz-App/",
   "dependencies": {
@@ -32,10 +31,10 @@
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.60.0",
     "react-icons": "^5.5.0",
-    "react-loader-spinner": "^6.1.6",
     "react-pro-sidebar": "^1.1.0",
     "react-router-dom": "^7.7.0",
     "react-select": "^5.10.2",
+    "react-spinners": "^0.17.0",
     "react-toastify": "^11.0.5",
     "sweetalert2": "^11.22.2",
     "tailwindcss": "^4.1.11",

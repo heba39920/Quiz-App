@@ -1,18 +1,13 @@
 // src/components/Loader.tsx
 import React from "react";
-import { Circles } from "react-loader-spinner";
+import { CircleLoader } from "react-spinners";
 
 const Loader: React.FC = () => {
   return (
     <div className="flex justify-center items-center h-full">
-      <Circles
-        height="80"
-        width="80"
+      <CircleLoader
         color="#FFEDDF"
-        ariaLabel="circles-loading"
-        wrapperStyle={{}}
-        wrapperClass=""
-        visible={true}
+        size={80}
       />
     </div>
   );
