@@ -1,8 +1,8 @@
 import Navbar from "../Navbar/Navbar";
 import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
-import SideBar from "../SideBar/Sidebar";
 import Cookies from "js-cookie";
+import SideBar from "../Sidebar/Sidebar";
 
 const MasterLayout = () => {
   const [darkMode, setDarkMode] = useState(() => {
@@ -14,18 +14,30 @@ const MasterLayout = () => {
   const toggleDarkMode = () => setDarkMode((p) => !p);
   const toggleSidebarMobile = () => setSidebarToggled((p) => !p);
 
- 
-   useEffect(() => {
-     Cookies.set("darkMode", darkMode ? "true" : "false", {
-       expires: 365,
-     });
-   }, [darkMode]);
+  useEffect(() => {
+    Cookies.set("darkMode", darkMode ? "true" : "false", {
+      expires: 365,
+    });
+  }, [darkMode]);
   return (
-    <div className={`flex flex-col min-h-screen ${darkMode ? "dark bg-[#0D1321] text-[#fff]" : ""}`}>
+    <div
+      className={`flex flex-col min-h-screen ${
+        darkMode ? "dark bg-[#0D1321] text-[#fff]" : ""
+      }`}
+    >
       <main className="flex flex-1">
         {/* Sidebar */}
-        <aside aria-label="Sidebar Navigation " className={`sticky top-0 left-0 lg:z-50 ${sidebarToggled? "z-500" :"z-40"} h-screen `}>
-          <SideBar darkMode={darkMode}  toggled={sidebarToggled} setToggled={setSidebarToggled} />
+        <aside
+          aria-label="Sidebar Navigation "
+          className={`sticky top-0 left-0 lg:z-50 ${
+            sidebarToggled ? "z-500" : "z-40"
+          } h-screen `}
+        >
+          <SideBar
+            darkMode={darkMode}
+            toggled={sidebarToggled}
+            setToggled={setSidebarToggled}
+          />
         </aside>
 
         {/* Content */}
