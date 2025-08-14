@@ -1,0 +1,208 @@
+import { lightLogo, sideBarLogo } from "@/assets/images";
+import {  useState } from "react";
+import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { LuMenu } from "react-icons/lu";
+import { NavLink, useLocation } from "react-router-dom";
+import {
+  FaChartBar,
+  FaHome,
+  FaRegListAlt,
+  FaUserGraduate,
+  FaUsers,
+} from "react-icons/fa";
+import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
+import { IoIosLogOut } from "react-icons/io";
+import { FaLock } from "react-icons/fa";
+import { useCurrentUser, useLogout } from "@/utils/hooks/Auth";
+interface SidebarProps {
+  darkMode: boolean;
+  setToggled: (v: boolean) => void; // يجي من الـMasterLayout
+  toggled: boolean; // للتحكم بالـdrawer على الموبايل
+ 
+}
+const SideBar: React.FC<SidebarProps> = ({ darkMode, toggled, setToggled }) => {
+  const logOutMutation = useLogout();
+  const { user } = useCurrentUser();
+  const location = useLocation();
+   const [collapsed, setIsCollapsed] = useState(false);
+  const handleMenuClick = () => {
+    if (window.innerWidth < 1024) {
+      // < lg => افتح/اقفل drawer
+      setToggled(!toggled);
+    } else {
+      // ≥ lg => collapse/expand
+      setIsCollapsed((p) => !p);
+    }
+  };
+
+  const handleBackdrop = () => setToggled(false);
+ 
+  const menuItems = [
+    {
+      label: "Dashboard",
+      icon: <FaHome className="w-6 h-6" />,
+      path: "dashboard",
+    },
+    {
+      label: "Students",
+      icon: <FaUserGraduate className="w-6 h-6" />,
+      path: "students",
+    },
+    {
+      label: "Groups",
+      icon: <FaUsers className="w-6 h-6" />,
+      path: "groups",
+    },
+    {
+      label: "Questions",
+      icon: <FaRegListAlt className="w-6 h-6" />,
+      path: "questions",
+    },
+    {
+      label: "Quizzes",
+      icon: <HiOutlineClipboardDocumentList className="w-6 h-6" />,
+      path: "quizzes",
+    },
+    {
+      label: "Results",
+      icon: <FaChartBar className="w-6 h-6" />,
+      path: "results",
+    },
+    {
+      label: "Change Password",
+      icon: <FaLock className="w-[30px] h-[30px]" />,
+      path: "/change-password",
+    },
+  ];
+  const learnerMenuItems = [
+    {
+      label: "Quizzes",
+      icon: <HiOutlineClipboardDocumentList className="w-6 h-6" />,
+      path: "quizzes",
+    },
+
+    {
+      label: "Results",
+      icon: <FaChartBar className="w-6 h-6" />,
+      path: "results",
+    },
+    {
+      label: "Change Password",
+      icon: <FaLock className="w-[30px] h-[30px]" />,
+      path: "/change-password",
+    },
+  ];
+  const handleLogout = () => {
+  logOutMutation.mutate();  
+  };
+
+  return (
+    <Sidebar
+      backgroundColor={darkMode ? "#0D1321" : "#fff"}
+      className="h-full"
+      width="240px" // عرض الدسكتوب
+      collapsedWidth="72px" // عرض الحالة المصغّرة
+      collapsed={collapsed}      
+      breakPoint="lg" // < lg يتحول لدروار
+      toggled={toggled} // تحكم فتح/إغلاق الموبايل
+      onBackdropClick={handleBackdrop}
+    >
+      <Menu className="dark:bg-[#0D1321] dark:text-white text-gray-800 bg-white ">
+        <MenuItem className="border-b border-[#00000033] py-[28px] hover:bg-[#FFEDDF] hover:dark:border-0 hover:text-[#0D1321] transition-colors cursor-pointer hover:border-e-5 hover:border-[#0D1321]">
+          <div className="flex items-center">
+            <LuMenu
+              className={`size-8 ${collapsed ? "" : "me-12"}`}
+              onClick={handleMenuClick}
+            />{" "}
+            {darkMode ? (
+              <img
+                src={lightLogo}
+                alt="side bar logo"
+                onClick={handleMenuClick}
+                className={`w-[6rem] h-[1.5rem]  cursor-pointer object-fit dark:bg-[#0D1321]  ${
+                 collapsed ? "hidden" : ""
+                }`}
+              />
+            ) : (
+              <img
+                src={sideBarLogo}
+                alt="side bar logo"
+                onClick={handleMenuClick}
+                className={collapsed ? "hidden" : ""}
+              />
+            )}
+          </div>
+        </MenuItem>
+        {user?.role === "Instructor"
+          ? menuItems.map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <MenuItem
+                  component={
+                    <NavLink className="hover:bg-transparent" to={item.path} />
+                  }
+                  key={item.label}
+                  className={`menu-item  border-b-[#00000033] py-[28px] hover:bg-[#FFEDDF]  hover:text-[#0D1321] hover:border-e-5 hover:border-[#0D1321]  transition-colors  cursor-pointer hover:dark:border-0 text-[18px] font-bold ${
+                    isActive ? "active-menu-item" : ""
+                  }`}
+                  icon={
+                    <span
+                      className={`rounded-[10px] bg-[#FFEDDF]  dark:text-[#0D1321]  p-2 me-[10px] ${
+                        isActive ? "icon-active" : ""
+                      }`}
+                    >
+                      {item.icon}
+                    </span>
+                  }
+                >
+                  {item.label}
+                </MenuItem>
+              );
+            })
+          : learnerMenuItems.map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <MenuItem
+                  component={
+                    <NavLink className="hover:bg-transparent" to={item.path} />
+                  }
+                  key={item.label}
+                  className={`menu-item border-b-[#00000033] py-[28px] hover:bg-[#FFEDDF] hover:text-[#0D1321] hover:border-e-5 hover:border-[#0D1321] transition-colors cursor-pointer hover:dark:border-0 text-[18px] font-bold ${
+                    isActive ? "active-menu-item" : ""
+                  }`}
+                  icon={
+                    <span
+                      className={`rounded-[10px] bg-[#FFEDDF]  dark:text-[#0D1321]  p-2 me-[10px] ${
+                        isActive ? "icon-active" : ""
+                      }`}
+                    >
+                      {item.icon}
+                    </span>
+                  }
+                >
+                  {item.label}
+                </MenuItem>
+              );
+            })}
+
+        <MenuItem
+          key="logout"
+          className="menu-item border-b-[#00000033] py-[28px] hover:bg-[#FFEDDF] hover:text-[#0D1321] hover:border-e-5 hover:border-[#0D1321] transition-colors cursor-pointer hover:dark:border-0 text-[18px] font-bold"
+          icon={
+            <span
+              className={`rounded-[10px] bg-[#FFEDDF]  dark:text-[#0D1321]  p-2 me-[10px] 
+                  }`}
+            >
+              <IoIosLogOut className="w-[30px] h-[30px]" />
+            </span>
+          }
+          onClick={handleLogout}
+        >
+          Logout
+        </MenuItem>
+      </Menu>
+    </Sidebar>
+  );
+};
+
+export default SideBar;
