@@ -89,3 +89,36 @@
   box-shadow: 0 6px 10px rgba(231, 76, 60, 0.5);
   transition: background-color 0.3s ease;
 }
+
+.tableWrapper {
+  display: block;
+}
+.cardsWrapper {
+  display: none;
+}
+
+/* Cards Style */
+.card {
+  background: #fff;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.card h3 {
+  margin-bottom: 0.5rem;
+}
+.card p {
+  margin: 0.3rem 0;
+}
+
+/* Responsive Switch */
+@media (max-width: 768px) {
+  .tableWrapper {
+    display: none;
+  }
+  .cardsWrapper {
+    display: grid;
+    gap: 1rem;
+  }
+}

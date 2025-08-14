@@ -137,66 +137,74 @@ const ExamModel = () => {
 
   const handleCloseModal = () => {
     setShowResultModal(false);
-    navigate("/dashboard/learner-dashboard"); // Redirect to learner dashboard
+    navigate("/dashboard/quizzes"); // Redirect to learner dashboard
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 max-w-5xl mx-auto">
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold">{data.title}</h1>
-        <p className="text-gray-600">{data.description}</p>
-      </header>
+   <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-6 max-w-5xl mx-auto">
+  <header className="mb-8">
+    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{data.title}</h1>
+    <p className="text-gray-600 dark:text-gray-300">{data.description}</p>
+  </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {data.questions.map((q:Question) => {
-          const options = Object.entries(q.options).filter(([key]) => key !== "_id");
-          return (
-            <div key={q._id} className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-lg font-semibold mb-4">{q.title}</h3>
-              <div className="space-y-3">
-                {options.map(([key, value]) => (
-                  <label
-                    key={key}
-                    className="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 rounded p-2"
-                  >
-                    <input
-                      type="radio"
-                      name={`question-${q._id}`}
-                      value={value}
-                      checked={answers.find((a) => a.question === q._id)?.answer === value}
-                      onChange={() => handleSelect(q._id, value)}
-                      className="form-radio"
-                    />
-                    <span>{key}: {value}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      <div className="mt-10 text-right">
-        <button
-          onClick={handleSubmit}
-          disabled={isPending}
-          className="bg-orange-300 text-black px-8 py-3 rounded-lg hover:bg-orange-400 disabled:opacity-50"
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    {data.questions.map((q: any) => {
+      const options = Object.entries(q.options).filter(([key]) => key !== "_id");
+      return (
+        <div
+          key={q._id}
+          className="bg-white dark:bg-[#0D1321] dark:text-white rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700"
         >
-          {isPending ? "Loading..." : "Submit"}
-        </button>
-      </div>
+          <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-amber-400">
+            {q.title}
+          </h3>
+          <div className="space-y-3">
+            {options.map(([key, value]) => (
+              <label
+                key={key}
+                className="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded p-2"
+              >
+                <input
+                  type="radio"
+                  name={`question-${q._id}`}
+                  value={value}
+                  checked={answers.find((a) => a.question === q._id)?.answer === value}
+                  onChange={() => handleSelect(q._id, value)}
+                  className="form-radio text-main-color focus:ring-main-color"
+                />
+                <span className="text-gray-800 dark:text-gray-200">
+                  {key}: {value}
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
+      );
+    })}
+  </div>
 
-      {/* مودال النتيجة */}
-      {showResultModal && resultData && (
-        <ScoreCardModal
-          isOpen={showResultModal}
-          onClose={handleCloseModal}
-          score={resultData.score}
-          total={resultData.total}
-          title={data.title}
-        />
-      )}
-    </div>
+  <div className="mt-10 text-right">
+    <button
+      onClick={handleSubmit}
+      disabled={isPending}
+      className="bg-orange-300 dark:bg-amber-500 text-black dark:text-white px-8 py-3 rounded-lg 
+                 hover:bg-orange-400 dark:hover:bg-amber-600 disabled:opacity-50 transition"
+    >
+      {isPending ? "Loading..." : "Submit"}
+    </button>
+  </div>
+
+  {showResultModal && resultData && (
+    <ScoreCardModal
+      isOpen={showResultModal}
+      onClose={handleCloseModal}
+      score={resultData.score}
+      total={resultData.total}
+      title={data.title}
+    />
+  )}
+</div>
+
   );
 };
 

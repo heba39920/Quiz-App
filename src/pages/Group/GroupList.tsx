@@ -103,6 +103,19 @@ const GroupList = () => {
     !!viewGroupId
   );
 
+console.log("Raw students response:", students);
+
+let studentList: any[] = [];
+
+if (Array.isArray(students)) {
+  studentList = students;
+} else if (Array.isArray(students?.data)) {
+  studentList = students.data;
+}
+
+console.log("Processed studentList:", studentList);
+
+
   const { register, handleSubmit, control, reset, setValue } =
     useForm<GroupFormValues>({
       defaultValues: { name: "", students: [] },

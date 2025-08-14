@@ -191,13 +191,20 @@ const DashboardQuizzes = () => {
           <div className="space-y-6">
             <button
               onClick={() => setIsJoinOpen(true)}
-              className="w-full h-[160px] sm:h-[180px] bg-white dark:bg-[#0D1321] dark:text-white border border-[#000033] dark:border-[#fff] shadow rounded-lg p-6 flex flex-col items-center justify-center hover:bg-gray-50 dark:hover:bg-[#182037] transition"
-            >
+              className="w-full h-[160px] sm:h-[180px]  
+              bg-white  dark:bg-[#0D1321] dark:text-white 
+              shadow rounded-lg p-6 flex flex-col items-center justify-center 
+              hover:text-black dark:hover:bg-amber-50 
+              border-2 border-gray-300 dark:border-white dark:hover:border-amber-400
+              transition duration-300 ease-in-out !border-solid"
+          >
               <img src={SetUpQ} alt="Join Quiz" className="mb-3 w-14 h-14 dark:bg-white" />
               <span className="font-medium text-sm sm:text-base">Join Quiz</span>
             </button>
 
-            <div className="bg-white rounded-lg  shadow p-4 dark:bg-[#0D1321] dark:text-white border border-[#000033] dark:border-[#fff]">
+            <div className="bg-white rounded-lg shadow p-4 
+            dark:text-white dark:bg-[#0D1321] 
+            border-2 border-gray-300 dark:border-2 dark:border-white">
               <h2 className="text-lg font-semibold mb-4">Upcoming quizzes</h2>
               {isLoading ? (
                 <div className="py-6 flex justify-center"><Loader /></div>
@@ -248,7 +255,7 @@ const DashboardQuizzes = () => {
               />
             </div>):""}
 
-            <div className="bg-white rounded-lg  shadow p-4 dark:text-white dark:bg-[#0D1321] border border-[#000033] dark:border-[#fff]">
+            <div className="bg-white rounded-lg  shadow p-4 dark:text-white dark:bg-[#0D1321] border border-[#00000033] dark:border-[#fff]">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-semibold">Completed Quizzes</h2>
                 <button className="text-sm text-[#f3caab] font-semibold hover:underline">Results →</button>
