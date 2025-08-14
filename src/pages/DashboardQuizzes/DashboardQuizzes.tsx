@@ -95,7 +95,7 @@ const DashboardQuizzes = () => {
                 <span className="font-medium text-sm text-center">Set up a new quiz</span>
               </button>
 
-              <button className="flex-1  bg-white  border dark:bg-[#0D1321]  dark:border-white dark:text-white shadow rounded-lg flex flex-col items-center justify-center p-6 hover:bg-gray-50 hover:dark:bg-[#FFEDDF] hover:dark:text-[#0D1321] transition">
+              <button className="flex-1  bg-white  border dark:bg-[#0D1321]  dark:border-white dark:text-white shadow rounded-lg flex flex-col items-center justify-center p-6 hover:bg-gray-50 hover:dark:bg-[#FFEDDF] hover:dark:text-[#0D1321] transition" onClick={()=>navigate("/dashboard/questions")}>
                 <img src={QBank} alt="Question Bank" className="mb-2 w-10 h-10 dark:bg-white" />
                 <span className="font-medium text-sm text-center">Question Bank</span>
               </button>
