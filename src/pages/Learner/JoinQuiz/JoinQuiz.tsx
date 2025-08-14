@@ -48,15 +48,15 @@ export default function JoinQuiz({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="w-full max-w-md rounded-2xl shadow-xl main-border bg-white dark:bg-[#0D1321] dark:text-white">
+      <div className="w-full max-w-md rounded-2xl shadow-xl border bg-white dark:bg-[#0D1321] dark:text-white dark:border-[#fff]">
         {/* Header */}
         <div className="flex items-center justify-between px-5 pt-5">
-          <h2 className="text-lg sm:text-xl font-semibold main-text dark:text-white">
+          <h2 className="text-lg sm:text-xl font-semibold text-[#000333] dark:text-[#fff]">
             Join Quiz
           </h2>
           <button
             onClick={onClose}
-            className="h-9 w-9 inline-flex items-center justify-center rounded-md border border-gray-200 dark:border-white/30 hover:bg-gray-100 dark:hover:bg-[#182037] transition"
+            className="h-9 w-9 inline-flex items-center justify-center rounded-md border dark:text-[#fff] border-gray-200 dark:border-white/30 hover:bg-gray-100 dark:hover:bg-[#182037] transition"
             aria-label="Close"
           >
             ✕
@@ -79,7 +79,7 @@ export default function JoinQuiz({ onClose }: { onClose: () => void }) {
             value={code}
             onChange={(e) => setCode(e.target.value)}
             placeholder="e.g. ABC123"
-            className="w-full h-11 px-3 rounded-md border main-border focus:outline-none focus:ring-2 focus:ring-[#f3caab] dark:bg-transparent"
+            className="w-full h-11 px-3 rounded-md  border focus:outline-none focus:ring-2 focus:ring-[#f3caab] dark:bg-transparent dark:border-[#fff]"
           />
 
           {/* Footer */}

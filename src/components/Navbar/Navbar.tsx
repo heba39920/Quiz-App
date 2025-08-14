@@ -24,7 +24,7 @@ const Navbar: React.FC<NavbarProps> = ({
    const [currentTitle, setCurrentTitle] = useState("");
   const { user } = useCurrentUser();
   
-   useEffect(() => {
+useEffect(() => {
     const path = location.pathname;
     const titles = {
       "/dashboard/quizzes": "Quizzes",
@@ -35,9 +35,10 @@ const Navbar: React.FC<NavbarProps> = ({
       "/dashboard/profile": "Profile"
     };
 
-    const matchedPath = Object.keys(titles).find(key => path.startsWith(key));
+    type TitleKey = keyof typeof titles;
+    const matchedPath = Object.keys(titles).find(key => path.startsWith(key)) as TitleKey;
     setCurrentTitle(matchedPath ? titles[matchedPath] : "Dashboard");
-  }, [location.pathname]);
+}, [location.pathname]);
 
 
   const logoutMutation = useLogout();

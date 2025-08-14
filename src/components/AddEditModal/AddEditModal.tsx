@@ -36,13 +36,13 @@ const ReusableModal = ({
             <h2 className="px-6 py-2 text-lg font-semibold text-gray-800 dark:text-[#fff] ">
               {title}
             </h2>
-            <div className="flex divide-x border-s border-[#00000033]">
+            <div className="flex divide-x border-s border-[#00000033] dark:border-[#fff]">
               <button
               type="submit"
                 onClick={onConfirm}
                 aria-label="Confirm"
                 // disabled={isLoading}
-                className="w-12 h-12 flex items-center justify-center main-text hover:bg-[#FFEDDF] transition dark:text-[#fff]"
+                className="w-12 h-12 flex items-center justify-center text-[#00000033] hover:bg-[#FFEDDF] transition dark:text-[#fff]"
               >
                 <FiCheck size={20} />
               </button>
@@ -50,7 +50,7 @@ const ReusableModal = ({
                 onClick={onClose}
                 aria-label="Cancel"
               
-                className="w-12 h-12 flex items-center justify-center main-text hover:bg-[#FFEDDF] transition dark:text-[#fff]"
+                className="w-12 h-12 flex items-center justify-center text-[#00000033] hover:bg-[#FFEDDF] transition dark:text-[#fff]"
               >
                 <FiX size={20} />
               </button>

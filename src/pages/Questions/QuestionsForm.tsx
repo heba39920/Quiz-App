@@ -27,7 +27,7 @@ const {register ,reset, handleSubmit, formState:{errors}}= useForm<QuestionsInte
  mode: "onChange",
  resolver: zodResolver(questionSchema)
 });
-console.log("Question Data:", questionData);
+
 
   // Reset form with question data when editing
 useEffect(() => {

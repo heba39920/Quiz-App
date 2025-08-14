@@ -89,13 +89,13 @@ const DashboardQuizzes = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={() => setShowQuizModal(true)}
-                className="flex-1 bg-white dark:bg-[#0D1321] dark:text-white dark:border dark:border-[#fff] main-border shadow rounded-lg flex flex-col items-center justify-center p-6 hover:bg-gray-50 hover:dark:bg-[#FFEDDF] hover:dark:text-[#0D1321] transition"
+                className="flex-1 bg-white dark:bg-[#0D1321] dark:text-white  dark:border-[#fff] border shadow rounded-lg flex flex-col items-center justify-center p-6 hover:bg-gray-50 hover:dark:bg-[#FFEDDF] hover:dark:text-[#0D1321] transition"
               >
                 <img src={SetUpQ} alt="Set up new quiz" className="mb-2 w-10 h-10 dark:bg-white" />
                 <span className="font-medium text-sm text-center">Set up a new quiz</span>
               </button>
 
-              <button className="flex-1 dark:bg-[#0D1321] dark:border dark:border-white dark:text-white bg-white main-border shadow rounded-lg flex flex-col items-center justify-center p-6 hover:bg-gray-50 hover:dark:bg-[#FFEDDF] hover:dark:text-[#0D1321] transition">
+              <button className="flex-1  bg-white  border dark:bg-[#0D1321]  dark:border-white dark:text-white shadow rounded-lg flex flex-col items-center justify-center p-6 hover:bg-gray-50 hover:dark:bg-[#FFEDDF] hover:dark:text-[#0D1321] transition">
                 <img src={QBank} alt="Question Bank" className="mb-2 w-10 h-10 dark:bg-white" />
                 <span className="font-medium text-sm text-center">Question Bank</span>
               </button>
@@ -118,7 +118,7 @@ const DashboardQuizzes = () => {
                     <li
                       key={quiz._id}
                       onClick={() => navigate(`/dashboard/quizzes/${quiz._id}`)}
-                      className="flex items-center justify-between gap-4 rounded-lg main-border p-4 shadow-sm bg-white dark:bg-[#0D1321] dark:text-white dark:border dark:border-white cursor-pointer"
+                      className="flex items-center justify-between gap-4 rounded-lg border p-4 shadow-sm bg-white dark:bg-[#0D1321] dark:text-white  dark:border-[#fff] cursor-pointer"
                     >
                       <div className="flex items-center gap-4">
                         <div className="bg-orange-100 p-2 rounded-md">
@@ -191,13 +191,13 @@ const DashboardQuizzes = () => {
           <div className="space-y-6">
             <button
               onClick={() => setIsJoinOpen(true)}
-              className="w-full h-[160px] sm:h-[180px] bg-white dark:bg-[#0D1321] dark:text-white main-border shadow rounded-lg p-6 flex flex-col items-center justify-center hover:bg-gray-50 dark:hover:bg-[#182037] transition"
+              className="w-full h-[160px] sm:h-[180px] bg-white dark:bg-[#0D1321] dark:text-white border border-[#000033] dark:border-[#fff] shadow rounded-lg p-6 flex flex-col items-center justify-center hover:bg-gray-50 dark:hover:bg-[#182037] transition"
             >
               <img src={SetUpQ} alt="Join Quiz" className="mb-3 w-14 h-14 dark:bg-white" />
               <span className="font-medium text-sm sm:text-base">Join Quiz</span>
             </button>
 
-            <div className="bg-white rounded-lg main-border shadow p-4 dark:bg-[#0D1321] dark:text-white dark:border dark:border-white">
+            <div className="bg-white rounded-lg  shadow p-4 dark:bg-[#0D1321] dark:text-white border border-[#000033] dark:border-[#fff]">
               <h2 className="text-lg font-semibold mb-4">Upcoming quizzes</h2>
               {isLoading ? (
                 <div className="py-6 flex justify-center"><Loader /></div>
@@ -248,7 +248,7 @@ const DashboardQuizzes = () => {
               />
             </div>):""}
 
-            <div className="bg-white rounded-lg main-border shadow p-4 dark:text-white dark:border dark:border-white dark:bg-[#0D1321]">
+            <div className="bg-white rounded-lg  shadow p-4 dark:text-white dark:bg-[#0D1321] border border-[#000033] dark:border-[#fff]">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-semibold">Completed Quizzes</h2>
                 <button className="text-sm text-[#f3caab] font-semibold hover:underline">Results →</button>
@@ -328,7 +328,7 @@ const Card = ({
   error?: boolean;
   actionLabel?: string;
 }) => (
-  <div className="bg-white rounded-lg main-border shadow p-4 dark:bg-[#0D1321] dark:text-white dark:border dark:border-white">
+  <div className="bg-white rounded-lg border shadow p-4 dark:bg-[#0D1321] dark:text-white  dark:border-white">
     <div className="flex items-center justify-between mb-4">
       <h2 className="text-lg font-semibold">{title}</h2>
       {actionLabel && <button className="text-sm text-[#f3caab] font-semibold">{actionLabel}</button>}
@@ -379,13 +379,13 @@ function QuizCodeModal({
           <div className="font-mono text-2xl tracking-widest">{code}</div>
           <button
             onClick={copy}
-            className="shrink-0 px-3 py-1.5 rounded-md border border-[#0D1321] hover:bg-white/60"
+            className="shrink-0 px-3 py-1.5 dark:text-[#fff] rounded-md border border-[#0D1321] hover:bg-white/60"
           >
             Copy
           </button>
         </div>
 
-        <p className="text-sm mt-3 opacity-80">
+        <p className="text-sm mt-3 opacity-80 dark:text-[#fff]">
           Share the code with students so they can join the exam.
         </p>
 

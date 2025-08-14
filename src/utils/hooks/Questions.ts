@@ -29,10 +29,10 @@ export const useEditQuestion = (id: string) => {
     },
   });
 };
-export const useDeleteQuestion = (id: string) => {
+export const useDeleteQuestion = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: () => deleteQuestion(id),
+    mutationFn: (id:string) => deleteQuestion(id),
     onSuccess: (data) => {
       toast.success(data.message || "Question has been deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["questions"] });

@@ -9,7 +9,7 @@ const Profile = () => {
   return (
     <div className="max-w-4xl mx-auto px-6 py-10">
       {/* Top Card */}
-      <div className="bg-white shadow-lg rounded-2xl p-6 flex items-center gap-6 mb-8 main-border dark:bg-[#0D1321] dark:text-white">
+      <div className="bg-white shadow-lg rounded-2xl p-6 flex items-center gap-6 mb-8 border dark:bg-[#0D1321] dark:text-white dark:border-[#fff]">
         <div className="w-24 h-24 rounded-full overflow-hidden ring-2 ring-[#f7d6bd] ">
           <img
             src={defultAvater}
@@ -33,13 +33,13 @@ const Profile = () => {
 
       {/* Info Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
-        <div className="bg-white p-4 rounded-xl shadow main-border dark:bg-[#0D1321]">
+        <div className="bg-white p-4 rounded-xl shadow border dark:bg-[#0D1321] dark:border-[#fff]">
           <p className="text-sm text-gray-500 mb-1  dark:text-white">Email</p>
           <p className="flex items-center gap-2 font-medium text-gray-800  dark:text-white">
             <Mail size={16} /> {user?.email}
           </p>
         </div>
-        <div className="bg-white p-4 rounded-xl shadow main-border dark:bg-[#0D1321]">
+        <div className="bg-white p-4 rounded-xl shadow border dark:bg-[#0D1321] dark:border-[#fff]">
           <p className="text-sm text-gray-500 mb-1 ">Account ID</p>
           <p className="font-medium text-gray-800  dark:text-white">{user?._id}</p>
         </div>

@@ -12,7 +12,7 @@ import {
   useGroupDetails,
   useUpdateGroup,
 } from "@/utils/hooks/Group";
-import { useGetAllStudentsWithoutGroup } from "@/utils/hooks/Students";
+import { useGetAllStudents, useGetAllStudentsWithoutGroup } from "@/utils/hooks/Students";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -58,7 +58,8 @@ const GroupList = () => {
   const { mutate: updateGroup } = useUpdateGroup();
   const { data: students, isLoading: isStudentsLoading } =
     useGetAllStudentsWithoutGroup();
-
+ const { data: studentsWithGroups, isLoading: isStudentsWithGroupLoading } =
+   useGetAllStudents();
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const [viewGroupId, setViewGroupId] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -107,39 +108,50 @@ const GroupList = () => {
       defaultValues: { name: "", students: [] },
     });
 
-  const studentOptions =
-    students?.map((s: any) => ({
-      value: s._id,
-      label: `${s.first_name} ${s.last_name}`,
-    })) || [];
+    const studentNameMap = useMemo(() => {
+  // Create a map of all students (from studentsWithGroups) for name lookup
+  return studentsWithGroups?.reduce((acc:any, student:any) => {
+    acc[student._id] = `${student.first_name} ${student.last_name}`;
+    return acc;
+  }, {} as Record<string, string>) || {};
+}, [studentsWithGroups]);
+  const studentOptions = useMemo(() => {
+  return students?.map((s:any) => ({
+    value: s._id,
+    label: `${s.first_name} ${s.last_name}`,
+  })) || [];
+}, [students]);
 
-  const handleOpenModal = (group?: Group) => {
-    setIsEditing(Boolean(group));
-    setIsModalOpen(true);
 
-    if (group) {
-      setGroupIdToEdit(group._id);
-      setValue("name", group.name);
+const handleOpenModal = (group?: Group) => {
+  setIsEditing(Boolean(group));
+  setIsModalOpen(true);
 
-      // normalize students (ids OR objects)
-      setValue(
-        "students",
-        group.students.map((s: any) => {
-          if (typeof s === "string") {
-            const matched = studentOptions.find((opt) => opt.value === s);
-            return matched || { value: s, label: s };
-          }
-          return { value: s._id, label: `${s.first_name} ${s.last_name}` };
+  if (group) {
+    setGroupIdToEdit(group._id);
+    setValue("name", group.name);
+
+    // Map group students to options using names from studentNameMap
+    setValue(
+      "students",
+      group.students
+        .map(s => {
+          const studentId = typeof s === 'string' ? s : s._id;
+          return {
+            value: studentId,
+            label: studentNameMap[studentId] || `Student (${studentId})`
+          };
         })
-      );
+        .filter(opt => opt.label) // Filter out any invalid options
+    );
 
-      playUpdate();
-    } else {
-      reset();
-      setGroupIdToEdit(null);
-      playAdd();
-    }
-  };
+    playUpdate();
+  } else {
+    reset();
+    setGroupIdToEdit(null);
+    playAdd();
+  }
+};
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -171,13 +183,13 @@ const GroupList = () => {
       <div className="mb-3 w-full flex justify-end">
         <button
           onClick={() => handleOpenModal()}
-          className="inline-flex items-center gap-2 px-4 py-2 main-border dark:bg-[#0D1321] dark:border dark:border-[#fff] dark:text-[#fff] hover:bg-orange-100 hover:dark:text-[#0D1321]  text-black text-sm font-medium rounded-full transition"
+          className="inline-flex items-center gap-2 px-4 py-2 border dark:bg-[#0D1321] dark:border dark:border-[#fff] dark:text-[#fff] hover:bg-orange-100 hover:dark:text-[#0D1321]  text-black text-sm font-medium rounded-full transition"
         >
           + Add Group
         </button>
       </div>
 
-      <div className="main-border p-5 bg-white dark:bg-[#0D1321] dark:border dark:border-[#fff] dark:text-[#fff] rounded-xl shadow-sm">
+      <div className="border text-[#000033] p-5 bg-white dark:bg-[#0D1321] dark:border dark:border-[#fff] dark:text-[#fff] rounded-xl shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
           <div className="flex gap-2">
             <input
@@ -185,13 +197,13 @@ const GroupList = () => {
               placeholder="Search by name..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="border border-gray-300 rounded-2xl my-3 px-4 py-2 w-100"
+              className="border border-gray-300 rounded-2xl my-3 px-4 py-2 w-100  dark:text-[#fff]"
             />
           </div>
           <div className="flex flex-wrap gap-3 items-center">
             <button
               onClick={() => setViewMode("list")}
-              className={`main-border rounded-lg p-2 ${
+              className={`border rounded-lg p-2 dark:border-[#fff]  ${
                 viewMode === "list" ? "bg-orange-100 dark:text-[#0D1321]" : ""
               }`}
               title="List"
@@ -200,7 +212,7 @@ const GroupList = () => {
             </button>
             <button
               onClick={() => setViewMode("grid2")}
-              className={`main-border rounded-lg p-2 ${
+              className={`border dark:border-[#fff]  rounded-lg p-2 ${
                 viewMode === "grid2" ? "bg-orange-100 dark:text-[#0D1321]" : ""
               }`}
               title="2 columns"
@@ -209,7 +221,7 @@ const GroupList = () => {
             </button>
             <button
               onClick={() => setViewMode("grid3")}
-              className={`main-border rounded-lg p-2 ${
+              className={`border rounded-lg p-2 dark:border-[#fff] ${
                 viewMode === "grid3" ? "bg-orange-100 dark:text-[#0D1321]" : ""
               }`}
               title="3 columns"

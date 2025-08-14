@@ -115,23 +115,18 @@ export const useCurrentUser = () => {
 
   
   // Get initial state from localStorage
-  const initialUser = getPersistedProfile();
+  const user = getPersistedProfile();
   
-  // Fetch fresh data if token exists
-  const { data: freshUser } = useQuery({
-    queryKey: ['me'],
-    enabled: !!getAccessToken(),
-    initialData: initialUser 
-  });
+
 
   return { 
-    user: freshUser || initialUser,
-    isLoading: !initialUser && !!getAccessToken() && !freshUser
+    user
+
   };
 };
 export const useLogin = () => {  
   const navigate = useNavigate();  
-  const queryClient = useQueryClient();
+
   return useMutation(  {
     mutationFn: login,
       onSuccess: (response:any) => {  
@@ -151,7 +146,7 @@ export const useLogin = () => {
         // Persist token in memory for subsequent requests  
 setAuthData(accessToken, profile);
 
-      queryClient.setQueryData(['me'], profile);  
+      
 
         toast.success(message ?? 'Logged in successfully!');  
 

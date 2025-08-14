@@ -23,7 +23,7 @@ const Results = () => {
             <th className={styles.th}>Difficulty</th>
             <th className={styles.th}>Questions Number</th>
             <th className={styles.th}>Date</th>
-            <th className={styles.th}></th>
+            <th className={styles.th}>Actions</th>
           </tr>
         </thead>
         <tbody>

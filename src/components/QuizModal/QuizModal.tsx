@@ -18,24 +18,24 @@ const QuizModal = ({ onClose, onSubmit }: QuizModalProps) => {
     <div className="fixed inset-0 z-50 flex justify-center items-center bg-black/30 p-4">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white w-[800px] rounded-lg p-6"
+        className="bg-white w-[800px] rounded-lg p-6  dark:bg-[#0D1321] dark:border dark:border-[#fff] dark:text-[#fff]"
       >
-        <div className="flex items-center justify-between border-b border-[#00000033] shadow-sm">
-          <h2 className="px-6 py-2 text-lg font-semibold text-gray-800">
+        <div className="flex items-center justify-between border-b border-[#00000033] shadow-sm dark:border-[#fff]">
+          <h2 className="px-6 py-2 text-lg font-semibold text-gray-800  dark:text-[#fff]">
             Set up a new quiz
           </h2>
           <div className="flex items-center border-s ">
             <button
               type="submit"
-              className="w-12 h-12 text-gray-700 hover:bg-gray-100 flex items-center justify-center border-e border-e-1 "
+              className="w-12 h-12 text-gray-700 hover:bg-gray-100 flex items-center justify-center  border-e-1 dark:border-[#fff] dark:text-[#fff]"
             >
-              <BsCheck className="w-5 h-5 main-text" />
+              <BsCheck className="w-5 h-5 text-[#00000033] dark:text-[#fff]" />
             </button>
 
             <button
               type="button"
               onClick={onClose}
-              className="w-12 h-12 main-text hover:bg-gray-100"
+              className="w-12 h-12 text-[#00000033] dark:text-[#fff] hover:bg-gray-100 "
             >
               ✕
             </button>
@@ -43,7 +43,7 @@ const QuizModal = ({ onClose, onSubmit }: QuizModalProps) => {
         </div>
 
         <div className="space-y-4 mt-4">
-          <h2 className="py-1 text-lg font-semibold text-gray-800">Details</h2>
+          <h2 className="py-1 text-lg font-semibold text-gray-800  dark:text-[#fff]">Details</h2>
 
           <FormInput label="Title:" labelWidth="150px" labelHeight="40px">
             <input
@@ -98,7 +98,7 @@ const QuizModal = ({ onClose, onSubmit }: QuizModalProps) => {
           </FormInput>
 
           <div className="flex items-center gap-2">
-            <span className="bg-[#FFEDDF] px-3 py-2 text-sm font-medium rounded">
+            <span className="bg-[#FFEDDF] px-3 py-2 text-sm font-medium rounded text-gray-800 ">
               Schedule
             </span>
             <input

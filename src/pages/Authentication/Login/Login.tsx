@@ -91,9 +91,7 @@ const Login = () => {
               type="email"
               error={errors.email?.message}
             />
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-            )}
+          
           </div>
 
           {/* Password */}
@@ -106,9 +104,7 @@ const Login = () => {
               placeholder="Type your password"
               error={errors.password?.message}
             />
-            {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
-            )}
+         
           </div>
 
           {/* Submit + Forgot Password */}

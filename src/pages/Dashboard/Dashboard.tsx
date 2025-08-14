@@ -13,6 +13,7 @@ import ConfirmDeleteModal from "@/components/ConfirmDeleteModal/ConfirmDeleteMod
 import SharedViewModal from "@/components/SharedViewModal/SharedViewModal";
 import { useQueryClient } from "@tanstack/react-query";
 import Loader from "@/components/Loader/Loader";
+import Nodata from "@/components/NoData/Nodata";
 const ITEM_H = "h-[96px]";
 // نوع خفيف للـ Top Student (لتفادي never[])
 type TStudentLite = {
@@ -121,7 +122,7 @@ const Dashboard: React.FC = () => {
       onError: () => setDeleteId(""),
     });
   };
-console.log(localStorage.getItem('root'))
+
 
 
   return (
@@ -199,7 +200,7 @@ console.log(localStorage.getItem('root'))
               ))}
 
               {filteredQuizzes.length === 0 && (
-                <p className="text-sm opacity-70">No quizzes found.</p>
+                <Nodata message="No quizzes found!"/>
               )}
             </div>
           )}

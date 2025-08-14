@@ -32,7 +32,7 @@ const QuestionsList = () => {
 
   const { mutate: addQuestion, isPending: isAdding } = useAddQuestion();
   const { data: allData, isLoading: isLoadingQuestions } = useGetAllQuestions();
-  const { mutate: deleteQuestion, isPending: isDeleting } = useDeleteQuestion(deleteId);
+  const { mutate: deleteQuestion, isPending: isDeleting } = useDeleteQuestion();
   const { data: questionData, isLoading: isLoadingQuestion } = useGetQuestionById(selectedId);
   const { mutate: editQuestion, isPending: isEditing } = useEditQuestion(questionId);
 

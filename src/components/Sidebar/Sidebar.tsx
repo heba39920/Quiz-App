@@ -2,7 +2,7 @@ import { lightLogo, sideBarLogo } from "@/assets/images";
 import {  useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { LuMenu } from "react-icons/lu";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   FaChartBar,
   FaHome,

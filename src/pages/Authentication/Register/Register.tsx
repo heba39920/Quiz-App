@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@/utils/validation/validation";
 import type { RegisterPayload } from "@/interface/AuthInterface";
 import { useRegister } from "@/utils/hooks/Auth";
-import { toast } from "react-toastify";
+
 
 const Register = () => {
   const navigate = useNavigate();
@@ -33,7 +33,6 @@ const Register = () => {
   const onSubmit = (data: RegisterPayload) => {
     registerMutation.mutate(data, {
       onSuccess: () => {
-        toast.success("Registration successful!");
         navigate("/login");
       },
     });

@@ -6,7 +6,12 @@ import { motion } from "framer-motion";
 import { FaTimes, FaMedal, FaSmile, FaRegSadTear, FaRegThumbsUp } from "react-icons/fa";
 import { useCurrentUser } from "@/utils/hooks/Auth";
 
-
+interface Question {
+  _id: string;
+  title: string;
+  options: Record<string, string>; 
+ 
+}
 const ScoreCardModal = ({
   isOpen,
   onClose,
@@ -143,7 +148,7 @@ const ExamModel = () => {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {data.questions.map((q:any) => {
+        {data.questions.map((q:Question) => {
           const options = Object.entries(q.options).filter(([key]) => key !== "_id");
           return (
             <div key={q._id} className="bg-white rounded-lg shadow p-6">
