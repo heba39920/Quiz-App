@@ -16,7 +16,7 @@ import { useGetAllStudents, useGetAllStudentsWithoutGroup } from "@/utils/hooks/
 import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+
 import { FiEdit2, FiTrash2, FiEye } from "react-icons/fi";
 import Select from "react-select";
 import useSound from "use-sound";
@@ -27,6 +27,7 @@ import updateSound from "@/assets/Sound/new-notification-09-352705.mp3";
 import { BsGrid3X3GapFill, BsGridFill } from "react-icons/bs";
 import { FaListUl } from "react-icons/fa";
 import Nodata from "@/components/NoData/Nodata";
+import { toast } from "react-toastify";
 
 interface GroupFormValues {
   name: string;
@@ -58,7 +59,7 @@ const GroupList = () => {
   const { mutate: updateGroup } = useUpdateGroup();
   const { data: students, isLoading: isStudentsLoading } =
     useGetAllStudentsWithoutGroup();
- const { data: studentsWithGroups, isLoading: isStudentsWithGroupLoading } =
+ const { data: studentsWithGroups} =
    useGetAllStudents();
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const [viewGroupId, setViewGroupId] = useState<string | null>(null);
@@ -148,7 +149,7 @@ const handleOpenModal = (group?: Group) => {
     setValue(
       "students",
       group.students
-        .map(s => {
+        .map((s:any) => {
           const studentId = typeof s === 'string' ? s : s._id;
           return {
             value: studentId,

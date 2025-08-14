@@ -35,7 +35,6 @@ const DashboardQuizzes = () => {
   // instructor-only
   const [showQuizModal, setShowQuizModal] = useState(false);
   const { mutate: createQuiz } = useCreateQuiz();
-
   // learner-only (Join modal)
   const [isJoinOpen, setIsJoinOpen] = useState(false);
 
@@ -360,9 +359,12 @@ function QuizCodeModal({
   title?: string;
   onClose: () => void;
 }) {
+const [copied, setCopied]= useState(false);
+
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(code);
+      setCopied(true)
     } catch {
       /* ignore */
     }
@@ -386,9 +388,9 @@ function QuizCodeModal({
           <div className="font-mono text-2xl tracking-widest">{code}</div>
           <button
             onClick={copy}
-            className="shrink-0 px-3 py-1.5 dark:text-[#fff] rounded-md border border-[#0D1321] hover:bg-white/60"
+            className="shrink-0 px-3 py-1.5  rounded-md border border-[#0D1321] hover:bg-white/60"
           >
-            Copy
+           {copied? "Copied!✅" :  "Copy"}
           </button>
         </div>
 

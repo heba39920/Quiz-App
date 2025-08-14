@@ -1,6 +1,8 @@
-import { Mail, ShieldCheck } from "lucide-react";
+
 import defultAvater from "@/assets/images/default-avatar.png";
 import { useCurrentUser } from "@/utils/hooks/Auth";
+import { IoShieldCheckmark } from "react-icons/io5";
+import { MdMailOutline } from "react-icons/md";
 const Profile = () => {
  const { user } = useCurrentUser();
 
@@ -22,7 +24,7 @@ const Profile = () => {
             {user?.first_name} {user?.last_name}
           </h2>
           <p className="text-gray-500 flex items-center gap-2 mt-1  dark:text-white">
-            /<ShieldCheck size={16} className="text-blue-500" />
+            /<IoShieldCheckmark size={16} className="text-blue-500" />
             {user?.role}
           </p>
           <span className="inline-block mt-2 px-3 py-1 text-sm bg-green-100 text-green-700 rounded-full ">
@@ -36,11 +38,11 @@ const Profile = () => {
         <div className="bg-white p-4 rounded-xl shadow border dark:bg-[#0D1321] dark:border-[#fff]">
           <p className="text-sm text-gray-500 mb-1  dark:text-white">Email</p>
           <p className="flex items-center gap-2 font-medium text-gray-800  dark:text-white">
-            <Mail size={16} /> {user?.email}
+           <MdMailOutline size={16} /> {user?.email}
           </p>
         </div>
         <div className="bg-white p-4 rounded-xl shadow border dark:bg-[#0D1321] dark:border-[#fff]">
-          <p className="text-sm text-gray-500 mb-1 ">Account ID</p>
+          <p className="text-sm text-gray-500 mb-1 dark:text-white">Account ID</p>
           <p className="font-medium text-gray-800  dark:text-white">{user?._id}</p>
         </div>
       </div>

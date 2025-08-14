@@ -121,7 +121,7 @@ const QuizModal = ({ onClose, onSubmit }: QuizModalProps) => {
             >
               <select
                 {...register("difficulty", { required: true })}
-                className="w-full px-3 py-2 text-sm focus:outline-none"
+                className="w-full px-3 py-2 text-sm focus:outline-none dark:bg-[#0D1321]  dark:text-[#fff]"
               >
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
@@ -136,7 +136,7 @@ const QuizModal = ({ onClose, onSubmit }: QuizModalProps) => {
             >
               <select
                 {...register("category", { required: true })}
-                className="w-full px-3 py-2 text-sm focus:outline-none"
+                className="w-full px-3 py-2 text-sm focus:outline-none dark:bg-[#0D1321]  dark:text-[#fff]"
               >
                 <option value="BE">BE</option>
                 <option value="FE">FE</option>
@@ -147,7 +147,7 @@ const QuizModal = ({ onClose, onSubmit }: QuizModalProps) => {
             <FormInput label="Group name" labelWidth="150px" labelHeight="40px">
               <select
                 {...register("group", { required: true })}
-                className="w-full px-3 py-2 text-sm focus:outline-none"
+                className="w-full px-3 py-2 text-sm focus:outline-none dark:bg-[#0D1321]  dark:text-[#fff]"
                 disabled={isLoading || isError}
               >
                 <option value="">Select a group</option>

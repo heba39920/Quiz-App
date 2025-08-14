@@ -1,6 +1,5 @@
 import {
   useMutation,
-  useQuery,
   useQueryClient,
   type UseMutationResult,
 } from "@tanstack/react-query";
@@ -19,7 +18,6 @@ import type {
 } from "@/interface/AuthInterface";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { getAccessToken } from "@/services/AuthToken";
 import {  clearAuthData, getPersistedProfile, setAuthData } from "@/services/UserData";
 
 

@@ -1,8 +1,10 @@
 
 import { useParams } from "react-router-dom";
 import { useQuizDetails } from "@/utils/hooks/Quizzes";
-import { Calendar, Clock } from "lucide-react";
+
 import { FormInput } from "@/components/FormInput/FormInput"; 
+
+import { FaCalendarAlt, FaClock } from "react-icons/fa";
 
 const QuizeDeatiles = () => {
   const { id } = useParams();
@@ -51,11 +53,11 @@ const QuizeDeatiles = () => {
         {/* Date & Time */}
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
-            <Calendar size={20} className="text-gray-500 dark:text-[#fff]" />
+            <FaCalendarAlt  size={20} className="text-gray-500 dark:text-[#fff]" />
             <span className="text-xl font-bold text-gray-600 dark:text-[#fff]">{date}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Clock size={20} className="text-gray-500 dark:text-[#fff]" />
+           <FaClock  size={20} className="text-gray-500 dark:text-[#fff]" />
             <span className="text-xl font-bold text-gray-600 dark:text-[#fff]">{time}</span>
           </div>
         </div>
